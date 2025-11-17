@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>yyovvo Studio – Pick Your Mood</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Simple reset + font -->
+    <style>
+      * { box-sizing: border-box; margin: 0; padding: 0; }
+      body {
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+        background: radial-gradient(circle at top left, #2b1f3a, #05040a 55%, #0a0b10);
+        color: #f8f5ff;
+        min-height: 100vh;
+      }
+      #root {
+        min-height: 100vh;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <!-- React + ReactDOM from CDN -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <!-- Our Studio code -->
+    <script type="text/javascript" src="studio.js"></script>
+  </body>
+</html>
