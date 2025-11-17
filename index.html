@@ -4,11 +4,15 @@
     <meta charset="UTF-8" />
     <title>yyovvo Studio – Pick Your Mood</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <!-- Simple reset + font -->
     <style>
-      * { box-sizing: border-box; margin: 0; padding: 0; }
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
       body {
-        font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont,
+          "SF Pro Text", sans-serif;
         background: radial-gradient(circle at top left, #2b1f3a, #05040a 55%, #0a0b10);
         color: #f8f5ff;
         min-height: 100vh;
@@ -16,14 +20,461 @@
       #root {
         min-height: 100vh;
       }
+      button {
+        font-family: inherit;
+      }
     </style>
   </head>
   <body>
     <div id="root"></div>
-    <!-- React + ReactDOM from CDN -->
+
+    <!-- React from CDN -->
     <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
-    <!-- Our Studio code -->
-    <script type="text/javascript" src="studio.js"></script>
+
+    <!-- Studio Page 1: Pick Your Mood -->
+    <script type="text/javascript">
+      const { useState } = React;
+
+      const MOOD_TABS = ["Gallery", "AI Mood", "My Moods"];
+
+      const SAMPLE_MOODS = [
+        { id: "midnight-velvet", name: "Midnight Velvet", tag: "Christmas · Moody", badge: "Trending" },
+        { id: "snow-glow", name: "Snow Glow", tag: "Soft · Cozy", badge: "Popular" },
+        { id: "neon-halo", name: "Neon Halo", tag: "Electric · Fun", badge: "New" },
+        { id: "chaos-christmas", name: "Chaos Christmas", tag: "Wild · Loud", badge: "Bold" },
+        { id: "silent-gold", name: "Silent Gold", tag: "Minimal · Luxe", badge: "Pro" },
+        { id: "after-midnight", name: "After Midnight", tag: "Late · Intense", badge: "Pro" }
+      ];
+
+      function StudioLayout(props) {
+        return React.createElement(
+          "div",
+          {
+            style: {
+              minHeight: "100vh",
+              padding: "24px",
+              display: "flex",
+              flexDirection: "column",
+              gap: "24px",
+              background:
+                "radial-gradient(circle at top left, rgba(123,97,255,0.35), transparent 50%), radial-gradient(circle at bottom right, rgba(255,99,188,0.18), #05040a)"
+            }
+          },
+          React.createElement(
+            "header",
+            {
+              style: {
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                gap: "12px"
+              }
+            },
+            React.createElement(
+              "div",
+              { style: { display: "flex", alignItems: "center", gap: "10px" } },
+              React.createElement(
+                "div",
+                {
+                  style: {
+                    width: "32px",
+                    height: "32px",
+                    borderRadius: "999px",
+                    border: "1px solid rgba(255,255,255,0.25)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    background:
+                      "radial-gradient(circle at 30% 0%, #ffed9f, #ff8bcf 45%, #7f7bff 75%)",
+                    boxShadow: "0 0 18px rgba(255, 255, 255, 0.25)"
+                  }
+                },
+                React.createElement(
+                  "span",
+                  { style: { fontSize: "14px", fontWeight: 700 } },
+                  "yy"
+                )
+              ),
+              React.createElement(
+                "div",
+                null,
+                React.createElement(
+                  "div",
+                  {
+                    style: {
+                      fontSize: "14px",
+                      letterSpacing: "0.16em",
+                      textTransform: "uppercase",
+                      opacity: 0.7
+                    }
+                  },
+                  "yyovvo Studio"
+                ),
+                React.createElement(
+                  "div",
+                  { style: { fontSize: "12px", opacity: 0.6 } },
+                  "Where every moment gets a Premier."
+                )
+              )
+            ),
+            React.createElement(
+              "div",
+              {
+                style: {
+                  fontSize: "12px",
+                  padding: "4px 10px",
+                  borderRadius: "999px",
+                  border: "1px solid rgba(255,255,255,0.16)",
+                  background: "rgba(10,10,18,0.6)",
+                  backdropFilter: "blur(10px)"
+                }
+              },
+              React.createElement("span", { style: { opacity: 0.6 } }, "Step 1 · "),
+              React.createElement(
+                "span",
+                { style: { fontWeight: 500 } },
+                "Pick Your Mood"
+              )
+            )
+          ),
+          React.createElement(
+            "main",
+            {
+              style: {
+                flex: 1,
+                display: "flex",
+                flexDirection: "column",
+                gap: "20px"
+              }
+            },
+            props.children
+          )
+        );
+      }
+
+      function MoodPage() {
+        const [activeTab, setActiveTab] = useState("Gallery");
+        const [selectedMoodId, setSelectedMoodId] = useState(null);
+
+        const handleNext = () => {
+          if (!selectedMoodId) return;
+          alert(
+            "Next step would be: Add Your Message for mood: " +
+              selectedMoodId +
+              "\\nFor now this just proves Page 1 is live."
+          );
+        };
+
+        return React.createElement(
+          StudioLayout,
+          null,
+          // Title
+          React.createElement(
+            "section",
+            {
+              style: {
+                display: "flex",
+                flexDirection: "column",
+                gap: "8px"
+              }
+            },
+            React.createElement(
+              "div",
+              {
+                style: {
+                  fontSize: "14px",
+                  letterSpacing: "0.18em",
+                  textTransform: "uppercase",
+                  opacity: 0.6
+                }
+              },
+              "1 · Pick Your Mood"
+            ),
+            React.createElement(
+              "h1",
+              {
+                style: {
+                  fontSize: "28px",
+                  lineHeight: 1.2,
+                  fontWeight: 600
+                }
+              },
+              "Every Premier begins ",
+              React.createElement(
+                "span",
+                {
+                  style: {
+                    background:
+                      "linear-gradient(120deg, #ffe6a7, #ff9ee2, #8ab5ff)",
+                    WebkitBackgroundClip: "text",
+                    color: "transparent"
+                  }
+                },
+                "with a feeling."
+              )
+            ),
+            React.createElement(
+              "p",
+              {
+                style: {
+                  fontSize: "14px",
+                  opacity: 0.7,
+                  maxWidth: "420px"
+                }
+              },
+              "Choose the Mood that sets the stage. This is the opening shot of your yyovvo."
+            )
+          ),
+          // Tabs
+          React.createElement(
+            "section",
+            {
+              style: {
+                display: "flex",
+                gap: "10px",
+                marginTop: "4px"
+              }
+            },
+            MOOD_TABS.map(function (tab) {
+              const isActive = tab === activeTab;
+              return React.createElement(
+                "button",
+                {
+                  key: tab,
+                  onClick: function () {
+                    setActiveTab(tab);
+                  },
+                  style: {
+                    padding: "6px 14px",
+                    borderRadius: "999px",
+                    border: isActive
+                      ? "1px solid rgba(255,255,255,0.9)"
+                      : "1px solid rgba(255,255,255,0.16)",
+                    background: isActive
+                      ? "radial-gradient(circle at top left, #ffe6a7, #ff9ee2)"
+                      : "rgba(8,8,18,0.7)",
+                    color: isActive ? "#140b1c" : "#f8f5ff",
+                    fontSize: "12px",
+                    fontWeight: isActive ? 600 : 400,
+                    cursor: "pointer",
+                    transition: "all 0.18s ease-out"
+                  }
+                },
+                tab
+              );
+            })
+          ),
+          // Tab helper text
+          activeTab === "AI Mood"
+            ? React.createElement(
+                "div",
+                {
+                  style: {
+                    marginTop: "6px",
+                    fontSize: "13px",
+                    opacity: 0.7
+                  }
+                },
+                "AI Mood coming soon — describe the emotion and we’ll paint the poster. For now, pick from Gallery."
+              )
+            : null,
+          activeTab === "My Moods"
+            ? React.createElement(
+                "div",
+                {
+                  style: {
+                    marginTop: "6px",
+                    fontSize: "13px",
+                    opacity: 0.7
+                  }
+                },
+                "My Moods will show your saved favourites. For now, Gallery is your playground."
+              )
+            : null,
+          // Mood grid
+          React.createElement(
+            "section",
+            {
+              style: {
+                marginTop: "10px",
+                flex: 1,
+                display: "grid",
+                gridTemplateColumns:
+                  "repeat(auto-fill, minmax(160px, 1fr))",
+                gap: "16px"
+              }
+            },
+            SAMPLE_MOODS.map(function (mood) {
+              const isSelected = mood.id === selectedMoodId;
+              return React.createElement(
+                "button",
+                {
+                  key: mood.id,
+                  onClick: function () {
+                    setSelectedMoodId(mood.id);
+                  },
+                  style: {
+                    position: "relative",
+                    borderRadius: "18px",
+                    padding: "10px",
+                    border: isSelected
+                      ? "1px solid rgba(255,255,255,0.95)"
+                      : "1px solid rgba(255,255,255,0.12)",
+                    background:
+                      "radial-gradient(circle at top, rgba(255,255,255,0.06), rgba(8,8,20,0.9))",
+                    backdropFilter: "blur(16px)",
+                    cursor: "pointer",
+                    textAlign: "left",
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "8px",
+                    boxShadow: isSelected
+                      ? "0 0 24px rgba(255,255,255,0.25)"
+                      : "0 0 16px rgba(0,0,0,0.65)",
+                    transform: isSelected
+                      ? "translateY(-2px)"
+                      : "translateY(0)",
+                    transition: "all 0.16s ease-out"
+                  }
+                },
+                React.createElement("div", {
+                  style: {
+                    borderRadius: "14px",
+                    height: "180px",
+                    backgroundImage:
+                      "linear-gradient(135deg, rgba(255,255,255,0.18), transparent 40%), radial-gradient(circle at 10% 0%, #ffeeb3, transparent 60%), radial-gradient(circle at 90% 100%, #ff9ee2, #342a5a)",
+                    position: "relative",
+                    overflow: "hidden"
+                  }
+                }),
+                React.createElement(
+                  "div",
+                  { style: { display: "flex", flexDirection: "column", gap: 4 } },
+                  React.createElement(
+                    "div",
+                    {
+                      style: {
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                        gap: "8px"
+                      }
+                    },
+                    React.createElement(
+                      "span",
+                      {
+                        style: {
+                          fontSize: "14px",
+                          fontWeight: 500,
+                          whiteSpace: "nowrap",
+                          overflow: "hidden",
+                          textOverflow: "ellipsis"
+                        }
+                      },
+                      mood.name
+                    ),
+                    React.createElement(
+                      "span",
+                      {
+                        style: {
+                          fontSize: "10px",
+                          padding: "3px 8px",
+                          borderRadius: "999px",
+                          border: "1px solid rgba(255,255,255,0.3)",
+                          background:
+                            "linear-gradient(135deg, rgba(255,255,255,0.15), rgba(0,0,0,0.3))"
+                        }
+                      },
+                      mood.badge
+                    )
+                  ),
+                  React.createElement(
+                    "span",
+                    { style: { fontSize: "11px", opacity: 0.7 } },
+                    mood.tag
+                  ),
+                  isSelected
+                    ? React.createElement(
+                        "span",
+                        {
+                          style: {
+                            marginTop: "4px",
+                            fontSize: "11px",
+                            color: "#ffe6a7"
+                          }
+                        },
+                        "✓ Selected Mood"
+                      )
+                    : null
+                )
+              );
+            })
+          ),
+          // Bottom buttons
+          React.createElement(
+            "section",
+            {
+              style: {
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                marginTop: "12px"
+              }
+            },
+            React.createElement(
+              "button",
+              {
+                onClick: function () {
+                  alert("Final version will send you back to yyovvo.com");
+                },
+                style: {
+                  fontSize: "12px",
+                  padding: "8px 12px",
+                  borderRadius: "999px",
+                  border: "1px solid rgba(255,255,255,0.18)",
+                  background: "transparent",
+                  color: "rgba(255,255,255,0.7)",
+                  cursor: "pointer"
+                }
+              },
+              "← Back to yyovvo"
+            ),
+            React.createElement(
+              "button",
+              {
+                onClick: handleNext,
+                disabled: !selectedMoodId,
+                style: {
+                  fontSize: "13px",
+                  padding: "10px 22px",
+                  borderRadius: "999px",
+                  border: "none",
+                  background: selectedMoodId
+                    ? "linear-gradient(135deg, #ffe6a7, #ff9ee2, #8ab5ff)"
+                    : "rgba(120,120,140,0.4)",
+                  color: selectedMoodId
+                    ? "#140b1c"
+                    : "rgba(230,230,240,0.6)",
+                  cursor: selectedMoodId ? "pointer" : "not-allowed",
+                  boxShadow: selectedMoodId
+                    ? "0 0 24px rgba(255,255,255,0.35)"
+                    : "none",
+                  transition: "all 0.16s ease-out"
+                }
+              },
+              "Next · Add Your Message →"
+            )
+          )
+        );
+      }
+
+      function App() {
+        return React.createElement(MoodPage);
+      }
+
+      const root = ReactDOM.createRoot(document.getElementById("root"));
+      root.render(React.createElement(App));
+    </script>
   </body>
 </html>
