@@ -128,6 +128,7 @@
                 React.createElement(
                   "div",
                   {
+                    fontSize: "13px",
                     style: {
                       fontSize: "13px",
                       letterSpacing: "0.18em",
@@ -564,13 +565,20 @@
 
         const moodName = mood ? mood.name : "your Mood";
 
+        const isMobile =
+          typeof window !== "undefined" ? window.innerWidth < 768 : false;
+
         function handlePrimaryAction() {
           if (mode === "text") {
             if (!text.trim()) {
               alert("Write a short line for your yyovvo first.");
               return;
             }
-            alert("TEXT CAPTURED: \"" + text.trim() + "\"\\nNext step will send it into the render engine.");
+            alert(
+              'TEXT CAPTURED: "' +
+                text.trim() +
+                '"\\nNext step will send it into the render engine.'
+            );
             return;
           }
 
@@ -578,11 +586,15 @@
             setRecordState("recording");
             setTimeout(() => {
               setRecordState("done");
-            }, 2000); // fake 2s for now – real recording later
+            }, 2000);
           } else if (recordState === "recording") {
             setRecordState("done");
           } else {
-            alert("Pretend we just saved your " + mode + " take. Next we’ll send it to the Studio render engine.");
+            alert(
+              "Pretend we just saved your " +
+                mode +
+                " take. Next we’ll send it to the Studio render engine."
+            );
           }
         }
 
@@ -602,988 +614,35 @@
             ? "Tap to finish"
             : "Looks good · Continue";
 
-        return React.createElement(
-          StudioLayout,
-          { step: 2 },
-          React.createElement(
-            "section",
-            {
-              style: {
-                display: "flex",
-                flexDirection: "column",
-                gap: "9px"
-              }
-            },
-            React.createElement(
-              "div",
-              {
-                style: {
-                  fontSize: "13px",
-                  letterSpacing: "0.2em",
-                  textTransform: "uppercase",
-                  color: "rgba(245, 236, 255, 0.75)"
-                }
-              },
-              "2 · Add Your Message"
-            ),
-            React.createElement(
-              "h1",
-              {
-                style: {
-                  fontSize: "26px",
-                  lineHeight: 1.25,
-                  fontWeight: 600,
-                  color: "var(--text-strong)",
-                  textShadow: "0 0 16px rgba(0,0,0,0.9)"
-                }
-              },
-              "Now give this Premier ",
-              React.createElement(
-                "span",
-                {
-                  style: {
-                    background:
-                      "linear-gradient(120deg, var(--accent-gold), var(--accent-pink))",
-                    WebkitBackgroundClip: "text",
-                    color: "transparent",
-                    textShadow: "0 0 16px rgba(255, 232, 181, 0.75)"
-                  }
-                },
-                "a voice."
-              )
-            ),
-            React.createElement(
-              "p",
-              {
-                style: {
-                  fontSize: "14px",
-                  color: "var(--text-soft)",
-                  maxWidth: "460px"
-                }
-              },
-              "Keep it raw, keep it short. The Studio will auto-trim the magic and ignore the ramble."
-            ),
-            mood
-              ? React.createElement(
-                  "div",
-                  {
-                    style: {
-                      marginTop: "6px",
-                      display: "inline-flex",
-                      alignItems: "center",
-                      gap: "6px",
-                      padding: "4px 10px",
-                      borderRadius: "999px",
-                      border: "1px solid rgba(255,255,255,0.35)",
-                      background:
-                        "linear-gradient(135deg, rgba(10,10,20,0.9), rgba(40,22,50,0.9))",
-                      fontSize: "12px",
-                      color: "rgba(250,248,255,0.92)"
-                    }
-                  },
-                  React.createElement(
-                    "span",
-                    {
-                      style: {
-                        width: "8px",
-                        height: "8px",
-                        borderRadius: "999px",
-                        background:
-                          "radial-gradient(circle at 30% 0, #ffe8b5, #ff9ee2)"
-                      }
-                    }
-                  ),
-                  "Mood locked: ",
-                  moodName
-                )
-              : null
-          ),
-          // Mode selector + capture layout
-          React.createElement(
-            "section",
-            {
-              style: {
-                marginTop: "16px",
-                display: "grid",
-                gridTemplateColumns:
-                  "minmax(0, 260px) minmax(0, 1fr)",
-                gap: "20px"
-              }
-            },
-            // Left: mode picker
-            React.createElement(
-              "div",
-              {
-                style: {
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: "10px"
-                }
-              },
-              ["voice", "video", "text"].map(function (m) {
-                const isActive = mode === m;
-                const label =
-                  m === "voice"
-                    ? "Voice"
-                    : m === "video"
-                    ? "Video"
-                    : "Written";
-                const desc =
-                  m === "voice"
-                    ? "Whisper, laugh, shout – we’ll keep the best 8 seconds."
-                    : m === "video"
-                    ? "Turn your message into a tiny trailer."
-                    : "One line that says it all.";
-                return React.createElement(
-                  "button",
-                  {
-                    key: m,
-                    onClick: function () {
-                      setMode(m);
-                      setRecordState("idle");
-                    },
-                    style: {
-                      textAlign: "left",
-                      padding: "10px 12px",
-                      borderRadius: "14px",
-                      border: isActive
-                        ? "1px solid rgba(255,255,255,0.95)"
-                        : "1px solid rgba(255,255,255,0.22)",
-                      background: isActive
-                        ? "linear-gradient(135deg, rgba(255,232,181,0.95), rgba(255,158,226,0.9))"
-                        : "rgba(10, 10, 22, 0.9)",
-                      color: isActive ? "#1b0f26" : "rgba(250,248,255,0.9)",
-                      cursor: "pointer",
-                      boxShadow: isActive
-                        ? "0 0 22px rgba(255,232,181,0.75)"
-                        : "0 0 12px rgba(0,0,0,0.9)",
-                      transition: "all 0.18s ease-out"
-                    }
-                  },
-                  React.createElement(
-                    "div",
-                    { style: { fontSize: "13px", fontWeight: 600 } },
-                    label
-                  ),
-                  React.createElement(
-                    "div",
-                    {
-                      style: {
-                        fontSize: "12px",
-                        marginTop: "3px",
-                        color: isActive
-                          ? "rgba(27,15,38,0.85)"
-                          : "rgba(235,232,255,0.78)"
-                      }
-                    },
-                    desc
-                  )
-                );
-              })
-            ),
-            // Right: capture panel
-            React.createElement(
-              "div",
-              {
-                style: {
-                  borderRadius: "20px",
-                  padding: "14px 16px 18px",
-                  border: "1px solid rgba(255,255,255,0.22)",
-                  background:
-                    "linear-gradient(150deg, rgba(255,255,255,0.04), rgba(5,4,12,0.98))",
-                  boxShadow: "0 0 24px rgba(0,0,0,0.9)",
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: "12px"
-                }
-              },
-              React.createElement(
-                "div",
-                {
-                  style: {
-                    fontSize: "13px",
-                    color: "rgba(246,242,255,0.9)"
-                  }
-                },
-                helper
-              ),
-              // Fake preview frame
-              React.createElement(
-                "div",
-                {
-                  style: {
-                    marginTop: "4px",
-                    borderRadius: "16px",
-                    padding: "14px",
-                    border: "1px solid rgba(255,255,255,0.16)",
-                    background:
-                      mode === "text"
-                        ? "radial-gradient(circle at 0% 0%, rgba(255,232,181,0.18), transparent 55%), radial-gradient(circle at 100% 100%, rgba(255,158,226,0.28), #0a0b18)"
-                        : "radial-gradient(circle at 0% 0%, rgba(255,232,181,0.12), transparent 55%), radial-gradient(circle at 100% 100%, rgba(129,148,255,0.45), #050712)",
-                    minHeight: "180px",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center"
-                  }
-                },
-                mode === "text"
-                  ? React.createElement("textarea", {
-                      value: text,
-                      onChange: function (e) {
-                        setText(e.target.value);
-                      },
-                      maxLength: 160,
-                      placeholder:
-                        "Write one line you’d be proud to play on repeat…",
-                      style: {
-                        width: "100%",
-                        minHeight: "130px",
-                        borderRadius: "12px",
-                        border: "1px solid rgba(255,255,255,0.25)",
-                        background: "rgba(4,4,10,0.8)",
-                        color: "rgba(250,248,255,0.95)",
-                        padding: "10px 12px",
-                        fontSize: "13px",
-                        resize: "none",
-                        outline: "none",
-                        boxShadow: "0 0 18px rgba(0,0,0,0.85)"
-                      }
-                    })
-                  : React.createElement(
-                      "div",
-                      {
-                        style: {
-                          display: "flex",
-                          flexDirection: "column",
-                          alignItems: "center",
-                          gap: "10px"
-                        }
-                      },
-                      React.createElement("div", {
-                        style: {
-                          width: "84px",
-                          height: "84px",
-                          borderRadius: "999px",
-                          border:
-                            recordState === "recording"
-                              ? "2px solid rgba(255,87,120,0.9)"
-                              : "2px solid rgba(255,255,255,0.6)",
-                          background:
-                            "radial-gradient(circle at 30% 0, #ffe8b5, #ff5878 40%, #7f7bff 85%)",
-                          boxShadow:
-                            recordState === "recording"
-                              ? "0 0 30px rgba(255,87,120,0.9)"
-                              : "0 0 22px rgba(255,232,181,0.7)"
-                        }
-                      }),
-                      React.createElement(
-                        "div",
-                        {
-                          style: {
-                            fontSize: "12px",
-                            color: "rgba(246,242,255,0.9)"
-                          }
-                        },
-                        recordState === "idle"
-                          ? "Ready when you are."
-                          : recordState === "recording"
-                          ? "Recording… imagine they’re right in front of you."
-                          : "Locked. If you hate it, tap again and redo."
-                      )
-                    )
-              ),
-              // Primary action
-              React.createElement(
-                "div",
-                {
-                  style: {
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                    marginTop: "6px"
-                  }
-                },
-                React.createElement(
-                  "button",
-                  {
-                    onClick: onBack,
-                    style: {
-                      fontSize: "12px",
-                      padding: "8px 12px",
-                      borderRadius: "999px",
-                      border: "1px solid rgba(255,255,255,0.26)",
-                      background: "transparent",
-                      color: "rgba(246,242,255,0.9)",
-                      cursor: "pointer"
-                    }
-                  },
-                  "← Back · Change Mood"
-                ),
-                React.createElement(
-                  "button",
-                  {
-                    onClick: handlePrimaryAction,
-                    style: {
-                      fontSize: "13px",
-                      padding: "10px 22px",
-                      borderRadius: "999px",
-                      border: "none",
-                      background:
-                        "linear-gradient(135deg, #ffe8b5, #ff9ee2, #8ab5ff)",
-                      color: "#1b0f26",
-                      cursor: "pointer",
-                      boxShadow:
-                        "0 0 26px rgba(255, 232, 181, 0.85)",
-                      transition: "all 0.18s ease-out"
-                    }
-                  },
-                  primaryLabel
-                )
-              )
-            )
-          )
-        );
-      }
-
-      /** Root wizard */
-      function App() {
-        const [step, setStep] = useState(1);
-        const [activeTab, setActiveTab] = useState("Gallery");
-        const [selectedMoodId, setSelectedMoodId] = useState(null);
-
-        const selectedMood = SAMPLE_MOODS.find(function (m) {
-          return m.id === selectedMoodId;
-        });
-
-        if (step === 2) {
-          return React.createElement(MessagePage, {
-            mood: selectedMood,
-            onBack: function () {
-              setStep(1);
-            }
-          });
-        }
-
-        return React.createElement(MoodPage, {
-          activeTab: activeTab,
-          onTabChange: setActiveTab,
-          selectedMoodId: selectedMoodId,
-          onSelectMood: setSelectedMoodId,
-          onNext: function () {
-            if (!selectedMoodId) return;
-            setStep(2);
-          }
-        });
-      }
-
-      const root = ReactDOM.createRoot(document.getElementById("root"));
-      root.render(React.createElement(App));
-    </script>
-  </body>
-</html>
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>yyovvo Studio – Pick Your Mood</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <style>
-      * {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-      }
-      :root {
-        --bg-deep: #05040a;
-        --bg-iris: #211531;
-        --bg-ink: #0a0b14;
-        --accent-gold: #ffe8b5;
-        --accent-pink: #ff9ee2;
-        --accent-blue: #8ab5ff;
-        --text-soft: rgba(248, 245, 255, 0.78);
-        --text-strong: #fdfaff;
-        --chip-bg: rgba(8, 8, 20, 0.9);
-        --card-border: rgba(255, 255, 255, 0.22);
-      }
-      body {
-        font-family: system-ui, -apple-system, BlinkMacSystemFont,
-          "SF Pro Text", sans-serif;
-        min-height: 100vh;
-        background:
-          radial-gradient(circle at -10% -10%, #3b265c, transparent 55%),
-          radial-gradient(circle at 110% 110%, #141b3d, transparent 55%),
-          radial-gradient(circle at 20% 120%, #25101e, transparent 55%),
-          radial-gradient(circle at 80% -20%, rgba(255, 158, 226, 0.35), transparent 65%),
-          linear-gradient(145deg, #05040a, #04060d 55%, #05040a);
-        color: var(--text-strong);
-      }
-      #root {
-        min-height: 100vh;
-      }
-      button {
-        font-family: inherit;
-      }
-    </style>
-  </head>
-  <body>
-    <div id="root"></div>
-
-    <!-- React from CDN -->
-    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
-    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
-
-    <!-- Studio Wizard: Page 1 (Mood) + Page 2 (Message) -->
-    <script type="text/javascript">
-      const { useState } = React;
-
-      const MOOD_TABS = ["Gallery", "AI Mood", "My Moods"];
-
-      const SAMPLE_MOODS = [
-        { id: "midnight-velvet", name: "Midnight Velvet", tag: "Midnight · Luxe", badge: "Trending" },
-        { id: "snow-glow", name: "Snow Glow", tag: "Soft · Cozy", badge: "Popular" },
-        { id: "neon-halo", name: "Neon Halo", tag: "Electric · Fun", badge: "New" },
-        { id: "chaos-christmas", name: "Chaos Christmas", tag: "Wild · Loud", badge: "Bold" },
-        { id: "silent-gold", name: "Silent Gold", tag: "Minimal · Calm", badge: "Pro" },
-        { id: "after-midnight", name: "After Midnight", tag: "Late · Intense", badge: "Pro" }
-      ];
-
-      /** Shared chrome for all Studio steps */
-      function StudioLayout(props) {
-        const stepLabel = props.step === 2 ? "Step 2 · Add Your Message" : "Step 1 · Pick Your Mood";
-
-        return React.createElement(
-          "div",
-          {
-            style: {
-              minHeight: "100vh",
-              padding: "20px clamp(18px, 4vw, 32px)",
+        const layoutStyle = isMobile
+          ? {
+              marginTop: "16px",
               display: "flex",
               flexDirection: "column",
-              gap: "22px"
+              gap: "14px"
             }
-          },
-          React.createElement(
-            "header",
-            {
-              style: {
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
-                gap: "12px"
-              }
-            },
-            // Left: logo + copy
-            React.createElement(
-              "div",
-              { style: { display: "flex", alignItems: "center", gap: "10px" } },
-              React.createElement(
-                "div",
-                {
-                  style: {
-                    width: "32px",
-                    height: "32px",
-                    borderRadius: "999px",
-                    border: "1px solid rgba(255,255,255,0.35)",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    background:
-                      "radial-gradient(circle at 20% 0%, #ffe8b5, #ff9ee2 40%, #7f7bff 80%)",
-                    boxShadow: "0 0 18px rgba(255, 255, 255, 0.35)"
-                  }
-                },
-                React.createElement(
-                  "span",
-                  {
-                    style: {
-                      fontSize: "14px",
-                      fontWeight: 700,
-                      color: "#1b0f26",
-                      textShadow: "0 0 10px rgba(255,255,255,0.7)"
-                    }
-                  },
-                  "yy"
-                )
-              ),
-              React.createElement(
-                "div",
-                null,
-                React.createElement(
-                  "div",
-                  {
-                    style: {
-                      fontSize: "13px",
-                      letterSpacing: "0.18em",
-                      textTransform: "uppercase",
-                      color: "rgba(255,255,255,0.82)",
-                      textShadow: "0 0 10px rgba(255, 232, 181, 0.45)"
-                    }
-                  },
-                  "yyovvo Studio"
-                ),
-                React.createElement(
-                  "div",
-                  {
-                    style: {
-                      fontSize: "12px",
-                      color: "rgba(248,245,255,0.78)"
-                    }
-                  },
-                  "Every great moment gets a Premier."
-                )
-              )
-            ),
-            // Right: step pill
-            React.createElement(
-              "div",
-              {
-                style: {
-                  fontSize: "12px",
-                  padding: "5px 12px",
-                  borderRadius: "999px",
-                  border: "1px solid rgba(255,255,255,0.35)",
-                  background:
-                    "linear-gradient(135deg, rgba(10,10,20,0.9), rgba(32,16,40,0.9))",
-                  boxShadow: "0 0 14px rgba(0,0,0,0.7)",
-                  backdropFilter: "blur(12px)",
-                  color: "rgba(248,245,255,0.9)"
-                }
-              },
-              stepLabel
-            )
-          ),
-          React.createElement(
-            "main",
-            {
-              style: {
-                flex: 1,
-                display: "flex",
-                flexDirection: "column",
-                gap: "18px",
-                maxWidth: "1080px",
-                marginInline: "auto"
-              }
-            },
-            props.children
-          )
-        );
-      }
+          : {
+              marginTop: "16px",
+              display: "grid",
+              gridTemplateColumns:
+                "minmax(0, 260px) minmax(0, 1fr)",
+              gap: "20px"
+            };
 
-      /** STEP 1 – Mood selection */
-      function MoodPage(props) {
-        const { activeTab, onTabChange, selectedMoodId, onSelectMood, onNext } = props;
-
-        return React.createElement(
-          StudioLayout,
-          { step: 1 },
-          // Title block
-          React.createElement(
-            "section",
-            {
-              style: {
-                display: "flex",
-                flexDirection: "column",
-                gap: "9px"
-              }
-            },
-            React.createElement(
-              "div",
-              {
-                style: {
-                  fontSize: "13px",
-                  letterSpacing: "0.2em",
-                  textTransform: "uppercase",
-                  color: "rgba(245, 236, 255, 0.75)"
-                }
-              },
-              "1 · Pick Your Mood"
-            ),
-            React.createElement(
-              "h1",
-              {
-                style: {
-                  fontSize: "28px",
-                  lineHeight: 1.2,
-                  fontWeight: 600,
-                  color: "var(--text-strong)",
-                  textShadow: "0 0 16px rgba(0,0,0,0.9)"
-                }
-              },
-              "Every Premier begins ",
-              React.createElement(
-                "span",
-                {
-                  style: {
-                    background:
-                      "linear-gradient(120deg, var(--accent-gold), var(--accent-pink), var(--accent-blue))",
-                    WebkitBackgroundClip: "text",
-                    color: "transparent",
-                    textShadow: "0 0 18px rgba(255, 232, 181, 0.75)"
-                  }
-                },
-                "with a feeling."
-              )
-            ),
-            React.createElement(
-              "p",
-              {
-                style: {
-                  fontSize: "14px",
-                  color: "var(--text-soft)",
-                  maxWidth: "440px"
-                }
-              },
-              "Choose the Mood that will frame your yyovvo. This is the opening shot of your mini-movie."
-            )
-          ),
-          // Tabs
-          React.createElement(
-            "section",
-            {
-              style: {
-                display: "flex",
-                gap: "10px",
-                marginTop: "6px"
-              }
-            },
-            MOOD_TABS.map(function (tab) {
-              const isActive = tab === activeTab;
-              return React.createElement(
-                "button",
-                {
-                  key: tab,
-                  onClick: function () {
-                    onTabChange(tab);
-                  },
-                  style: {
-                    padding: "7px 16px",
-                    borderRadius: "999px",
-                    border: isActive
-                      ? "1px solid rgba(255,255,255,0.92)"
-                      : "1px solid rgba(255,255,255,0.22)",
-                    background: isActive
-                      ? "linear-gradient(135deg, rgba(255,232,181,0.95), rgba(255,158,226,0.9))"
-                      : "rgba(10, 10, 22, 0.9)",
-                    color: isActive ? "#1b0f26" : "rgba(250,248,255,0.9)",
-                    fontSize: "12px",
-                    fontWeight: isActive ? 600 : 400,
-                    cursor: "pointer",
-                    boxShadow: isActive
-                      ? "0 0 20px rgba(255, 232, 181, 0.7)"
-                      : "0 0 10px rgba(0, 0, 0, 0.9)",
-                    transition: "all 0.18s ease-out"
-                  }
-                },
-                tab
-              );
-            })
-          ),
-          // Tab helper text
-          activeTab === "AI Mood"
-            ? React.createElement(
-                "div",
-                {
-                  style: {
-                    marginTop: "6px",
-                    fontSize: "13px",
-                    color: "rgba(246,242,255,0.82)"
-                  }
-                },
-                "Soon you’ll just describe the emotion and the Studio will paint the poster. For now, pick from the Gallery."
-              )
-            : null,
-          activeTab === "My Moods"
-            ? React.createElement(
-                "div",
-                {
-                  style: {
-                    marginTop: "6px",
-                    fontSize: "13px",
-                    color: "rgba(246,242,255,0.82)"
-                  }
-                },
-                "This will show Moods you’ve favourited. Gallery is your playground tonight."
-              )
-            : null,
-          // Mood grid
-          React.createElement(
-            "section",
-            {
-              style: {
-                marginTop: "12px",
-                flex: 1,
-                display: "grid",
-                gridTemplateColumns:
-                  "repeat(auto-fill, minmax(170px, 1fr))",
-                gap: "18px"
-              }
-            },
-            SAMPLE_MOODS.map(function (mood) {
-              const isSelected = mood.id === selectedMoodId;
-              return React.createElement(
-                "button",
-                {
-                  key: mood.id,
-                  onClick: function () {
-                    onSelectMood(mood.id);
-                  },
-                  style: {
-                    position: "relative",
-                    borderRadius: "20px",
-                    padding: "11px",
-                    border: isSelected
-                      ? "1px solid rgba(255,255,255,0.96)"
-                      : "1px solid var(--card-border)",
-                    background:
-                      "linear-gradient(150deg, rgba(255,255,255,0.06), rgba(5,4,12,0.98))",
-                    backdropFilter: "blur(18px)",
-                    cursor: "pointer",
-                    textAlign: "left",
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: "9px",
-                    boxShadow: isSelected
-                      ? "0 0 30px rgba(255,232,181,0.6)"
-                      : "0 0 18px rgba(0,0,0,0.85)",
-                    transform: isSelected
-                      ? "translateY(-3px)"
-                      : "translateY(0)",
-                    transition: "all 0.18s ease-out",
-                    overflow: "hidden"
-                  }
-                },
-                React.createElement(
-                  "div",
-                  {
-                    style: {
-                      borderRadius: "16px",
-                      height: "190px",
-                      position: "relative",
-                      overflow: "hidden",
-                      background:
-                        "radial-gradient(circle at 0% 0%, rgba(255,232,181,0.85), transparent 55%), radial-gradient(circle at 100% 100%, rgba(255,158,226,0.9), #211531)",
-                      boxShadow:
-                        "0 0 32px rgba(0,0,0,0.9), inset 0 0 18px rgba(0,0,0,0.6)"
-                    }
-                  },
-                  React.createElement("div", {
-                    style: {
-                      position: "absolute",
-                      inset: 0,
-                      background:
-                        "radial-gradient(circle at 20% 0%, rgba(255,255,255,0.35), transparent 55%), radial-gradient(circle at 80% 100%, rgba(7,10,25,0.95), transparent 70%)",
-                      mixBlendMode: "soft-light",
-                      opacity: 0.8
-                    }
-                  }),
-                  React.createElement("div", {
-                    style: {
-                      position: "absolute",
-                      inset: 0,
-                      borderRadius: "16px",
-                      border: "1px solid rgba(255,255,255,0.25)"
-                    }
-                  }),
-                  isSelected
-                    ? React.createElement("div", {
-                        style: {
-                          position: "absolute",
-                          inset: "-1px",
-                          borderRadius: "18px",
-                          border:
-                            "1px solid rgba(255, 232, 181, 0.9)",
-                          boxShadow:
-                            "0 0 22px rgba(255,232,181,0.9)",
-                          pointerEvents: "none"
-                        }
-                      })
-                    : null
-                ),
-                React.createElement(
-                  "div",
-                  {
-                    style: {
-                      display: "flex",
-                      flexDirection: "column",
-                      gap: 4
-                    }
-                  },
-                  React.createElement(
-                    "div",
-                    {
-                      style: {
-                        display: "flex",
-                        justifyContent: "space-between",
-                        alignItems: "center",
-                        gap: "8px"
-                      }
-                    },
-                    React.createElement(
-                      "span",
-                      {
-                        style: {
-                          fontSize: "14px",
-                          fontWeight: 500,
-                          color: "rgba(253,250,255,0.96)",
-                          whiteSpace: "nowrap",
-                          overflow: "hidden",
-                          textOverflow: "ellipsis",
-                          textShadow:
-                            "0 0 10px rgba(0,0,0,0.8)"
-                        }
-                      },
-                      mood.name
-                    ),
-                    React.createElement(
-                      "span",
-                      {
-                        style: {
-                          fontSize: "10px",
-                          padding: "3px 8px",
-                          borderRadius: "999px",
-                          border:
-                            "1px solid rgba(255,255,255,0.45)",
-                          background:
-                            "linear-gradient(135deg, rgba(18,18,28,0.95), rgba(60,32,80,0.95))",
-                          color: "rgba(253,250,255,0.9)"
-                        }
-                      },
-                      mood.badge
-                    )
-                  ),
-                  React.createElement(
-                    "span",
-                    {
-                      style: {
-                        fontSize: "11px",
-                        color: "rgba(240,236,255,0.85)"
-                      }
-                    },
-                    mood.tag
-                  ),
-                  isSelected
-                    ? React.createElement(
-                        "span",
-                        {
-                          style: {
-                            marginTop: "4px",
-                            fontSize: "11px",
-                            color: "var(--accent-gold)"
-                          }
-                        },
-                        "✓ Selected Mood"
-                      )
-                    : null
-                )
-              );
-            })
-          ),
-          // Bottom controls
-          React.createElement(
-            "section",
-            {
-              style: {
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-                marginTop: "12px",
-                paddingTop: "8px",
-                borderTop: "1px solid rgba(255,255,255,0.12)"
-              }
-            },
-            React.createElement(
-              "button",
-              {
-                onClick: function () {
-                  alert("Final wiring will send you back to yyovvo.com");
-                },
-                style: {
-                  fontSize: "12px",
-                  padding: "8px 12px",
-                  borderRadius: "999px",
-                  border: "1px solid rgba(255,255,255,0.26)",
-                  background: "transparent",
-                  color: "rgba(246,242,255,0.9)",
-                  cursor: "pointer"
-                }
-              },
-              "← Back to yyovvo"
-            ),
-            React.createElement(
-              "button",
-              {
-                onClick: onNext,
-                disabled: !selectedMoodId,
-                style: {
-                  fontSize: "13px",
-                  padding: "10px 22px",
-                  borderRadius: "999px",
-                  border: "none",
-                  background: selectedMoodId
-                    ? "linear-gradient(135deg, #ffe8b5, #ff9ee2, #8ab5ff)"
-                    : "rgba(120,120,140,0.5)",
-                  color: selectedMoodId
-                    ? "#1b0f26"
-                    : "rgba(230,230,240,0.7)",
-                  cursor: selectedMoodId ? "pointer" : "not-allowed",
-                  boxShadow: selectedMoodId
-                    ? "0 0 26px rgba(255, 232, 181, 0.85)"
-                    : "none",
-                  transition: "all 0.18s ease-out"
-                }
-              },
-              "Next · Add Your Message →"
-            )
-          )
-        );
-      }
-
-      /** STEP 2 – Add Your Message (UI only for now) */
-      function MessagePage(props) {
-        const { mood, onBack } = props;
-        const [mode, setMode] = useState("voice");
-        const [recordState, setRecordState] = useState("idle"); // idle | recording | done
-        const [text, setText] = useState("");
-
-        const moodName = mood ? mood.name : "your Mood";
-
-        function handlePrimaryAction() {
-          if (mode === "text") {
-            if (!text.trim()) {
-              alert("Write a short line for your yyovvo first.");
-              return;
+        const bottomBarStyle = isMobile
+          ? {
+              display: "flex",
+              flexDirection: "column-reverse",
+              alignItems: "stretch",
+              gap: "10px",
+              marginTop: "10px"
             }
-            alert("TEXT CAPTURED: \"" + text.trim() + "\"\\nNext step will send it into the render engine.");
-            return;
-          }
-
-          if (recordState === "idle") {
-            setRecordState("recording");
-            setTimeout(() => {
-              setRecordState("done");
-            }, 2000); // fake 2s for now – real recording later
-          } else if (recordState === "recording") {
-            setRecordState("done");
-          } else {
-            alert("Pretend we just saved your " + mode + " take. Next we’ll send it to the Studio render engine.");
-          }
-        }
-
-        const helper =
-          mode === "voice"
-            ? "Hold the circle and talk. We’ll auto-trim to the best 8 seconds."
-            : mode === "video"
-            ? "Frame your face or the scene. Think mini-trailer, not lecture."
-            : "One line, straight from the chest. Short, sharp, unforgettable.";
-
-        const primaryLabel =
-          mode === "text"
-            ? "Save this line"
-            : recordState === "idle"
-            ? "Tap to start"
-            : recordState === "recording"
-            ? "Tap to finish"
-            : "Looks good · Continue";
+          : {
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              marginTop: "6px"
+            };
 
         return React.createElement(
           StudioLayout,
@@ -1685,13 +744,7 @@
           React.createElement(
             "section",
             {
-              style: {
-                marginTop: "16px",
-                display: "grid",
-                gridTemplateColumns:
-                  "minmax(0, 260px) minmax(0, 1fr)",
-                gap: "20px"
-              }
+              style: layoutStyle
             },
             // Left: mode picker
             React.createElement(
@@ -1773,7 +826,9 @@
                   padding: "14px 16px 18px",
                   border: "1px solid rgba(255,255,255,0.22)",
                   background:
-                    "linear-gradient(150deg, rgba(255,255,255,0.04), rgba(5,4,12,0.98))",
+                    mode === "text"
+                      ? "linear-gradient(145deg, rgba(255,232,181,0.10), rgba(5,4,16,0.96))"
+                      : "linear-gradient(145deg, rgba(255,232,181,0.06), rgba(5,4,16,0.96))",
                   boxShadow: "0 0 24px rgba(0,0,0,0.9)",
                   display: "flex",
                   flexDirection: "column",
@@ -1803,7 +858,7 @@
                       mode === "text"
                         ? "radial-gradient(circle at 0% 0%, rgba(255,232,181,0.18), transparent 55%), radial-gradient(circle at 100% 100%, rgba(255,158,226,0.28), #0a0b18)"
                         : "radial-gradient(circle at 0% 0%, rgba(255,232,181,0.12), transparent 55%), radial-gradient(circle at 100% 100%, rgba(129,148,255,0.45), #050712)",
-                    minHeight: "180px",
+                    minHeight: isMobile ? "200px" : "180px",
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center"
@@ -1844,8 +899,8 @@
                       },
                       React.createElement("div", {
                         style: {
-                          width: "84px",
-                          height: "84px",
+                          width: isMobile ? "96px" : "84px",
+                          height: isMobile ? "96px" : "84px",
                           borderRadius: "999px",
                           border:
                             recordState === "recording"
@@ -1864,7 +919,8 @@
                         {
                           style: {
                             fontSize: "12px",
-                            color: "rgba(246,242,255,0.9)"
+                            color: "rgba(246,242,255,0.9)",
+                            textAlign: "center"
                           }
                         },
                         recordState === "idle"
@@ -1875,17 +931,10 @@
                       )
                     )
               ),
-              // Primary action
+              // Primary action + back
               React.createElement(
                 "div",
-                {
-                  style: {
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                    marginTop: "6px"
-                  }
-                },
+                { style: bottomBarStyle },
                 React.createElement(
                   "button",
                   {
@@ -1897,7 +946,8 @@
                       border: "1px solid rgba(255,255,255,0.26)",
                       background: "transparent",
                       color: "rgba(246,242,255,0.9)",
-                      cursor: "pointer"
+                      cursor: "pointer",
+                      textAlign: "center"
                     }
                   },
                   "← Back · Change Mood"
@@ -1917,7 +967,9 @@
                       cursor: "pointer",
                       boxShadow:
                         "0 0 26px rgba(255, 232, 181, 0.85)",
-                      transition: "all 0.18s ease-out"
+                      transition: "all 0.18s ease-out",
+                      width: isMobile ? "100%" : "auto",
+                      textAlign: "center"
                     }
                   },
                   primaryLabel
