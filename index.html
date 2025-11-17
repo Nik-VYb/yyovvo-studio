@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>yyovvo Studio – Pick Your Mood</title>
+    <title>yyovvo Studio – Premier Builder</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <style>
       * {
@@ -19,7 +19,6 @@
         --accent-blue: #8ab5ff;
         --text-soft: rgba(248, 245, 255, 0.78);
         --text-strong: #fdfaff;
-        --chip-bg: rgba(8, 8, 20, 0.9);
         --card-border: rgba(255, 255, 255, 0.22);
       }
       body {
@@ -49,9 +48,8 @@
     <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
 
-    <!-- Studio Wizard: Page 1 (Mood) + Page 2 (Message) -->
     <script type="text/javascript">
-      const { useState } = React;
+      const { useState, useEffect } = React;
 
       const MOOD_TABS = ["Gallery", "AI Mood", "My Moods"];
 
@@ -64,9 +62,12 @@
         { id: "after-midnight", name: "After Midnight", tag: "Late · Intense", badge: "Pro" }
       ];
 
-      /** Shared chrome for all Studio steps */
+      /* Shared chrome for steps 1 & 2 */
       function StudioLayout(props) {
-        const stepLabel = props.step === 2 ? "Step 2 · Add Your Message" : "Step 1 · Pick Your Mood";
+        const stepLabel =
+          props.step === 2
+            ? "Step 2 · Add Your Message"
+            : "Step 1 · Pick Your Mood";
 
         return React.createElement(
           "div",
@@ -89,7 +90,6 @@
                 gap: "12px"
               }
             },
-            // Left: logo + copy
             React.createElement(
               "div",
               { style: { display: "flex", alignItems: "center", gap: "10px" } },
@@ -128,7 +128,6 @@
                 React.createElement(
                   "div",
                   {
-                    fontSize: "13px",
                     style: {
                       fontSize: "13px",
                       letterSpacing: "0.18em",
@@ -151,7 +150,6 @@
                 )
               )
             ),
-            // Right: step pill
             React.createElement(
               "div",
               {
@@ -187,14 +185,14 @@
         );
       }
 
-      /** STEP 1 – Mood selection */
+      /* STEP 1 – Mood selection */
       function MoodPage(props) {
-        const { activeTab, onTabChange, selectedMoodId, onSelectMood, onNext } = props;
+        const { activeTab, onTabChange, selectedMoodId, onSelectMood, onNext } =
+          props;
 
         return React.createElement(
           StudioLayout,
           { step: 1 },
-          // Title block
           React.createElement(
             "section",
             {
@@ -254,7 +252,6 @@
               "Choose the Mood that will frame your yyovvo. This is the opening shot of your mini-movie."
             )
           ),
-          // Tabs
           React.createElement(
             "section",
             {
@@ -296,7 +293,6 @@
               );
             })
           ),
-          // Tab helper text
           activeTab === "AI Mood"
             ? React.createElement(
                 "div",
@@ -323,7 +319,6 @@
                 "This will show Moods you’ve favourited. Gallery is your playground tonight."
               )
             : null,
-          // Mood grid
           React.createElement(
             "section",
             {
@@ -496,7 +491,6 @@
               );
             })
           ),
-          // Bottom controls
           React.createElement(
             "section",
             {
@@ -556,9 +550,9 @@
         );
       }
 
-      /** STEP 2 – Add Your Message (UI only for now) */
+      /* STEP 2 – Add Message (captures simple payload) */
       function MessagePage(props) {
-        const { mood, onBack } = props;
+        const { mood, onBack, onContinue } = props;
         const [mode, setMode] = useState("voice");
         const [recordState, setRecordState] = useState("idle"); // idle | recording | done
         const [text, setText] = useState("");
@@ -574,27 +568,25 @@
               alert("Write a short line for your yyovvo first.");
               return;
             }
-            alert(
-              'TEXT CAPTURED: "' +
-                text.trim() +
-                '"\\nNext step will send it into the render engine.'
-            );
+            onContinue({
+              type: "text",
+              text: text.trim()
+            });
             return;
           }
 
           if (recordState === "idle") {
             setRecordState("recording");
-            setTimeout(() => {
+            setTimeout(function () {
               setRecordState("done");
             }, 2000);
           } else if (recordState === "recording") {
             setRecordState("done");
           } else {
-            alert(
-              "Pretend we just saved your " +
-                mode +
-                " take. Next we’ll send it to the Studio render engine."
-            );
+            onContinue({
+              type: mode,
+              text: null
+            });
           }
         }
 
@@ -607,12 +599,12 @@
 
         const primaryLabel =
           mode === "text"
-            ? "Save this line"
+            ? "Use this line"
             : recordState === "idle"
             ? "Tap to start"
             : recordState === "recording"
             ? "Tap to finish"
-            : "Looks good · Continue";
+            : "Looks good · Preview Premier";
 
         const layoutStyle = isMobile
           ? {
@@ -624,8 +616,7 @@
           : {
               marginTop: "16px",
               display: "grid",
-              gridTemplateColumns:
-                "minmax(0, 260px) minmax(0, 1fr)",
+              gridTemplateColumns: "minmax(0, 260px) minmax(0, 1fr)",
               gap: "20px"
             };
 
@@ -723,30 +714,25 @@
                       color: "rgba(250,248,255,0.92)"
                     }
                   },
-                  React.createElement(
-                    "span",
-                    {
-                      style: {
-                        width: "8px",
-                        height: "8px",
-                        borderRadius: "999px",
-                        background:
-                          "radial-gradient(circle at 30% 0, #ffe8b5, #ff9ee2)"
-                      }
+                  React.createElement("span", {
+                    style: {
+                      width: "8px",
+                      height: "8px",
+                      borderRadius: "999px",
+                      background:
+                        "radial-gradient(circle at 30% 0, #ffe8b5, #ff9ee2)"
                     }
-                  ),
+                  }),
                   "Mood locked: ",
                   moodName
                 )
               : null
           ),
-          // Mode selector + capture layout
           React.createElement(
             "section",
             {
               style: layoutStyle
             },
-            // Left: mode picker
             React.createElement(
               "div",
               {
@@ -817,7 +803,6 @@
                 );
               })
             ),
-            // Right: capture panel
             React.createElement(
               "div",
               {
@@ -845,7 +830,6 @@
                 },
                 helper
               ),
-              // Fake preview frame
               React.createElement(
                 "div",
                 {
@@ -931,7 +915,6 @@
                       )
                     )
               ),
-              // Primary action + back
               React.createElement(
                 "div",
                 { style: bottomBarStyle },
@@ -965,8 +948,7 @@
                         "linear-gradient(135deg, #ffe8b5, #ff9ee2, #8ab5ff)",
                       color: "#1b0f26",
                       cursor: "pointer",
-                      boxShadow:
-                        "0 0 26px rgba(255, 232, 181, 0.85)",
+                      boxShadow: "0 0 26px rgba(255, 232, 181, 0.85)",
                       transition: "all 0.18s ease-out",
                       width: isMobile ? "100%" : "auto",
                       textAlign: "center"
@@ -980,21 +962,440 @@
         );
       }
 
-      /** Root wizard */
+      /* STEP 3 – Fullscreen Cinematic Preview */
+      function PreviewPage(props) {
+        const { mood, message, onBack, onFinish } = props;
+        const [phase, setPhase] = useState("intro"); // intro, poster, message, breath, mark, thumb, done;
+
+        useEffect(function () {
+          const timers = [];
+          timers.push(setTimeout(function () { setPhase("poster"); }, 800));
+          timers.push(setTimeout(function () { setPhase("message"); }, 2800));
+          timers.push(setTimeout(function () { setPhase("breath"); }, 7800));
+          timers.push(setTimeout(function () { setPhase("mark"); }, 9300));
+          timers.push(setTimeout(function () { setPhase("thumb"); }, 12300));
+          timers.push(setTimeout(function () { setPhase("done"); }, 14300));
+          return function () {
+            timers.forEach(clearTimeout);
+          };
+        }, []);
+
+        const moodName = mood ? mood.name : "Your Mood";
+
+        let messageLine = "";
+        if (message) {
+          if (message.type === "text" && message.text) {
+            messageLine = message.text;
+          } else if (message.type === "voice") {
+            messageLine = "8 seconds of your voice, captured.";
+          } else if (message.type === "video") {
+            messageLine = "A tiny trailer of your moment.";
+          }
+        }
+
+        const phaseLabel =
+          phase === "intro"
+            ? "Warming the lights…"
+            : phase === "poster"
+            ? "Framing the Mood…"
+            : phase === "message"
+            ? "Blending your words into the picture…"
+            : phase === "breath"
+            ? "Let it breathe for a second."
+            : phase === "mark"
+            ? "Signing it with yyovvo."
+            : "Your Premier is ready.";
+
+        return React.createElement(
+          "div",
+          {
+            style: {
+              minHeight: "100vh",
+              background:
+                "radial-gradient(circle at -10% -10%, #3b265c, transparent 55%), radial-gradient(circle at 110% 110%, #141b3d, transparent 55%), linear-gradient(150deg, #05040a, #04060d)",
+              color: "var(--text-strong)",
+              display: "flex",
+              flexDirection: "column",
+              padding: "16px"
+            }
+          },
+          React.createElement(
+            "header",
+            {
+              style: {
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                marginBottom: "10px"
+              }
+            },
+            React.createElement(
+              "button",
+              {
+                onClick: onBack,
+                style: {
+                  fontSize: "12px",
+                  padding: "6px 12px",
+                  borderRadius: "999px",
+                  border: "1px solid rgba(255,255,255,0.35)",
+                  background: "rgba(5,5,15,0.7)",
+                  color: "rgba(246,242,255,0.9)",
+                  cursor: "pointer"
+                }
+              },
+              "← Tweak Message"
+            ),
+            React.createElement(
+              "div",
+              {
+                style: {
+                  fontSize: "11px",
+                  letterSpacing: "0.24em",
+                  textTransform: "uppercase",
+                  color: "rgba(245,236,255,0.78)"
+                }
+              },
+              "Studio Premier Preview"
+            )
+          ),
+          React.createElement(
+            "div",
+            {
+              style: {
+                flex: 1,
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: "18px"
+              }
+            },
+            React.createElement(
+              "div",
+              {
+                style: {
+                  fontSize: "13px",
+                  color: "rgba(246,242,255,0.85)"
+                }
+              },
+              phaseLabel
+            ),
+            React.createElement(
+              "div",
+              {
+                style: {
+                  width: "min(320px, 80vw)",
+                  aspectRatio: "9 / 16",
+                  borderRadius: "26px",
+                  border: "1px solid rgba(255,255,255,0.4)",
+                  boxShadow:
+                    "0 0 40px rgba(0,0,0,0.9), 0 0 50px rgba(255, 232, 181, 0.25)",
+                  overflow: "hidden",
+                  position: "relative",
+                  background:
+                    "radial-gradient(circle at 0% 0%, rgba(255,232,181,0.3), transparent 55%), radial-gradient(circle at 100% 100%, rgba(255,158,226,0.5), #05040a)"
+                }
+              },
+              // MAIN POSTER + MESSAGE
+              phase !== "mark"
+                ? React.createElement(
+                    "div",
+                    {
+                      style: {
+                        position: "absolute",
+                        inset: 0,
+                        padding: "18px",
+                        display: "flex",
+                        flexDirection: "column",
+                        justifyContent:
+                          phase === "message" || phase === "breath"
+                            ? "space-between"
+                            : "flex-end",
+                        transform:
+                          phase === "poster" || phase === "message"
+                            ? "scale(1.03)"
+                            : "scale(1)",
+                        transition: "transform 0.9s ease-out"
+                      }
+                    },
+                    React.createElement(
+                      "div",
+                      {
+                        style: {
+                          fontSize: "22px",
+                          lineHeight: 1.2,
+                          fontWeight: 600,
+                          textShadow: "0 0 18px rgba(0,0,0,0.85)"
+                        }
+                      },
+                      moodName
+                    ),
+                    (phase === "message" || phase === "breath") &&
+                      React.createElement(
+                        "div",
+                        {
+                          style: {
+                            marginTop: "12px",
+                            fontSize: "14px",
+                            color: "rgba(248,245,255,0.96)",
+                            textShadow: "0 0 10px rgba(0,0,0,0.85)"
+                          }
+                        },
+                        messageLine ||
+                          "Your 8-second moment, ready to play on loop."
+                      ),
+                    (phase === "message" || phase === "breath") &&
+                      React.createElement(
+                        "div",
+                        {
+                          style: {
+                            marginTop: "18px",
+                            height: "32px",
+                            display: "flex",
+                            alignItems: "center",
+                            gap: "3px",
+                            opacity: phase === "breath" ? 0.7 : 1
+                          }
+                        },
+                        Array.from({ length: 24 }).map(function (_, idx) {
+                          const height =
+                            10 +
+                            (idx % 2 === 0 ? 12 : 4) +
+                            (phase === "message" ? (idx % 3) * 3 : 0);
+                          return React.createElement("div", {
+                            key: idx,
+                            style: {
+                              width: "3px",
+                              borderRadius: "999px",
+                              height: height + "px",
+                              background:
+                                "linear-gradient(180deg, #ffe8b5, #ff9ee2, #8ab5ff)",
+                              boxShadow:
+                                "0 0 8px rgba(255,232,181,0.7)"
+                            }
+                          });
+                        })
+                      ),
+                    React.createElement(
+                      "div",
+                      {
+                        style: {
+                          marginTop: "auto",
+                          fontSize: "11px",
+                          color: "rgba(246,242,255,0.75)"
+                        }
+                      },
+                      "Premier preview · ~16 seconds"
+                    )
+                  )
+                : null,
+              // MARK (yyovvo signature moment)
+              phase === "mark" &&
+                React.createElement(
+                  "div",
+                  {
+                    style: {
+                      position: "absolute",
+                      inset: 0,
+                      background: "black",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center"
+                    }
+                  },
+                  React.createElement(
+                    "div",
+                    {
+                      style: {
+                        width: "180px",
+                        height: "180px",
+                        borderRadius: "999px",
+                        background:
+                          "radial-gradient(circle at 30% 0, #ffe8b5, #ff5878 40%, #7f7bff 85%)",
+                        boxShadow: "0 0 45px rgba(255, 232, 181, 0.95)",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        position: "relative"
+                      }
+                    },
+                    React.createElement("div", {
+                      style: {
+                        position: "absolute",
+                        inset: "18px",
+                        borderRadius: "999px",
+                        border: "1px solid rgba(255,255,255,0.9)"
+                      }
+                    }),
+                    React.createElement(
+                      "div",
+                      {
+                        style: {
+                          fontSize: "22px",
+                          fontWeight: 700,
+                          letterSpacing: "0.12em",
+                          color: "#1b0f26",
+                          textTransform: "uppercase",
+                          textShadow:
+                            "0 0 18px rgba(255,255,255,0.9)"
+                        }
+                      },
+                      "yyovvo"
+                    )
+                  )
+                ),
+              // Final Thumbnail + CTAs overlay
+              (phase === "thumb" || phase === "done") &&
+                React.createElement("div", {
+                  style: {
+                    position: "absolute",
+                    inset: 0,
+                    background:
+                      "linear-gradient(180deg, rgba(0,0,0,0.3), rgba(0,0,0,0.9))"
+                  }
+                })
+            ),
+            (phase === "thumb" || phase === "done") &&
+              React.createElement(
+                "div",
+                {
+                  style: {
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    gap: "10px",
+                    maxWidth: "360px",
+                    textAlign: "center"
+                  }
+                },
+                React.createElement(
+                  "div",
+                  {
+                    style: {
+                      fontSize: "15px",
+                      fontWeight: 600
+                    }
+                  },
+                  "Your Premier is ready to leave the Studio."
+                ),
+                React.createElement(
+                  "div",
+                  {
+                    style: {
+                      fontSize: "13px",
+                      color: "rgba(246,242,255,0.85)"
+                    }
+                  },
+                  "Next we’ll turn this preview into a real clip you can send, share and replay forever."
+                )
+              ),
+            phase === "done" &&
+              React.createElement(
+                "div",
+                {
+                  style: {
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "10px",
+                    width: "100%",
+                    maxWidth: "360px",
+                    marginTop: "6px"
+                  }
+                },
+                React.createElement(
+                  "button",
+                  {
+                    onClick: onFinish,
+                    style: {
+                      padding: "11px 18px",
+                      borderRadius: "999px",
+                      border: "none",
+                      background:
+                        "linear-gradient(135deg, #ffe8b5, #ff9ee2, #8ab5ff)",
+                      color: "#1b0f26",
+                      fontSize: "14px",
+                      fontWeight: 600,
+                      cursor: "pointer",
+                      boxShadow: "0 0 30px rgba(255,232,181,0.85)"
+                    }
+                  },
+                  "Render my Premier →"
+                ),
+                React.createElement(
+                  "button",
+                  {
+                    onClick: onBack,
+                    style: {
+                      padding: "9px 16px",
+                      borderRadius: "999px",
+                      border: "1px solid rgba(255,255,255,0.35)",
+                      background: "transparent",
+                      color: "rgba(246,242,255,0.9)",
+                      fontSize: "13px",
+                      cursor: "pointer"
+                    }
+                  },
+                  "Redo message"
+                ),
+                React.createElement(
+                  "button",
+                  {
+                    onClick: function () {
+                      alert("Later this will jump back to Mood step.");
+                    },
+                    style: {
+                      padding: "7px 12px",
+                      borderRadius: "999px",
+                      border: "none",
+                      background: "transparent",
+                      color: "rgba(246,242,255,0.7)",
+                      fontSize: "12px",
+                      textDecoration: "underline",
+                      cursor: "pointer"
+                    }
+                  },
+                  "Change Mood"
+                )
+              )
+          )
+        );
+      }
+
+      /* Root wizard */
       function App() {
         const [step, setStep] = useState(1);
         const [activeTab, setActiveTab] = useState("Gallery");
         const [selectedMoodId, setSelectedMoodId] = useState(null);
+        const [messageData, setMessageData] = useState(null);
 
         const selectedMood = SAMPLE_MOODS.find(function (m) {
           return m.id === selectedMoodId;
         });
+
+        if (step === 3) {
+          return React.createElement(PreviewPage, {
+            mood: selectedMood,
+            message: messageData,
+            onBack: function () {
+              setStep(2);
+            },
+            onFinish: function () {
+              alert(
+                "This is where we’ll POST your Mood + Message into the real render engine and get back the cinematic MP4."
+              );
+            }
+          });
+        }
 
         if (step === 2) {
           return React.createElement(MessagePage, {
             mood: selectedMood,
             onBack: function () {
               setStep(1);
+            },
+            onContinue: function (msg) {
+              setMessageData(msg);
+              setStep(3);
             }
           });
         }
