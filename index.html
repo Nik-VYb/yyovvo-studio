@@ -2,110 +2,205 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1"
+    />
     <title>yyovvo Studio</title>
-
     <style>
       body {
         margin: 0;
-        background: #0d0d0d;
-        font-family: "Inter", sans-serif;
-        color: white;
+        background: #050509;
+        color: #f9fafb;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
+          "Segoe UI", sans-serif;
       }
 
       .full-page {
-        height: 100vh;
+        min-height: 100vh;
         width: 100vw;
         display: flex;
         flex-direction: column;
-        background: linear-gradient(180deg, #0b0b0b, #111);
+        background: radial-gradient(circle at top, #111827 0, #02010a 55%);
       }
 
       .title {
-        font-size: 32px;
-        font-weight: 700;
-        padding: 20px;
+        font-size: 26px;
+        font-weight: 600;
+        padding: 16px 20px 8px;
         text-align: center;
+      }
+
+      .subtitle {
+        font-size: 13px;
+        color: #9ca3af;
+        text-align: center;
+        padding: 0 20px 12px;
       }
 
       .mood-grid {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-        gap: 16px;
-        padding: 20px;
+        gap: 12px;
+        padding: 0 16px 16px;
       }
 
       .mood-card {
-        background: rgba(255, 255, 255, 0.08);
-        border-radius: 16px;
-        height: 160px;
+        background: radial-gradient(circle at top, #1f2937, #020617);
+        border-radius: 18px;
+        height: 150px;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 18px;
+        font-size: 16px;
         cursor: pointer;
-        transition: 0.2s ease;
+        border: 1px solid rgba(148, 163, 184, 0.5);
+        transition: 0.18s ease;
+        text-align: center;
+        padding: 8px;
       }
 
       .mood-card:hover {
-        background: rgba(255, 255, 255, 0.12);
+        box-shadow: 0 0 22px rgba(129, 140, 248, 0.5);
+      }
+
+      .mood-card.selected {
+        border-color: #f973ff;
+        box-shadow: 0 0 24px rgba(249, 115, 255, 0.7);
+        transform: translateY(-2px);
       }
 
       .action-button {
-        margin: 20px;
-        padding: 16px;
-        border-radius: 12px;
-        font-size: 18px;
+        margin: 0 16px 16px;
+        padding: 14px;
+        border-radius: 999px;
+        font-size: 15px;
         text-align: center;
-        background: linear-gradient(135deg, #d517ff, #742bff);
+        background: linear-gradient(135deg, #f973ff, #38bdf8);
         cursor: pointer;
-        transition: 0.2s;
+        transition: 0.18s ease;
+        font-weight: 600;
+        color: #020617;
       }
+
       .action-button:hover {
-        opacity: 0.9;
+        opacity: 0.92;
+      }
+
+      .action-button.disabled {
+        opacity: 0.35;
+        cursor: not-allowed;
+        box-shadow: none;
+      }
+
+      .secondary-button {
+        margin: 0 16px 16px;
+        padding: 12px;
+        border-radius: 999px;
+        font-size: 14px;
+        text-align: center;
+        background: #111827;
+        border: 1px solid rgba(107, 114, 128, 0.8);
+        cursor: pointer;
+        color: #e5e7eb;
       }
 
       .message-box {
-        padding: 20px;
+        padding: 12px 16px 0;
       }
 
       textarea {
         width: 100%;
         height: 140px;
-        border-radius: 12px;
-        padding: 12px;
-        border: none;
+        border-radius: 16px;
+        padding: 10px 12px;
+        border: 1px solid rgba(148, 163, 184, 0.7);
         outline: none;
-        font-size: 16px;
-        background: rgba(255,255,255,0.08);
-        color: white;
+        font-size: 14px;
+        background: rgba(15, 23, 42, 0.96);
+        color: #f9fafb;
         resize: none;
       }
 
+      .char-count {
+        font-size: 11px;
+        color: #9ca3af;
+        text-align: right;
+        padding: 4px 4px 4px 0;
+      }
+
       .preview-box {
-        height: 100vh;
+        min-height: 100vh;
         width: 100vw;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
-        background: black;
-        padding: 20px;
+        background: radial-gradient(circle at top, #020617, #000);
+        padding: 16px;
       }
 
       .preview-mood {
         flex: 1;
-        border-radius: 20px;
-        background: rgba(255,255,255,0.08);
+        border-radius: 24px;
+        background: radial-gradient(circle at top, #1f2937, #020617);
         display: flex;
+        flex-direction: column;
         justify-content: center;
         align-items: center;
-        font-size: 26px;
+        font-size: 20px;
+        text-align: center;
+        padding: 18px;
+        border: 1px solid rgba(148, 163, 184, 0.6);
+        box-shadow: 0 30px 80px rgba(15, 23, 42, 0.95);
+      }
+
+      .preview-mood span.line {
+        display: block;
+        font-size: 15px;
+        color: #e5e7eb;
+        margin-top: 10px;
       }
 
       .bottom-buttons {
         display: flex;
         flex-direction: column;
-        gap: 12px;
+        gap: 10px;
+        margin-top: 18px;
+      }
+
+      .loading-dots {
+        display: inline-block;
+        margin-left: 6px;
+      }
+
+      .loading-dots span {
+        display: inline-block;
+        width: 3px;
+        height: 3px;
+        border-radius: 999px;
+        background: #111827;
+        margin: 0 1px;
+        animation: pulse 1s infinite ease-in-out;
+      }
+
+      .loading-dots span:nth-child(2) {
+        animation-delay: 0.2s;
+      }
+
+      .loading-dots span:nth-child(3) {
+        animation-delay: 0.35s;
+      }
+
+      @keyframes pulse {
+        0% {
+          opacity: 0.3;
+        }
+        50% {
+          opacity: 1;
+        }
+        100% {
+          opacity: 0.3;
+        }
       }
     </style>
   </head>
@@ -120,17 +215,22 @@
       const { useState } = React;
 
       const SAMPLE_MOODS = [
-        { id: "mood1", name: "Cosy" },
-        { id: "mood2", name: "Hype" },
-        { id: "mood3", name: "Snowfall" },
-        { id: "mood4", name: "Romantic" },
+        { id: "mood1", name: "Midnight Ember" },
+        { id: "mood2", name: "Snow Halo" },
+        { id: "mood3", name: "Electric Mistletoe" },
+        { id: "mood4", name: "Neon Sleigh Ride" },
       ];
 
       function MoodPage({ selectedMoodId, onSelectMood, onNext }) {
         return React.createElement(
           "div",
           { className: "full-page" },
-          React.createElement("div", { className: "title" }, "Pick Your Mood"),
+          React.createElement("div", { className: "title" }, "Pick your Mood"),
+          React.createElement(
+            "div",
+            { className: "subtitle" },
+            "This is the opening shot. Select the vibe that matches how you want them to feel."
+          ),
           React.createElement(
             "div",
             { className: "mood-grid" },
@@ -139,13 +239,9 @@
                 "div",
                 {
                   key: m.id,
-                  className: "mood-card",
-                  style: {
-                    border:
-                      selectedMoodId === m.id
-                        ? "2px solid #d517ff"
-                        : "2px solid transparent",
-                  },
+                  className:
+                    "mood-card" +
+                    (selectedMoodId === m.id ? " selected" : ""),
                   onClick: function () {
                     onSelectMood(m.id);
                   },
@@ -157,11 +253,11 @@
           React.createElement(
             "div",
             {
-              className: "action-button",
-              style: { opacity: selectedMoodId ? 1 : 0.4 },
+              className:
+                "action-button" + (selectedMoodId ? "" : " disabled"),
               onClick: selectedMoodId ? onNext : null,
             },
-            "Next →"
+            "Next · Add your message →"
           )
         );
       }
@@ -175,33 +271,49 @@
           React.createElement(
             "div",
             { className: "title" },
-            "Add Your Message"
+            "Add your line"
+          ),
+          React.createElement(
+            "div",
+            { className: "subtitle" },
+            "One line. One feeling. We’ll wrap it in snow and light."
           ),
           React.createElement(
             "div",
             { className: "message-box" },
             React.createElement("textarea", {
-              placeholder: "Type your message…",
+              placeholder:
+                "Type the sentence they’ll remember every time they think of this Christmas…",
               value: text,
+              maxLength: 280,
               onChange: function (e) {
                 setText(e.target.value);
               },
-            })
-          ),
-          React.createElement(
-            "div",
-            { className: "action-button", onClick: function () {
-              if (!text.trim())
-                return alert("Type a message first!");
-              onContinue({ type: "text", text: text });
-            }},
-            "Preview Your Premier →"
+            }),
+            React.createElement(
+              "div",
+              { className: "char-count" },
+              text.length,
+              " / 280"
+            )
           ),
           React.createElement(
             "div",
             {
-              className: "action-button",
-              style: { background: "#444" },
+              className:
+                "action-button" + (text.trim() ? "" : " disabled"),
+              onClick: text.trim()
+                ? function () {
+                    onContinue({ type: "text", text: text.trim() });
+                  }
+                : null,
+            },
+            "Preview your Premier →"
+          ),
+          React.createElement(
+            "div",
+            {
+              className: "secondary-button",
               onClick: onBack,
             },
             "← Back"
@@ -209,28 +321,50 @@
         );
       }
 
-      function PreviewPage({ mood, message, onBack, onFinish }) {
+      function PreviewPage({ mood, message, onBack, onRender, isSubmitting }) {
         return React.createElement(
           "div",
           { className: "preview-box" },
           React.createElement(
             "div",
             { className: "preview-mood" },
-            mood.name,
-            " — ",
-            message.text
+            React.createElement("div", null, mood.name || "Your Mood"),
+            React.createElement(
+              "span",
+              { className: "line" },
+              message.text || ""
+            )
           ),
           React.createElement(
             "div",
             { className: "bottom-buttons" },
             React.createElement(
               "div",
-              { className: "action-button", onClick: onFinish },
-              "Render my Premier →"
+              {
+                className: "action-button" + (isSubmitting ? " disabled" : ""),
+                onClick: isSubmitting ? null : onRender,
+              },
+              isSubmitting
+                ? React.createElement(
+                    React.Fragment,
+                    null,
+                    "Saving to yyovvo",
+                    React.createElement(
+                      "span",
+                      { className: "loading-dots" },
+                      React.createElement("span", null),
+                      React.createElement("span", null),
+                      React.createElement("span", null)
+                    )
+                  )
+                : "Render my Premier →"
             ),
             React.createElement(
               "div",
-              { className: "action-button", style: { background: "#444" }, onClick: onBack },
+              {
+                className: "secondary-button",
+                onClick: onBack,
+              },
               "← Back"
             )
           )
@@ -241,14 +375,15 @@
         const [step, setStep] = useState(1);
         const [selectedMoodId, setSelectedMoodId] = useState(null);
         const [messageData, setMessageData] = useState(null);
+        const [isSubmitting, setIsSubmitting] = useState(false);
 
-        // 🔥 YOUR REAL WORKING API ENDPOINT
-        const API_URL =
-          "https://moment-cf83ed32.base44.app/api/studio-premier";
+        // 🔥 API endpoint as Base44 described:
+        const API_URL = "https://yyovvo.com/api/studio-premier";
 
-        const selectedMood = SAMPLE_MOODS.find(function (m) {
-          return m.id === selectedMoodId;
-        });
+        const selectedMood =
+          SAMPLE_MOODS.find(function (m) {
+            return m.id === selectedMoodId;
+          }) || SAMPLE_MOODS[0];
 
         async function handleRenderPremier() {
           if (!selectedMood || !messageData) {
@@ -264,9 +399,12 @@
             message_video_url: null,
             message_text: messageData.text,
             duration_s: 16,
-            user_agent: navigator.userAgent,
+            user_agent:
+              typeof navigator !== "undefined" ? navigator.userAgent : "",
             origin: "studio.yyovvo.com",
           };
+
+          setIsSubmitting(true);
 
           try {
             const res = await fetch(API_URL, {
@@ -275,19 +413,40 @@
               body: JSON.stringify(payload),
             });
 
-            const data = await res.json();
+            const rawText = await res.text();
+            let data = null;
+            try {
+              data = JSON.parse(rawText);
+            } catch (e) {
+              // not JSON, leave as text
+            }
 
-            if (!data.ok) throw new Error(data.error);
+            if (!res.ok || !data || data.ok === false) {
+              // Show status + body so we can see EXACTLY what's wrong
+              alert(
+                "Backend error talking to /api/studio-premier\n\n" +
+                  "HTTP status: " +
+                  res.status +
+                  "\n\n" +
+                  "Response body:\n" +
+                  rawText
+              );
+              return;
+            }
 
             alert(
-              "Premier saved to yyovvo! 🎉\n\nStudio ID: " +
+              "Premier saved to yyovvo ✅\n\nStudio ID: " +
                 data.studio_id +
                 "\nStatus: " +
                 data.status
             );
           } catch (err) {
-            console.error(err);
-            alert("Could not save your Premier right now. Try again in a moment.");
+            alert(
+              "Network / CORS error reaching /api/studio-premier:\n\n" +
+                (err && err.message ? err.message : String(err))
+            );
+          } finally {
+            setIsSubmitting(false);
           }
         }
 
@@ -298,7 +457,8 @@
             onBack: function () {
               setStep(2);
             },
-            onFinish: handleRenderPremier,
+            onRender: handleRenderPremier,
+            isSubmitting: isSubmitting,
           });
         }
 
