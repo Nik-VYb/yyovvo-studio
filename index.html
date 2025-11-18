@@ -27,7 +27,7 @@
       .title {
         font-size: 26px;
         font-weight: 600;
-        padding: 16px 20px 8px;
+        padding: 16px 20px 4px;
         text-align: center;
       }
 
@@ -262,7 +262,7 @@
         );
       }
 
-      function MessagePage({ mood, onBack, onContinue }) {
+      function MessagePage({ onBack, onContinue }) {
         const [text, setText] = useState("");
 
         return React.createElement(
@@ -377,8 +377,9 @@
         const [messageData, setMessageData] = useState(null);
         const [isSubmitting, setIsSubmitting] = useState(false);
 
-        // 🔥 API endpoint as Base44 described:
-        const API_URL = "https://yyovvo.com/api/studio-premier";
+        // ✅ REAL Base44 backend URL
+        const API_URL =
+          "https://moment-cf83ed32.base44.app/api/studio-premier";
 
         const selectedMood =
           SAMPLE_MOODS.find(function (m) {
@@ -401,7 +402,7 @@
             duration_s: 16,
             user_agent:
               typeof navigator !== "undefined" ? navigator.userAgent : "",
-            origin: "studio.yyovvo.com",
+            origin: "yyovvo-studio.pages.dev",
           };
 
           setIsSubmitting(true);
@@ -418,11 +419,10 @@
             try {
               data = JSON.parse(rawText);
             } catch (e) {
-              // not JSON, leave as text
+              // not JSON; leave as text
             }
 
             if (!res.ok || !data || data.ok === false) {
-              // Show status + body so we can see EXACTLY what's wrong
               alert(
                 "Backend error talking to /api/studio-premier\n\n" +
                   "HTTP status: " +
@@ -458,13 +458,12 @@
               setStep(2);
             },
             onRender: handleRenderPremier,
-            isSubmitting: isSubmitting,
+            isSubmitting,
           });
         }
 
         if (step === 2) {
           return React.createElement(MessagePage, {
-            mood: selectedMood,
             onBack: function () {
               setStep(1);
             },
@@ -476,7 +475,7 @@
         }
 
         return React.createElement(MoodPage, {
-          selectedMoodId: selectedMoodId,
+          selectedMoodId,
           onSelectMood: setSelectedMoodId,
           onNext: function () {
             if (!selectedMoodId) return;
