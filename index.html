@@ -1,1419 +1,1301 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>yyovvo Studio – Premier Builder</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>yyovvo Studio – Create Your Premier</title>
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1"
+    />
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      rel="preconnect"
+      href="https://fonts.gstatic.com"
+      crossorigin
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
     <style>
+      :root {
+        --bg: #02010a;
+        --bg-alt: #050516;
+        --accent: #f973ff;
+        --accent2: #38bdf8;
+        --accent-soft: rgba(248, 250, 252, 0.06);
+        --text: #e5e7eb;
+        --muted: #9ca3af;
+        --danger: #f97373;
+        --radius: 22px;
+      }
+
       * {
         box-sizing: border-box;
+      }
+
+      html,
+      body {
         margin: 0;
         padding: 0;
+        height: 100%;
+        width: 100%;
+        background: radial-gradient(circle at top, #111827 0, #02010a 55%);
+        color: var(--text);
+        font-family: "Space Grotesk", system-ui, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", sans-serif;
+        -webkit-font-smoothing: antialiased;
       }
-      :root {
-        --bg-deep: #05040a;
-        --bg-iris: #211531;
-        --bg-ink: #0a0b14;
-        --accent-gold: #ffe8b5;
-        --accent-pink: #ff9ee2;
-        --accent-blue: #8ab5ff;
-        --text-soft: rgba(248, 245, 255, 0.78);
-        --text-strong: #fdfaff;
-        --card-border: rgba(255, 255, 255, 0.22);
-      }
+
       body {
-        font-family: system-ui, -apple-system, BlinkMacSystemFont,
-          "SF Pro Text", sans-serif;
-        min-height: 100vh;
-        background:
-          radial-gradient(circle at -10% -10%, #3b265c, transparent 55%),
-          radial-gradient(circle at 110% 110%, #141b3d, transparent 55%),
-          radial-gradient(circle at 20% 120%, #25101e, transparent 55%),
-          radial-gradient(circle at 80% -20%, rgba(255, 158, 226, 0.35), transparent 65%),
-          linear-gradient(145deg, #05040a, #04060d 55%, #05040a);
-        color: var(--text-strong);
+        display: flex;
+        align-items: stretch;
+        justify-content: center;
       }
+
       #root {
+        width: 100%;
         min-height: 100vh;
+        display: flex;
+        align-items: stretch;
+        justify-content: center;
       }
-      button {
-        font-family: inherit;
+
+      .studio-shell {
+        width: 100%;
+        max-width: 1200px;
+        padding: 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+
+      @media (min-width: 768px) {
+        .studio-shell {
+          padding: 24px 24px 32px;
+        }
+      }
+
+      .studio-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .studio-logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .studio-logo-badge {
+        width: 32px;
+        height: 32px;
+        border-radius: 999px;
+        background: radial-gradient(circle at 20% 0%, #f973ff, #38bdf8);
+        box-shadow: 0 0 24px rgba(249, 115, 255, 0.5);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 14px;
+      }
+
+      .studio-logo-text {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .studio-logo-text span:first-child {
+        font-weight: 600;
+        letter-spacing: 0.16em;
+        font-size: 11px;
+        text-transform: uppercase;
+        color: var(--muted);
+      }
+
+      .studio-logo-text span:last-child {
+        font-weight: 600;
+        font-size: 14px;
+      }
+
+      .studio-tag {
+        padding: 4px 10px;
+        border-radius: 999px;
+        background: rgba(15, 23, 42, 0.8);
+        border: 1px solid rgba(148, 163, 184, 0.25);
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.14em;
+        color: var(--muted);
+      }
+
+      .studio-card {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        overflow: hidden;
+        border-radius: 28px;
+        background: radial-gradient(
+            circle at top left,
+            rgba(248, 113, 255, 0.12),
+            transparent 50%
+          ),
+          radial-gradient(
+            circle at bottom right,
+            rgba(56, 189, 248, 0.12),
+            transparent 55%
+          ),
+          linear-gradient(135deg, rgba(15, 23, 42, 0.98), rgba(6, 12, 30, 0.98));
+        border: 1px solid rgba(148, 163, 184, 0.35);
+        box-shadow: 0 40px 120px rgba(15, 23, 42, 0.9);
+        padding: 18px;
+      }
+
+      @media (min-width: 768px) {
+        .studio-card {
+          padding: 24px;
+        }
+      }
+
+      .studio-card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .studio-title-block {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+
+      .studio-eyebrow {
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.16em;
+        color: var(--muted);
+      }
+
+      .studio-title {
+        font-size: 22px;
+        font-weight: 600;
+      }
+
+      @media (min-width: 768px) {
+        .studio-title {
+          font-size: 26px;
+        }
+      }
+
+      .studio-subtitle {
+        font-size: 13px;
+        color: var(--muted);
+      }
+
+      .studio-step-indicator {
+        display: flex;
+        gap: 6px;
+        align-items: center;
+        font-size: 12px;
+        color: var(--muted);
+      }
+
+      .studio-step-dots {
+        display: flex;
+        gap: 4px;
+      }
+
+      .step-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 999px;
+        background: rgba(55, 65, 81, 0.9);
+      }
+
+      .step-dot.active {
+        background: linear-gradient(135deg, var(--accent), var(--accent2));
+        box-shadow: 0 0 12px rgba(248, 113, 255, 0.9);
+      }
+
+      .studio-main {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+
+      @media (min-width: 900px) {
+        .studio-main {
+          flex-direction: row;
+          gap: 18px;
+        }
+      }
+
+      .studio-main-left,
+      .studio-main-right {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      @media (min-width: 900px) {
+        .studio-main-left {
+          flex: 5;
+        }
+        .studio-main-right {
+          flex: 4;
+        }
+      }
+
+      .pill-row {
+        display: inline-flex;
+        padding: 4px;
+        border-radius: 999px;
+        background: rgba(15, 23, 42, 0.9);
+        border: 1px solid rgba(148, 163, 184, 0.3);
+      }
+
+      .pill {
+        padding: 6px 14px;
+        border-radius: 999px;
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        cursor: pointer;
+        color: var(--muted);
+        border: none;
+        background: transparent;
+        transition: all 0.16s ease;
+      }
+
+      .pill.active {
+        color: #f9fafb;
+        background: linear-gradient(135deg, var(--accent), var(--accent2));
+        box-shadow: 0 0 18px rgba(248, 113, 255, 0.9);
+      }
+
+      .mood-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+        margin-top: 8px;
+      }
+
+      @media (min-width: 900px) {
+        .mood-grid {
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+      }
+
+      .mood-card {
+        position: relative;
+        border-radius: 18px;
+        overflow: hidden;
+        background: radial-gradient(circle at top, #1f2937, #020617);
+        border: 1px solid rgba(148, 163, 184, 0.4);
+        cursor: pointer;
+        min-height: 150px;
+        display: flex;
+        align-items: flex-end;
+        padding: 10px;
+        transition: transform 0.18s ease, box-shadow 0.18s ease,
+          border-color 0.18s ease;
+      }
+
+      .mood-card.selected {
+        border-color: rgba(248, 113, 255, 0.9);
+        box-shadow: 0 0 18px rgba(248, 113, 255, 0.6);
+        transform: translateY(-3px);
+      }
+
+      .mood-badge {
+        position: absolute;
+        top: 8px;
+        left: 8px;
+        padding: 3px 8px;
+        border-radius: 999px;
+        background: rgba(15, 23, 42, 0.75);
+        color: var(--muted);
+        font-size: 11px;
+      }
+
+      .mood-name {
+        font-size: 13px;
+        font-weight: 500;
+      }
+
+      .mood-note {
+        font-size: 11px;
+        color: var(--muted);
+        margin-top: 2px;
+      }
+
+      .mood-fill {
+        position: absolute;
+        inset: 0;
+        mix-blend-mode: screen;
+        opacity: 0.9;
+      }
+
+      .mood-fill.gradient-1 {
+        background: radial-gradient(circle at top, #f973ff, transparent 60%),
+          radial-gradient(circle at bottom, #38bdf8, transparent 60%);
+      }
+
+      .mood-fill.gradient-2 {
+        background: radial-gradient(circle at 10% 0%, #22c55e, transparent 55%),
+          radial-gradient(circle at 90% 100%, #0ea5e9, transparent 60%);
+      }
+
+      .mood-fill.gradient-3 {
+        background: radial-gradient(circle at top, #f97316, transparent 55%),
+          radial-gradient(circle at bottom, #e11d48, transparent 60%);
+      }
+
+      .mood-overlay {
+        position: relative;
+        z-index: 1;
+        background: linear-gradient(
+          to top,
+          rgba(15, 23, 42, 0.92),
+          transparent
+        );
+        border-radius: inherit;
+        padding: 8px;
+      }
+
+      .side-panel {
+        border-radius: 20px;
+        padding: 12px;
+        background: rgba(15, 23, 42, 0.95);
+        border: 1px solid rgba(55, 65, 81, 0.9);
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .side-title {
+        font-size: 13px;
+        font-weight: 500;
+      }
+
+      .side-text {
+        font-size: 12px;
+        color: var(--muted);
+      }
+
+      .side-tagline {
+        font-size: 11px;
+        color: var(--muted);
+        text-transform: uppercase;
+        letter-spacing: 0.14em;
+      }
+
+      .btn-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 6px;
+      }
+
+      .btn {
+        border-radius: 999px;
+        border: 1px solid rgba(148, 163, 184, 0.4);
+        background: rgba(15, 23, 42, 0.95);
+        color: var(--text);
+        font-size: 12px;
+        padding: 7px 14px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        cursor: pointer;
+        transition: all 0.15s ease;
+      }
+
+      .btn span.icon {
+        font-size: 14px;
+      }
+
+      .btn-primary {
+        border-color: transparent;
+        background: linear-gradient(135deg, var(--accent), var(--accent2));
+        color: #0b1120;
+        font-weight: 600;
+        box-shadow: 0 0 22px rgba(248, 113, 255, 0.7);
+      }
+
+      .btn-primary:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        box-shadow: none;
+      }
+
+      .btn-ghost {
+        background: transparent;
+      }
+
+      .btn-ghost-muted {
+        border-style: dashed;
+        color: var(--muted);
+      }
+
+      .btn-full {
+        width: 100%;
+        justify-content: center;
+      }
+
+      .step-footer {
+        border-top: 1px solid rgba(31, 41, 55, 0.9);
+        padding-top: 10px;
+        margin-top: 4px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .step-hint {
+        font-size: 11px;
+        color: var(--muted);
+      }
+
+      .step-hint strong {
+        color: #e5e7eb;
+      }
+
+      /* MESSAGE STEP */
+
+      .message-type-row {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+
+      .message-type-pill {
+        flex: 1;
+        min-width: 90px;
+        border-radius: 999px;
+        padding: 8px 10px;
+        border: 1px solid rgba(148, 163, 184, 0.4);
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        cursor: pointer;
+        background: rgba(15, 23, 42, 0.9);
+        font-size: 11px;
+        transition: all 0.16s ease;
+      }
+
+      .message-type-pill.active {
+        border-color: rgba(248, 113, 255, 0.9);
+        background: radial-gradient(circle at top, #f973ff22, transparent 60%);
+        box-shadow: 0 0 16px rgba(248, 113, 255, 0.5);
+      }
+
+      .message-type-title {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-weight: 500;
+      }
+
+      .message-type-badge {
+        padding: 2px 6px;
+        border-radius: 999px;
+        font-size: 10px;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        background: rgba(15, 23, 42, 0.9);
+        color: var(--muted);
+      }
+
+      .message-type-desc {
+        font-size: 11px;
+        color: var(--muted);
+      }
+
+      .message-textarea {
+        width: 100%;
+        border-radius: 18px;
+        border: 1px solid rgba(148, 163, 184, 0.5);
+        background: rgba(15, 23, 42, 0.96);
+        color: var(--text);
+        padding: 10px 12px;
+        font-size: 13px;
+        resize: none;
+        min-height: 90px;
+        outline: none;
+      }
+
+      .message-meta {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 4px;
+        font-size: 11px;
+        color: var(--muted);
+      }
+
+      .message-meta span.strong {
+        color: #e5e7eb;
+      }
+
+      /* PREVIEW STEP */
+
+      .preview-frame {
+        position: relative;
+        width: 100%;
+        padding-top: 177.78%; /* 9:16 */
+        border-radius: 26px;
+        overflow: hidden;
+        background: radial-gradient(circle at top, #0f172a, #020617);
+        border: 1px solid rgba(148, 163, 184, 0.5);
+        box-shadow: 0 30px 100px rgba(15, 23, 42, 0.9);
+      }
+
+      .preview-inner {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        padding: 14px;
+        background: radial-gradient(circle at top, transparent, #020617cc);
+      }
+
+      .preview-mood-label {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        padding: 4px 9px;
+        border-radius: 999px;
+        background: rgba(15, 23, 42, 0.8);
+        font-size: 10px;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--muted);
+      }
+
+      .preview-message {
+        font-size: 16px;
+        font-weight: 500;
+        margin-bottom: 6px;
+      }
+
+      .preview-caption {
+        font-size: 11px;
+        color: var(--muted);
+      }
+
+      .preview-glow {
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(
+          circle at bottom,
+          rgba(248, 113, 255, 0.3),
+          transparent 65%
+        );
+        mix-blend-mode: screen;
+        opacity: 0.9;
+      }
+
+      .preview-footer-line {
+        font-size: 11px;
+        color: var(--muted);
+        margin-top: 6px;
+      }
+
+      .preview-footer-line strong {
+        color: #e5e7eb;
+      }
+
+      .preview-buttons {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 10px;
+      }
+
+      .badge-soft {
+        padding: 3px 7px;
+        border-radius: 999px;
+        background: rgba(15, 23, 42, 0.95);
+        border: 1px solid rgba(55, 65, 81, 0.9);
+        font-size: 10px;
+        text-transform: uppercase;
+        letter-spacing: 0.14em;
+        color: var(--muted);
+      }
+
+      .error-text {
+        font-size: 11px;
+        color: var(--danger);
+      }
+
+      .loading-dot {
+        display: inline-block;
+        width: 3px;
+        height: 3px;
+        border-radius: 999px;
+        background: var(--muted);
+        margin-left: 2px;
+        animation: pulse 1s infinite ease-in-out;
+      }
+
+      @keyframes pulse {
+        0% {
+          opacity: 0.2;
+        }
+        50% {
+          opacity: 1;
+        }
+        100% {
+          opacity: 0.2;
+        }
       }
     </style>
   </head>
   <body>
     <div id="root"></div>
 
-    <!-- React from CDN -->
-    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
-    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <!-- React / ReactDOM / Babel -->
+    <script
+      crossorigin
+      src="https://unpkg.com/react@18/umd/react.development.js"
+    ></script>
+    <script
+      crossorigin
+      src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"
+    ></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
-    <script type="text/javascript">
-      const { useState, useEffect } = React;
+    <script type="text/babel">
+      const { useState } = React;
 
-      const MOOD_TABS = ["Gallery", "AI Mood", "My Moods"];
-
+      // --- Data: sample Moods ---
       const SAMPLE_MOODS = [
-        { id: "midnight-velvet", name: "Midnight Velvet", tag: "Midnight · Luxe", badge: "Trending" },
-        { id: "snow-glow", name: "Snow Glow", tag: "Soft · Cozy", badge: "Popular" },
-        { id: "neon-halo", name: "Neon Halo", tag: "Electric · Fun", badge: "New" },
-        { id: "chaos-christmas", name: "Chaos Christmas", tag: "Wild · Loud", badge: "Bold" },
-        { id: "silent-gold", name: "Silent Gold", tag: "Minimal · Calm", badge: "Pro" },
-        { id: "after-midnight", name: "After Midnight", tag: "Late · Intense", badge: "Pro" }
+        {
+          id: "midnight-ember",
+          name: "Midnight Ember",
+          tag: "Deep & cinematic",
+          gradient: "gradient-1",
+          note: "For late-night confessions and dangerous Christmas energy."
+        },
+        {
+          id: "snow-halo",
+          name: "Snow Halo",
+          tag: "Soft & glowing",
+          gradient: "gradient-2",
+          note: "Warm lights, cold air, everything feels like a movie."
+        },
+        {
+          id: "electric-mistletoe",
+          name: "Electric Mistletoe",
+          tag: "Fun & chaotic",
+          gradient: "gradient-3",
+          note: "For the cousins who shouldn't be left alone with eggnog."
+        },
+        {
+          id: "ghost-of-xmas",
+          name: "Ghost of Christmas Voice",
+          tag: "Haunting & emotional",
+          gradient: "gradient-1",
+          note: "When you want your voice to follow them into January."
+        },
+        {
+          id: "neon-sleigh",
+          name: "Neon Sleigh Ride",
+          tag: "High energy",
+          gradient: "gradient-2",
+          note: "Full-send energy. This is what TikTok was built for."
+        },
+        {
+          id: "afterparty-snow",
+          name: "Afterparty Snow",
+          tag: "Delicate & late",
+          gradient: "gradient-3",
+          note: "For the 2am 'you up?' but make it cinematic."
+        }
       ];
 
-      /* Shared chrome for steps 1 & 2 */
-      function StudioLayout(props) {
-        const stepLabel =
-          props.step === 2
-            ? "Step 2 · Add Your Message"
-            : "Step 1 · Pick Your Mood";
+      // --- Step 1: Mood Page ---
+      function MoodPage({ selectedMoodId, onSelectMood, onNext }) {
+        const [activeTab, setActiveTab] = useState("Gallery");
 
-        return React.createElement(
-          "div",
-          {
-            style: {
-              minHeight: "100vh",
-              padding: "20px clamp(18px, 4vw, 32px)",
-              display: "flex",
-              flexDirection: "column",
-              gap: "22px"
-            }
-          },
-          React.createElement(
-            "header",
-            {
-              style: {
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
-                gap: "12px"
-              }
-            },
-            React.createElement(
-              "div",
-              { style: { display: "flex", alignItems: "center", gap: "10px" } },
-              React.createElement(
-                "div",
-                {
-                  style: {
-                    width: "32px",
-                    height: "32px",
-                    borderRadius: "999px",
-                    border: "1px solid rgba(255,255,255,0.35)",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    background:
-                      "radial-gradient(circle at 20% 0%, #ffe8b5, #ff9ee2 40%, #7f7bff 80%)",
-                    boxShadow: "0 0 18px rgba(255, 255, 255, 0.35)"
-                  }
-                },
-                React.createElement(
-                  "span",
-                  {
-                    style: {
-                      fontSize: "14px",
-                      fontWeight: 700,
-                      color: "#1b0f26",
-                      textShadow: "0 0 10px rgba(255,255,255,0.7)"
+        const handleSelect = (id) => {
+          onSelectMood(id);
+        };
+
+        return (
+          <div className="studio-card">
+            <div className="studio-card-header">
+              <div className="studio-title-block">
+                <div className="studio-eyebrow">Step 1 · Pick the Mood</div>
+                <div className="studio-title">
+                  How should this moment feel?
+                </div>
+                <div className="studio-subtitle">
+                  This isn’t a template. It’s your opening shot. Choose the
+                  vibe that matches the moment.
+                </div>
+              </div>
+              <div className="studio-step-indicator">
+                <div className="studio-step-dots">
+                  <div className="step-dot active" />
+                  <div className="step-dot" />
+                  <div className="step-dot" />
+                </div>
+                <span>1 / 3</span>
+              </div>
+            </div>
+
+            <div className="studio-main">
+              <div className="studio-main-left">
+                <div className="pill-row">
+                  <button
+                    className={
+                      "pill" + (activeTab === "Gallery" ? " active" : "")
                     }
-                  },
-                  "yy"
-                )
-              ),
-              React.createElement(
-                "div",
-                null,
-                React.createElement(
-                  "div",
-                  {
-                    style: {
-                      fontSize: "13px",
-                      letterSpacing: "0.18em",
-                      textTransform: "uppercase",
-                      color: "rgba(255,255,255,0.82)",
-                      textShadow: "0 0 10px rgba(255, 232, 181, 0.45)"
+                    onClick={() => setActiveTab("Gallery")}
+                  >
+                    Gallery
+                  </button>
+                  <button
+                    className={"pill" + (activeTab === "AI" ? " active" : "")}
+                    onClick={() => setActiveTab("AI")}
+                  >
+                    AI Mood (Soon)
+                  </button>
+                  <button
+                    className={
+                      "pill" + (activeTab === "Saved" ? " active" : "")
                     }
-                  },
-                  "yyovvo Studio"
-                ),
-                React.createElement(
-                  "div",
-                  {
-                    style: {
-                      fontSize: "12px",
-                      color: "rgba(248,245,255,0.78)"
-                    }
-                  },
-                  "Every great moment gets a Premier."
-                )
-              )
-            ),
-            React.createElement(
-              "div",
-              {
-                style: {
-                  fontSize: "12px",
-                  padding: "5px 12px",
-                  borderRadius: "999px",
-                  border: "1px solid rgba(255,255,255,0.35)",
-                  background:
-                    "linear-gradient(135deg, rgba(10,10,20,0.9), rgba(32,16,40,0.9))",
-                  boxShadow: "0 0 14px rgba(0,0,0,0.7)",
-                  backdropFilter: "blur(12px)",
-                  color: "rgba(248,245,255,0.9)"
-                }
-              },
-              stepLabel
-            )
-          ),
-          React.createElement(
-            "main",
-            {
-              style: {
-                flex: 1,
-                display: "flex",
-                flexDirection: "column",
-                gap: "18px",
-                maxWidth: "1080px",
-                marginInline: "auto"
-              }
-            },
-            props.children
-          )
+                    onClick={() => setActiveTab("Saved")}
+                  >
+                    Your Library (Soon)
+                  </button>
+                </div>
+
+                {activeTab === "Gallery" && (
+                  <div className="mood-grid">
+                    {SAMPLE_MOODS.map((mood) => (
+                      <div
+                        key={mood.id}
+                        className={
+                          "mood-card" +
+                          (selectedMoodId === mood.id ? " selected" : "")
+                        }
+                        onClick={() => handleSelect(mood.id)}
+                      >
+                        <div
+                          className={"mood-fill " + mood.gradient}
+                          aria-hidden="true"
+                        />
+                        <div className="mood-overlay">
+                          <div className="mood-badge">{mood.tag}</div>
+                          <div className="mood-name">{mood.name}</div>
+                          <div className="mood-note">{mood.note}</div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+                {activeTab !== "Gallery" && (
+                  <div
+                    style={{
+                      marginTop: 12,
+                      padding: 14,
+                      borderRadius: 18,
+                      border: "1px dashed rgba(148,163,184,0.5)",
+                      background: "rgba(15,23,42,0.9)",
+                      fontSize: 13,
+                      color: "var(--muted)"
+                    }}
+                  >
+                    <strong>Coming very soon.</strong> AI will build entire
+                    Mood packs for you. For tonight, hand-pick your favourite
+                    vibe from the gallery.
+                  </div>
+                )}
+              </div>
+
+              <div className="studio-main-right">
+                <div className="side-panel">
+                  <div className="side-tagline">Studio tips</div>
+                  <div className="side-title">Start with the feeling.</div>
+                  <div className="side-text">
+                    Don’t overthink it. Who’s this for? What do you want them
+                    to feel in the first three seconds? Go for the Mood that
+                    hits your gut.
+                  </div>
+                  <div className="btn-row">
+                    <button
+                      className="btn btn-ghost-muted"
+                      type="button"
+                      onClick={() => alert("Imagine a tiny ghost director whispering: “Pick the one you secretly want.”")}
+                    >
+                      <span className="icon">👻</span>
+                      Surprise me (soon)
+                    </button>
+                  </div>
+                </div>
+
+                <div className="step-footer">
+                  <div className="step-hint">
+                    <strong>Pro tip:</strong> You can always come back and
+                    change the Mood after hearing your message.
+                  </div>
+                  <button
+                    className="btn btn-primary"
+                    type="button"
+                    disabled={!selectedMoodId}
+                    onClick={onNext}
+                  >
+                    Next · Add your message
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
         );
       }
 
-      /* STEP 1 – Mood selection */
-      function MoodPage(props) {
-        const { activeTab, onTabChange, selectedMoodId, onSelectMood, onNext } =
-          props;
-
-        return React.createElement(
-          StudioLayout,
-          { step: 1 },
-          React.createElement(
-            "section",
-            {
-              style: {
-                display: "flex",
-                flexDirection: "column",
-                gap: "9px"
-              }
-            },
-            React.createElement(
-              "div",
-              {
-                style: {
-                  fontSize: "13px",
-                  letterSpacing: "0.2em",
-                  textTransform: "uppercase",
-                  color: "rgba(245, 236, 255, 0.75)"
-                }
-              },
-              "1 · Pick Your Mood"
-            ),
-            React.createElement(
-              "h1",
-              {
-                style: {
-                  fontSize: "28px",
-                  lineHeight: 1.2,
-                  fontWeight: 600,
-                  color: "var(--text-strong)",
-                  textShadow: "0 0 16px rgba(0,0,0,0.9)"
-                }
-              },
-              "Every Premier begins ",
-              React.createElement(
-                "span",
-                {
-                  style: {
-                    background:
-                      "linear-gradient(120deg, var(--accent-gold), var(--accent-pink), var(--accent-blue))",
-                    WebkitBackgroundClip: "text",
-                    color: "transparent",
-                    textShadow: "0 0 18px rgba(255, 232, 181, 0.75)"
-                  }
-                },
-                "with a feeling."
-              )
-            ),
-            React.createElement(
-              "p",
-              {
-                style: {
-                  fontSize: "14px",
-                  color: "var(--text-soft)",
-                  maxWidth: "440px"
-                }
-              },
-              "Choose the Mood that will frame your yyovvo. This is the opening shot of your mini-movie."
-            )
-          ),
-          React.createElement(
-            "section",
-            {
-              style: {
-                display: "flex",
-                gap: "10px",
-                marginTop: "6px"
-              }
-            },
-            MOOD_TABS.map(function (tab) {
-              const isActive = tab === activeTab;
-              return React.createElement(
-                "button",
-                {
-                  key: tab,
-                  onClick: function () {
-                    onTabChange(tab);
-                  },
-                  style: {
-                    padding: "7px 16px",
-                    borderRadius: "999px",
-                    border: isActive
-                      ? "1px solid rgba(255,255,255,0.92)"
-                      : "1px solid rgba(255,255,255,0.22)",
-                    background: isActive
-                      ? "linear-gradient(135deg, rgba(255,232,181,0.95), rgba(255,158,226,0.9))"
-                      : "rgba(10, 10, 22, 0.9)",
-                    color: isActive ? "#1b0f26" : "rgba(250,248,255,0.9)",
-                    fontSize: "12px",
-                    fontWeight: isActive ? 600 : 400,
-                    cursor: "pointer",
-                    boxShadow: isActive
-                      ? "0 0 20px rgba(255, 232, 181, 0.7)"
-                      : "0 0 10px rgba(0, 0, 0, 0.9)",
-                    transition: "all 0.18s ease-out"
-                  }
-                },
-                tab
-              );
-            })
-          ),
-          activeTab === "AI Mood"
-            ? React.createElement(
-                "div",
-                {
-                  style: {
-                    marginTop: "6px",
-                    fontSize: "13px",
-                    color: "rgba(246,242,255,0.82)"
-                  }
-                },
-                "Soon you’ll just describe the emotion and the Studio will paint the poster. For now, pick from the Gallery."
-              )
-            : null,
-          activeTab === "My Moods"
-            ? React.createElement(
-                "div",
-                {
-                  style: {
-                    marginTop: "6px",
-                    fontSize: "13px",
-                    color: "rgba(246,242,255,0.82)"
-                  }
-                },
-                "This will show Moods you’ve favourited. Gallery is your playground tonight."
-              )
-            : null,
-          React.createElement(
-            "section",
-            {
-              style: {
-                marginTop: "12px",
-                flex: 1,
-                display: "grid",
-                gridTemplateColumns:
-                  "repeat(auto-fill, minmax(170px, 1fr))",
-                gap: "18px"
-              }
-            },
-            SAMPLE_MOODS.map(function (mood) {
-              const isSelected = mood.id === selectedMoodId;
-              return React.createElement(
-                "button",
-                {
-                  key: mood.id,
-                  onClick: function () {
-                    onSelectMood(mood.id);
-                  },
-                  style: {
-                    position: "relative",
-                    borderRadius: "20px",
-                    padding: "11px",
-                    border: isSelected
-                      ? "1px solid rgba(255,255,255,0.96)"
-                      : "1px solid var(--card-border)",
-                    background:
-                      "linear-gradient(150deg, rgba(255,255,255,0.06), rgba(5,4,12,0.98))",
-                    backdropFilter: "blur(18px)",
-                    cursor: "pointer",
-                    textAlign: "left",
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: "9px",
-                    boxShadow: isSelected
-                      ? "0 0 30px rgba(255,232,181,0.6)"
-                      : "0 0 18px rgba(0,0,0,0.85)",
-                    transform: isSelected
-                      ? "translateY(-3px)"
-                      : "translateY(0)",
-                    transition: "all 0.18s ease-out",
-                    overflow: "hidden"
-                  }
-                },
-                React.createElement(
-                  "div",
-                  {
-                    style: {
-                      borderRadius: "16px",
-                      height: "190px",
-                      position: "relative",
-                      overflow: "hidden",
-                      background:
-                        "radial-gradient(circle at 0% 0%, rgba(255,232,181,0.85), transparent 55%), radial-gradient(circle at 100% 100%, rgba(255,158,226,0.9), #211531)",
-                      boxShadow:
-                        "0 0 32px rgba(0,0,0,0.9), inset 0 0 18px rgba(0,0,0,0.6)"
-                    }
-                  },
-                  React.createElement("div", {
-                    style: {
-                      position: "absolute",
-                      inset: 0,
-                      background:
-                        "radial-gradient(circle at 20% 0%, rgba(255,255,255,0.35), transparent 55%), radial-gradient(circle at 80% 100%, rgba(7,10,25,0.95), transparent 70%)",
-                      mixBlendMode: "soft-light",
-                      opacity: 0.8
-                    }
-                  }),
-                  React.createElement("div", {
-                    style: {
-                      position: "absolute",
-                      inset: 0,
-                      borderRadius: "16px",
-                      border: "1px solid rgba(255,255,255,0.25)"
-                    }
-                  }),
-                  isSelected
-                    ? React.createElement("div", {
-                        style: {
-                          position: "absolute",
-                          inset: "-1px",
-                          borderRadius: "18px",
-                          border:
-                            "1px solid rgba(255, 232, 181, 0.9)",
-                          boxShadow:
-                            "0 0 22px rgba(255,232,181,0.9)",
-                          pointerEvents: "none"
-                        }
-                      })
-                    : null
-                ),
-                React.createElement(
-                  "div",
-                  {
-                    style: {
-                      display: "flex",
-                      flexDirection: "column",
-                      gap: 4
-                    }
-                  },
-                  React.createElement(
-                    "div",
-                    {
-                      style: {
-                        display: "flex",
-                        justifyContent: "space-between",
-                        alignItems: "center",
-                        gap: "8px"
-                      }
-                    },
-                    React.createElement(
-                      "span",
-                      {
-                        style: {
-                          fontSize: "14px",
-                          fontWeight: 500,
-                          color: "rgba(253,250,255,0.96)",
-                          whiteSpace: "nowrap",
-                          overflow: "hidden",
-                          textOverflow: "ellipsis",
-                          textShadow:
-                            "0 0 10px rgba(0,0,0,0.8)"
-                        }
-                      },
-                      mood.name
-                    ),
-                    React.createElement(
-                      "span",
-                      {
-                        style: {
-                          fontSize: "10px",
-                          padding: "3px 8px",
-                          borderRadius: "999px",
-                          border:
-                            "1px solid rgba(255,255,255,0.45)",
-                          background:
-                            "linear-gradient(135deg, rgba(18,18,28,0.95), rgba(60,32,80,0.95))",
-                          color: "rgba(253,250,255,0.9)"
-                        }
-                      },
-                      mood.badge
-                    )
-                  ),
-                  React.createElement(
-                    "span",
-                    {
-                      style: {
-                        fontSize: "11px",
-                        color: "rgba(240,236,255,0.85)"
-                      }
-                    },
-                    mood.tag
-                  ),
-                  isSelected
-                    ? React.createElement(
-                        "span",
-                        {
-                          style: {
-                            marginTop: "4px",
-                            fontSize: "11px",
-                            color: "var(--accent-gold)"
-                          }
-                        },
-                        "✓ Selected Mood"
-                      )
-                    : null
-                )
-              );
-            })
-          ),
-          React.createElement(
-            "section",
-            {
-              style: {
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-                marginTop: "12px",
-                paddingTop: "8px",
-                borderTop: "1px solid rgba(255,255,255,0.12)"
-              }
-            },
-            React.createElement(
-              "button",
-              {
-                onClick: function () {
-                  alert("Final wiring will send you back to yyovvo.com");
-                },
-                style: {
-                  fontSize: "12px",
-                  padding: "8px 12px",
-                  borderRadius: "999px",
-                  border: "1px solid rgba(255,255,255,0.26)",
-                  background: "transparent",
-                  color: "rgba(246,242,255,0.9)",
-                  cursor: "pointer"
-                }
-              },
-              "← Back to yyovvo"
-            ),
-            React.createElement(
-              "button",
-              {
-                onClick: onNext,
-                disabled: !selectedMoodId,
-                style: {
-                  fontSize: "13px",
-                  padding: "10px 22px",
-                  borderRadius: "999px",
-                  border: "none",
-                  background: selectedMoodId
-                    ? "linear-gradient(135deg, #ffe8b5, #ff9ee2, #8ab5ff)"
-                    : "rgba(120,120,140,0.5)",
-                  color: selectedMoodId
-                    ? "#1b0f26"
-                    : "rgba(230,230,240,0.7)",
-                  cursor: selectedMoodId ? "pointer" : "not-allowed",
-                  boxShadow: selectedMoodId
-                    ? "0 0 26px rgba(255, 232, 181, 0.85)"
-                    : "none",
-                  transition: "all 0.18s ease-out"
-                }
-              },
-              "Next · Add Your Message →"
-            )
-          )
-        );
-      }
-
-      /* STEP 2 – Add Message (captures simple payload) */
-      function MessagePage(props) {
-        const { mood, onBack, onContinue } = props;
-        const [mode, setMode] = useState("voice");
-        const [recordState, setRecordState] = useState("idle"); // idle | recording | done
+      // --- Step 2: Message Page ---
+      function MessagePage({ mood, onBack, onContinue }) {
+        const [messageType, setMessageType] = useState("text");
         const [text, setText] = useState("");
+        const [charCount, setCharCount] = useState(0);
 
-        const moodName = mood ? mood.name : "your Mood";
+        const handleTextChange = (e) => {
+          const val = e.target.value;
+          setText(val);
+          setCharCount(val.length);
+        };
 
-        const isMobile =
-          typeof window !== "undefined" ? window.innerWidth < 768 : false;
+        const canContinue =
+          messageType === "text" && text.trim().length > 0 && text.length <= 280;
 
-        function handlePrimaryAction() {
-          if (mode === "text") {
-            if (!text.trim()) {
-              alert("Write a short line for your yyovvo first.");
-              return;
-            }
-            onContinue({
-              type: "text",
-              text: text.trim()
-            });
-            return;
-          }
+        const handleContinue = () => {
+          if (!canContinue) return;
+          onContinue({
+            type: "text",
+            text: text.trim()
+          });
+        };
 
-          if (recordState === "idle") {
-            setRecordState("recording");
-            setTimeout(function () {
-              setRecordState("done");
-            }, 2000);
-          } else if (recordState === "recording") {
-            setRecordState("done");
-          } else {
-            onContinue({
-              type: mode,
-              text: null
-            });
-          }
-        }
+        return (
+          <div className="studio-card">
+            <div className="studio-card-header">
+              <div className="studio-title-block">
+                <div className="studio-eyebrow">Step 2 · Add your message</div>
+                <div className="studio-title">
+                  Your voice is the main character.
+                </div>
+                <div className="studio-subtitle">
+                  We’ll wrap your words in cinema. For this first version, we
+                  start with written messages. Voice & video come next.
+                </div>
+              </div>
+              <div className="studio-step-indicator">
+                <div className="studio-step-dots">
+                  <div className="step-dot" />
+                  <div className="step-dot active" />
+                  <div className="step-dot" />
+                </div>
+                <span>2 / 3</span>
+              </div>
+            </div>
 
-        const helper =
-          mode === "voice"
-            ? "Hold the circle and talk. We’ll auto-trim to the best 8 seconds."
-            : mode === "video"
-            ? "Frame your face or the scene. Think mini-trailer, not lecture."
-            : "One line, straight from the chest. Short, sharp, unforgettable.";
-
-        const primaryLabel =
-          mode === "text"
-            ? "Use this line"
-            : recordState === "idle"
-            ? "Tap to start"
-            : recordState === "recording"
-            ? "Tap to finish"
-            : "Looks good · Preview Premier";
-
-        const layoutStyle = isMobile
-          ? {
-              marginTop: "16px",
-              display: "flex",
-              flexDirection: "column",
-              gap: "14px"
-            }
-          : {
-              marginTop: "16px",
-              display: "grid",
-              gridTemplateColumns: "minmax(0, 260px) minmax(0, 1fr)",
-              gap: "20px"
-            };
-
-        const bottomBarStyle = isMobile
-          ? {
-              display: "flex",
-              flexDirection: "column-reverse",
-              alignItems: "stretch",
-              gap: "10px",
-              marginTop: "10px"
-            }
-          : {
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              marginTop: "6px"
-            };
-
-        return React.createElement(
-          StudioLayout,
-          { step: 2 },
-          React.createElement(
-            "section",
-            {
-              style: {
-                display: "flex",
-                flexDirection: "column",
-                gap: "9px"
-              }
-            },
-            React.createElement(
-              "div",
-              {
-                style: {
-                  fontSize: "13px",
-                  letterSpacing: "0.2em",
-                  textTransform: "uppercase",
-                  color: "rgba(245, 236, 255, 0.75)"
-                }
-              },
-              "2 · Add Your Message"
-            ),
-            React.createElement(
-              "h1",
-              {
-                style: {
-                  fontSize: "26px",
-                  lineHeight: 1.25,
-                  fontWeight: 600,
-                  color: "var(--text-strong)",
-                  textShadow: "0 0 16px rgba(0,0,0,0.9)"
-                }
-              },
-              "Now give this Premier ",
-              React.createElement(
-                "span",
-                {
-                  style: {
-                    background:
-                      "linear-gradient(120deg, var(--accent-gold), var(--accent-pink))",
-                    WebkitBackgroundClip: "text",
-                    color: "transparent",
-                    textShadow: "0 0 16px rgba(255, 232, 181, 0.75)"
-                  }
-                },
-                "a voice."
-              )
-            ),
-            React.createElement(
-              "p",
-              {
-                style: {
-                  fontSize: "14px",
-                  color: "var(--text-soft)",
-                  maxWidth: "460px"
-                }
-              },
-              "Keep it raw, keep it short. The Studio will auto-trim the magic and ignore the ramble."
-            ),
-            mood
-              ? React.createElement(
-                  "div",
-                  {
-                    style: {
-                      marginTop: "6px",
-                      display: "inline-flex",
-                      alignItems: "center",
-                      gap: "6px",
-                      padding: "4px 10px",
-                      borderRadius: "999px",
-                      border: "1px solid rgba(255,255,255,0.35)",
-                      background:
-                        "linear-gradient(135deg, rgba(10,10,20,0.9), rgba(40,22,50,0.9))",
-                      fontSize: "12px",
-                      color: "rgba(250,248,255,0.92)"
+            <div className="studio-main">
+              <div className="studio-main-left">
+                <div className="message-type-row">
+                  <div
+                    className={
+                      "message-type-pill" +
+                      (messageType === "text" ? " active" : "")
                     }
-                  },
-                  React.createElement("span", {
-                    style: {
-                      width: "8px",
-                      height: "8px",
-                      borderRadius: "999px",
-                      background:
-                        "radial-gradient(circle at 30% 0, #ffe8b5, #ff9ee2)"
+                    onClick={() => setMessageType("text")}
+                  >
+                    <div className="message-type-title">
+                      <span className="icon">🖊</span>
+                      Text
+                      <span className="message-type-badge">Live</span>
+                    </div>
+                    <div className="message-type-desc">
+                      Short, sharp, cinematic lines. We’ll dress them in snow
+                      and neon.
+                    </div>
+                  </div>
+
+                  <div
+                    className={
+                      "message-type-pill" +
+                      (messageType === "voice" ? " active" : "")
                     }
-                  }),
-                  "Mood locked: ",
-                  moodName
-                )
-              : null
-          ),
-          React.createElement(
-            "section",
-            {
-              style: layoutStyle
-            },
-            React.createElement(
-              "div",
-              {
-                style: {
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: "10px"
-                }
-              },
-              ["voice", "video", "text"].map(function (m) {
-                const isActive = mode === m;
-                const label =
-                  m === "voice"
-                    ? "Voice"
-                    : m === "video"
-                    ? "Video"
-                    : "Written";
-                const desc =
-                  m === "voice"
-                    ? "Whisper, laugh, shout – we’ll keep the best 8 seconds."
-                    : m === "video"
-                    ? "Turn your message into a tiny trailer."
-                    : "One line that says it all.";
-                return React.createElement(
-                  "button",
-                  {
-                    key: m,
-                    onClick: function () {
-                      setMode(m);
-                      setRecordState("idle");
-                    },
-                    style: {
-                      textAlign: "left",
-                      padding: "10px 12px",
-                      borderRadius: "14px",
-                      border: isActive
-                        ? "1px solid rgba(255,255,255,0.95)"
-                        : "1px solid rgba(255,255,255,0.22)",
-                      background: isActive
-                        ? "linear-gradient(135deg, rgba(255,232,181,0.95), rgba(255,158,226,0.9))"
-                        : "rgba(10, 10, 22, 0.9)",
-                      color: isActive ? "#1b0f26" : "rgba(250,248,255,0.9)",
-                      cursor: "pointer",
-                      boxShadow: isActive
-                        ? "0 0 22px rgba(255,232,181,0.75)"
-                        : "0 0 12px rgba(0,0,0,0.9)",
-                      transition: "all 0.18s ease-out"
-                    }
-                  },
-                  React.createElement(
-                    "div",
-                    { style: { fontSize: "13px", fontWeight: 600 } },
-                    label
-                  ),
-                  React.createElement(
-                    "div",
-                    {
-                      style: {
-                        fontSize: "12px",
-                        marginTop: "3px",
-                        color: isActive
-                          ? "rgba(27,15,38,0.85)"
-                          : "rgba(235,232,255,0.78)"
-                      }
-                    },
-                    desc
-                  )
-                );
-              })
-            ),
-            React.createElement(
-              "div",
-              {
-                style: {
-                  borderRadius: "20px",
-                  padding: "14px 16px 18px",
-                  border: "1px solid rgba(255,255,255,0.22)",
-                  background:
-                    mode === "text"
-                      ? "linear-gradient(145deg, rgba(255,232,181,0.10), rgba(5,4,16,0.96))"
-                      : "linear-gradient(145deg, rgba(255,232,181,0.06), rgba(5,4,16,0.96))",
-                  boxShadow: "0 0 24px rgba(0,0,0,0.9)",
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: "12px"
-                }
-              },
-              React.createElement(
-                "div",
-                {
-                  style: {
-                    fontSize: "13px",
-                    color: "rgba(246,242,255,0.9)"
-                  }
-                },
-                helper
-              ),
-              React.createElement(
-                "div",
-                {
-                  style: {
-                    marginTop: "4px",
-                    borderRadius: "16px",
-                    padding: "14px",
-                    border: "1px solid rgba(255,255,255,0.16)",
-                    background:
-                      mode === "text"
-                        ? "radial-gradient(circle at 0% 0%, rgba(255,232,181,0.18), transparent 55%), radial-gradient(circle at 100% 100%, rgba(255,158,226,0.28), #0a0b18)"
-                        : "radial-gradient(circle at 0% 0%, rgba(255,232,181,0.12), transparent 55%), radial-gradient(circle at 100% 100%, rgba(129,148,255,0.45), #050712)",
-                    minHeight: isMobile ? "200px" : "180px",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center"
-                  }
-                },
-                mode === "text"
-                  ? React.createElement("textarea", {
-                      value: text,
-                      onChange: function (e) {
-                        setText(e.target.value);
-                      },
-                      maxLength: 160,
-                      placeholder:
-                        "Write one line you’d be proud to play on repeat…",
-                      style: {
-                        width: "100%",
-                        minHeight: "130px",
-                        borderRadius: "12px",
-                        border: "1px solid rgba(255,255,255,0.25)",
-                        background: "rgba(4,4,10,0.8)",
-                        color: "rgba(250,248,255,0.95)",
-                        padding: "10px 12px",
-                        fontSize: "13px",
-                        resize: "none",
-                        outline: "none",
-                        boxShadow: "0 0 18px rgba(0,0,0,0.85)"
-                      }
-                    })
-                  : React.createElement(
-                      "div",
-                      {
-                        style: {
-                          display: "flex",
-                          flexDirection: "column",
-                          alignItems: "center",
-                          gap: "10px"
-                        }
-                      },
-                      React.createElement("div", {
-                        style: {
-                          width: isMobile ? "96px" : "84px",
-                          height: isMobile ? "96px" : "84px",
-                          borderRadius: "999px",
-                          border:
-                            recordState === "recording"
-                              ? "2px solid rgba(255,87,120,0.9)"
-                              : "2px solid rgba(255,255,255,0.6)",
-                          background:
-                            "radial-gradient(circle at 30% 0, #ffe8b5, #ff5878 40%, #7f7bff 85%)",
-                          boxShadow:
-                            recordState === "recording"
-                              ? "0 0 30px rgba(255,87,120,0.9)"
-                              : "0 0 22px rgba(255,232,181,0.7)"
-                        }
-                      }),
-                      React.createElement(
-                        "div",
-                        {
-                          style: {
-                            fontSize: "12px",
-                            color: "rgba(246,242,255,0.9)",
-                            textAlign: "center"
-                          }
-                        },
-                        recordState === "idle"
-                          ? "Ready when you are."
-                          : recordState === "recording"
-                          ? "Recording… imagine they’re right in front of you."
-                          : "Locked. If you hate it, tap again and redo."
+                    onClick={() =>
+                      alert(
+                        "Voice capture will land next. For tonight, we go text-first and wire the pipeline."
                       )
-                    )
-              ),
-              React.createElement(
-                "div",
-                { style: bottomBarStyle },
-                React.createElement(
-                  "button",
-                  {
-                    onClick: onBack,
-                    style: {
-                      fontSize: "12px",
-                      padding: "8px 12px",
-                      borderRadius: "999px",
-                      border: "1px solid rgba(255,255,255,0.26)",
-                      background: "transparent",
-                      color: "rgba(246,242,255,0.9)",
-                      cursor: "pointer",
-                      textAlign: "center"
                     }
-                  },
-                  "← Back · Change Mood"
-                ),
-                React.createElement(
-                  "button",
-                  {
-                    onClick: handlePrimaryAction,
-                    style: {
-                      fontSize: "13px",
-                      padding: "10px 22px",
-                      borderRadius: "999px",
-                      border: "none",
-                      background:
-                        "linear-gradient(135deg, #ffe8b5, #ff9ee2, #8ab5ff)",
-                      color: "#1b0f26",
-                      cursor: "pointer",
-                      boxShadow: "0 0 26px rgba(255, 232, 181, 0.85)",
-                      transition: "all 0.18s ease-out",
-                      width: isMobile ? "100%" : "auto",
-                      textAlign: "center"
+                  >
+                    <div className="message-type-title">
+                      <span className="icon">🎙</span>
+                      Voice
+                      <span className="message-type-badge">Soon</span>
+                    </div>
+                    <div className="message-type-desc">
+                      Whisper into the snow. We’ll turn it into a ghost.
+                    </div>
+                  </div>
+
+                  <div
+                    className={
+                      "message-type-pill" +
+                      (messageType === "video" ? " active" : "")
                     }
-                  },
-                  primaryLabel
-                )
-              )
-            )
-          )
+                    onClick={() =>
+                      alert(
+                        "Video reactions will plug in after text + voice. One layer at a time."
+                      )
+                    }
+                  >
+                    <div className="message-type-title">
+                      <span className="icon">📹</span>
+                      Video
+                      <span className="message-type-badge">Soon</span>
+                    </div>
+                    <div className="message-type-desc">
+                      Face, chaos, energy. For now, imagine it.
+                    </div>
+                  </div>
+                </div>
+
+                <div style={{ marginTop: 14 }}>
+                  <textarea
+                    className="message-textarea"
+                    placeholder="Type the line that will live in their head all Christmas…"
+                    maxLength={280}
+                    value={text}
+                    onChange={handleTextChange}
+                  />
+                  <div className="message-meta">
+                    <span>
+                      <span className="strong">
+                        Keep it tight. One cinematic thought.
+                      </span>{" "}
+                      We’ll handle the snow.
+                    </span>
+                    <span>
+                      {charCount} / 280
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="studio-main-right">
+                <div className="side-panel">
+                  <div className="side-tagline">Direction</div>
+                  <div className="side-title">Think like a trailer.</div>
+                  <div className="side-text">
+                    One line. One feeling. No essays. Write like you’re
+                    dropping the first line of a movie they’ll never forget.
+                  </div>
+                  <div className="btn-row">
+                    <button
+                      className="btn btn-ghost-muted"
+                      type="button"
+                      onClick={() =>
+                        alert(
+                          "Example: “This Christmas, you’re my favourite glitch.”"
+                        )
+                      }
+                    >
+                      <span className="icon">✨</span>
+                      Show me an example
+                    </button>
+                  </div>
+                </div>
+
+                <div className="step-footer">
+                  <div className="step-hint">
+                    <strong>From:</strong> you, in 2050. Not you, in a Hallmark
+                    aisle.
+                  </div>
+                  <div style={{ display: "flex", gap: 8 }}>
+                    <button
+                      className="btn btn-ghost"
+                      type="button"
+                      onClick={onBack}
+                    >
+                      Back
+                    </button>
+                    <button
+                      className="btn btn-primary"
+                      type="button"
+                      disabled={!canContinue}
+                      onClick={handleContinue}
+                    >
+                      Preview your Premier →
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         );
       }
 
-      /* STEP 3 – Fullscreen Cinematic Preview */
-      function PreviewPage(props) {
-        const { mood, message, onBack, onFinish } = props;
-        const [phase, setPhase] = useState("intro"); // intro, poster, message, breath, mark, thumb, done;
+      // --- Step 3: Preview / Render Page ---
+      function PreviewPage({ mood, message, onBack, onRender }) {
+        const [isSubmitting, setIsSubmitting] = useState(false);
+        const [submitError, setSubmitError] = useState(null);
 
-        useEffect(function () {
-          const timers = [];
-          timers.push(setTimeout(function () { setPhase("poster"); }, 800));
-          timers.push(setTimeout(function () { setPhase("message"); }, 2800));
-          timers.push(setTimeout(function () { setPhase("breath"); }, 7800));
-          timers.push(setTimeout(function () { setPhase("mark"); }, 9300));
-          timers.push(setTimeout(function () { setPhase("thumb"); }, 12300));
-          timers.push(setTimeout(function () { setPhase("done"); }, 14300));
-          return function () {
-            timers.forEach(clearTimeout);
-          };
-        }, []);
-
-        const moodName = mood ? mood.name : "Your Mood";
-
-        let messageLine = "";
-        if (message) {
-          if (message.type === "text" && message.text) {
-            messageLine = message.text;
-          } else if (message.type === "voice") {
-            messageLine = "8 seconds of your voice, captured.";
-          } else if (message.type === "video") {
-            messageLine = "A tiny trailer of your moment.";
+        const handleRenderClick = async () => {
+          setSubmitError(null);
+          setIsSubmitting(true);
+          try {
+            await onRender();
+          } catch (err) {
+            console.error(err);
+            setSubmitError(
+              "Could not save your Premier into yyovvo right now. Try again in a moment."
+            );
+          } finally {
+            setIsSubmitting(false);
           }
-        }
+        };
 
-        const phaseLabel =
-          phase === "intro"
-            ? "Warming the lights…"
-            : phase === "poster"
-            ? "Framing the Mood…"
-            : phase === "message"
-            ? "Blending your words into the picture…"
-            : phase === "breath"
-            ? "Let it breathe for a second."
-            : phase === "mark"
-            ? "Signing it with yyovvo."
-            : "Your Premier is ready.";
+        return (
+          <div className="studio-card">
+            <div className="studio-card-header">
+              <div className="studio-title-block">
+                <div className="studio-eyebrow">Step 3 · Premier</div>
+                <div className="studio-title">
+                  Watch it like the world will see it.
+                </div>
+                <div className="studio-subtitle">
+                  This is your trailer. Mood, message, and magic in one frame.
+                  Next click sends it into yyovvo’s engine.
+                </div>
+              </div>
+              <div className="studio-step-indicator">
+                <div className="studio-step-dots">
+                  <div className="step-dot" />
+                  <div className="step-dot" />
+                  <div className="step-dot active" />
+                </div>
+                <span>3 / 3</span>
+              </div>
+            </div>
 
-        return React.createElement(
-          "div",
-          {
-            style: {
-              minHeight: "100vh",
-              background:
-                "radial-gradient(circle at -10% -10%, #3b265c, transparent 55%), radial-gradient(circle at 110% 110%, #141b3d, transparent 55%), linear-gradient(150deg, #05040a, #04060d)",
-              color: "var(--text-strong)",
-              display: "flex",
-              flexDirection: "column",
-              padding: "16px"
-            }
-          },
-          React.createElement(
-            "header",
-            {
-              style: {
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
-                marginBottom: "10px"
-              }
-            },
-            React.createElement(
-              "button",
-              {
-                onClick: onBack,
-                style: {
-                  fontSize: "12px",
-                  padding: "6px 12px",
-                  borderRadius: "999px",
-                  border: "1px solid rgba(255,255,255,0.35)",
-                  background: "rgba(5,5,15,0.7)",
-                  color: "rgba(246,242,255,0.9)",
-                  cursor: "pointer"
-                }
-              },
-              "← Tweak Message"
-            ),
-            React.createElement(
-              "div",
-              {
-                style: {
-                  fontSize: "11px",
-                  letterSpacing: "0.24em",
-                  textTransform: "uppercase",
-                  color: "rgba(245,236,255,0.78)"
-                }
-              },
-              "Studio Premier Preview"
-            )
-          ),
-          React.createElement(
-            "div",
-            {
-              style: {
-                flex: 1,
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "center",
-                gap: "18px"
-              }
-            },
-            React.createElement(
-              "div",
-              {
-                style: {
-                  fontSize: "13px",
-                  color: "rgba(246,242,255,0.85)"
-                }
-              },
-              phaseLabel
-            ),
-            React.createElement(
-              "div",
-              {
-                style: {
-                  width: "min(320px, 80vw)",
-                  aspectRatio: "9 / 16",
-                  borderRadius: "26px",
-                  border: "1px solid rgba(255,255,255,0.4)",
-                  boxShadow:
-                    "0 0 40px rgba(0,0,0,0.9), 0 0 50px rgba(255, 232, 181, 0.25)",
-                  overflow: "hidden",
-                  position: "relative",
-                  background:
-                    "radial-gradient(circle at 0% 0%, rgba(255,232,181,0.3), transparent 55%), radial-gradient(circle at 100% 100%, rgba(255,158,226,0.5), #05040a)"
-                }
-              },
-              // MAIN POSTER + MESSAGE
-              phase !== "mark"
-                ? React.createElement(
-                    "div",
-                    {
-                      style: {
-                        position: "absolute",
-                        inset: 0,
-                        padding: "18px",
-                        display: "flex",
-                        flexDirection: "column",
-                        justifyContent:
-                          phase === "message" || phase === "breath"
-                            ? "space-between"
-                            : "flex-end",
-                        transform:
-                          phase === "poster" || phase === "message"
-                            ? "scale(1.03)"
-                            : "scale(1)",
-                        transition: "transform 0.9s ease-out"
-                      }
-                    },
-                    React.createElement(
-                      "div",
-                      {
-                        style: {
-                          fontSize: "22px",
-                          lineHeight: 1.2,
-                          fontWeight: 600,
-                          textShadow: "0 0 18px rgba(0,0,0,0.85)"
-                        }
-                      },
-                      moodName
-                    ),
-                    (phase === "message" || phase === "breath") &&
-                      React.createElement(
-                        "div",
-                        {
-                          style: {
-                            marginTop: "12px",
-                            fontSize: "14px",
-                            color: "rgba(248,245,255,0.96)",
-                            textShadow: "0 0 10px rgba(0,0,0,0.85)"
-                          }
-                        },
-                        messageLine ||
-                          "Your 8-second moment, ready to play on loop."
-                      ),
-                    (phase === "message" || phase === "breath") &&
-                      React.createElement(
-                        "div",
-                        {
-                          style: {
-                            marginTop: "18px",
-                            height: "32px",
-                            display: "flex",
-                            alignItems: "center",
-                            gap: "3px",
-                            opacity: phase === "breath" ? 0.7 : 1
-                          }
-                        },
-                        Array.from({ length: 24 }).map(function (_, idx) {
-                          const height =
-                            10 +
-                            (idx % 2 === 0 ? 12 : 4) +
-                            (phase === "message" ? (idx % 3) * 3 : 0);
-                          return React.createElement("div", {
-                            key: idx,
-                            style: {
-                              width: "3px",
-                              borderRadius: "999px",
-                              height: height + "px",
-                              background:
-                                "linear-gradient(180deg, #ffe8b5, #ff9ee2, #8ab5ff)",
-                              boxShadow:
-                                "0 0 8px rgba(255,232,181,0.7)"
-                            }
-                          });
-                        })
-                      ),
-                    React.createElement(
-                      "div",
-                      {
-                        style: {
-                          marginTop: "auto",
-                          fontSize: "11px",
-                          color: "rgba(246,242,255,0.75)"
-                        }
-                      },
-                      "Premier preview · ~16 seconds"
-                    )
-                  )
-                : null,
-              // MARK (yyovvo signature moment)
-              phase === "mark" &&
-                React.createElement(
-                  "div",
-                  {
-                    style: {
-                      position: "absolute",
-                      inset: 0,
-                      background: "black",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center"
-                    }
-                  },
-                  React.createElement(
-                    "div",
-                    {
-                      style: {
-                        width: "180px",
-                        height: "180px",
-                        borderRadius: "999px",
-                        background:
-                          "radial-gradient(circle at 30% 0, #ffe8b5, #ff5878 40%, #7f7bff 85%)",
-                        boxShadow: "0 0 45px rgba(255, 232, 181, 0.95)",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        position: "relative"
-                      }
-                    },
-                    React.createElement("div", {
-                      style: {
-                        position: "absolute",
-                        inset: "18px",
-                        borderRadius: "999px",
-                        border: "1px solid rgba(255,255,255,0.9)"
-                      }
-                    }),
-                    React.createElement(
-                      "div",
-                      {
-                        style: {
-                          fontSize: "22px",
-                          fontWeight: 700,
-                          letterSpacing: "0.12em",
-                          color: "#1b0f26",
-                          textTransform: "uppercase",
-                          textShadow:
-                            "0 0 18px rgba(255,255,255,0.9)"
-                        }
-                      },
-                      "yyovvo"
-                    )
-                  )
-                ),
-              // Final Thumbnail + CTAs overlay
-              (phase === "thumb" || phase === "done") &&
-                React.createElement("div", {
-                  style: {
-                    position: "absolute",
-                    inset: 0,
-                    background:
-                      "linear-gradient(180deg, rgba(0,0,0,0.3), rgba(0,0,0,0.9))"
-                  }
-                })
-            ),
-            (phase === "thumb" || phase === "done") &&
-              React.createElement(
-                "div",
-                {
-                  style: {
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                    gap: "10px",
-                    maxWidth: "360px",
-                    textAlign: "center"
-                  }
-                },
-                React.createElement(
-                  "div",
-                  {
-                    style: {
-                      fontSize: "15px",
-                      fontWeight: 600
-                    }
-                  },
-                  "Your Premier is ready to leave the Studio."
-                ),
-                React.createElement(
-                  "div",
-                  {
-                    style: {
-                      fontSize: "13px",
-                      color: "rgba(246,242,255,0.85)"
-                    }
-                  },
-                  "Next we’ll turn this preview into a real clip you can send, share and replay forever."
-                )
-              ),
-            phase === "done" &&
-              React.createElement(
-                "div",
-                {
-                  style: {
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: "10px",
-                    width: "100%",
-                    maxWidth: "360px",
-                    marginTop: "6px"
-                  }
-                },
-                React.createElement(
-                  "button",
-                  {
-                    onClick: onFinish,
-                    style: {
-                      padding: "11px 18px",
-                      borderRadius: "999px",
-                      border: "none",
-                      background:
-                        "linear-gradient(135deg, #ffe8b5, #ff9ee2, #8ab5ff)",
-                      color: "#1b0f26",
-                      fontSize: "14px",
-                      fontWeight: 600,
-                      cursor: "pointer",
-                      boxShadow: "0 0 30px rgba(255,232,181,0.85)"
-                    }
-                  },
-                  "Render my Premier →"
-                ),
-                React.createElement(
-                  "button",
-                  {
-                    onClick: onBack,
-                    style: {
-                      padding: "9px 16px",
-                      borderRadius: "999px",
-                      border: "1px solid rgba(255,255,255,0.35)",
-                      background: "transparent",
-                      color: "rgba(246,242,255,0.9)",
-                      fontSize: "13px",
-                      cursor: "pointer"
-                    }
-                  },
-                  "Redo message"
-                ),
-                React.createElement(
-                  "button",
-                  {
-                    onClick: function () {
-                      alert("Later this will jump back to Mood step.");
-                    },
-                    style: {
-                      padding: "7px 12px",
-                      borderRadius: "999px",
-                      border: "none",
-                      background: "transparent",
-                      color: "rgba(246,242,255,0.7)",
-                      fontSize: "12px",
-                      textDecoration: "underline",
-                      cursor: "pointer"
-                    }
-                  },
-                  "Change Mood"
-                )
-              )
-          )
+            <div className="studio-main">
+              <div className="studio-main-left">
+                <div className="preview-frame">
+                  <div className="preview-glow" />
+                  <div className="preview-inner">
+                    <div className="preview-mood-label">
+                      {mood ? mood.name : "Your Mood"}
+                    </div>
+                    <div className="preview-message">
+                      {message?.text || "Your line will appear here."}
+                    </div>
+                    <div className="preview-caption">
+                      Snow, streetlight, a ghost of your voice. We’ll stitch
+                      these into a 16-second Premier.
+                    </div>
+                  </div>
+                </div>
+                <div className="preview-footer-line">
+                  <strong>Note:</strong> This preview is a concept frame. The
+                  real thing will be rendered as full cinematic video on the
+                  yyovvo side.
+                </div>
+              </div>
+
+              <div className="studio-main-right">
+                <div className="side-panel">
+                  <div className="side-tagline">Almost there</div>
+                  <div className="side-title">
+                    “Double y-o, double v-o” does the rest.
+                  </div>
+                  <div className="side-text">
+                    On the yyovvo side, we’ll attach snow, light, The Mark, and
+                    delivery rails. You’re one click away from locking this
+                    into the system.
+                  </div>
+                  {submitError && (
+                    <div className="error-text">{submitError}</div>
+                  )}
+                </div>
+
+                <div className="step-footer">
+                  <div className="step-hint">
+                    Your Premier will be saved as a{" "}
+                    <strong>StudioPremier</strong> in yyovvo with status{" "}
+                    <strong>pending</strong>. Then we teach it to glow.
+                  </div>
+                  <div style={{ display: "flex", gap: 8 }}>
+                    <button
+                      className="btn btn-ghost"
+                      type="button"
+                      onClick={onBack}
+                    >
+                      Back
+                    </button>
+                    <button
+                      className="btn btn-primary"
+                      type="button"
+                      disabled={isSubmitting}
+                      onClick={handleRenderClick}
+                    >
+                      {isSubmitting ? (
+                        <>
+                          Saving to yyovvo
+                          <span className="loading-dot" />
+                          <span className="loading-dot" />
+                          <span className="loading-dot" />
+                        </>
+                      ) : (
+                        <>Render my Premier →</>
+                      )}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         );
       }
 
-      /* Root wizard */
+      // --- App wiring with POST to yyovvo backend ---
       function App() {
         const [step, setStep] = useState(1);
-        const [activeTab, setActiveTab] = useState("Gallery");
         const [selectedMoodId, setSelectedMoodId] = useState(null);
         const [messageData, setMessageData] = useState(null);
 
-        const selectedMood = SAMPLE_MOODS.find(function (m) {
-          return m.id === selectedMoodId;
-        });
+        const API_URL = "https://yyovvo.com/api/studio-premier";
 
-        if (step === 3) {
-          return React.createElement(PreviewPage, {
-            mood: selectedMood,
-            message: messageData,
-            onBack: function () {
-              setStep(2);
-            },
-            onFinish: function () {
-              alert(
-                "This is where we’ll POST your Mood + Message into the real render engine and get back the cinematic MP4."
-              );
-            }
-          });
-        }
+        const selectedMood = SAMPLE_MOODS.find(
+          (m) => m.id === selectedMoodId
+        ) || null;
 
-        if (step === 2) {
-          return React.createElement(MessagePage, {
-            mood: selectedMood,
-            onBack: function () {
-              setStep(1);
-            },
-            onContinue: function (msg) {
-              setMessageData(msg);
-              setStep(3);
-            }
-          });
-        }
-
-        return React.createElement(MoodPage, {
-          activeTab: activeTab,
-          onTabChange: setActiveTab,
-          selectedMoodId: selectedMoodId,
-          onSelectMood: setSelectedMoodId,
-          onNext: function () {
-            if (!selectedMoodId) return;
-            setStep(2);
+        async function handleRenderPremier() {
+          if (!selectedMood || !messageData) {
+            alert("Pick a Mood and add a message first.");
+            return;
           }
-        });
+
+          if (messageData.type !== "text") {
+            alert(
+              "For this first version, we only send written messages into yyovvo. Voice & video wiring is next."
+            );
+            return;
+          }
+
+          const payload = {
+            mood_id: selectedMood.id || null,
+            mood_url: null,
+            message_type: "text",
+            message_audio_url: null,
+            message_video_url: null,
+            message_text: messageData.text || "",
+            duration_s: 16,
+            user_agent:
+              typeof navigator !== "undefined" ? navigator.userAgent : "",
+            origin: "studio.yyovvo.com"
+          };
+
+          const res = await fetch(API_URL, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify(payload)
+          });
+
+          let data = {};
+          try {
+            data = await res.json();
+          } catch (e) {
+            // ignore parse error
+          }
+
+          if (!res.ok || !data.ok) {
+            throw new Error(data.error || "Validation failed");
+          }
+
+          alert(
+            "Premier saved to yyovvo ✅\n\nStudio ID: " +
+              data.studio_id +
+              "\nStatus: " +
+              data.status +
+              "\n\nNext steps happen on yyovvo.com (render, Wall, send & share)."
+          );
+        }
+
+        let content = null;
+
+        if (step === 1) {
+          content = (
+            <MoodPage
+              selectedMoodId={selectedMoodId}
+              onSelectMood={setSelectedMoodId}
+              onNext={() => {
+                if (!selectedMoodId) return;
+                setStep(2);
+              }}
+            />
+          );
+        } else if (step === 2) {
+          content = (
+            <MessagePage
+              mood={selectedMood}
+              onBack={() => setStep(1)}
+              onContinue={(msg) => {
+                setMessageData(msg);
+                setStep(3);
+              }}
+            />
+          );
+        } else {
+          content = (
+            <PreviewPage
+              mood={selectedMood}
+              message={messageData}
+              onBack={() => setStep(2)}
+              onRender={handleRenderPremier}
+            />
+          );
+        }
+
+        return (
+          <div className="studio-shell">
+            <header className="studio-header">
+              <div className="studio-logo">
+                <div className="studio-logo-badge">yy</div>
+                <div className="studio-logo-text">
+                  <span>yyovvo studio</span>
+                  <span>Every moment gets a Premier.</span>
+                </div>
+              </div>
+              <div className="studio-tag">Christmas 2025 · Beta</div>
+            </header>
+            {content}
+          </div>
+        );
       }
 
       const root = ReactDOM.createRoot(document.getElementById("root"));
-      root.render(React.createElement(App));
+      root.render(<App />);
     </script>
   </body>
 </html>
