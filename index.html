@@ -377,9 +377,9 @@
         const [messageData, setMessageData] = useState(null);
         const [isSubmitting, setIsSubmitting] = useState(false);
 
-        // ✅ REAL Base44 backend URL
+        // ��� NEW Base44 API endpoint (clean, tested)
         const API_URL =
-          "https://moment-cf83ed32.base44.app/api/studioPremier";
+          "https://moment-cf83ed32.base44.app/api/studioIngest";
 
         const selectedMood =
           SAMPLE_MOODS.find(function (m) {
@@ -394,11 +394,11 @@
 
           const payload = {
             mood_id: selectedMood.id,
-            mood_url: null,
+            mood_name: selectedMood.name,
             message_type: "text",
+            message_text: messageData.text,
             message_audio_url: null,
             message_video_url: null,
-            message_text: messageData.text,
             duration_s: 16,
             user_agent:
               typeof navigator !== "undefined" ? navigator.userAgent : "",
@@ -418,13 +418,11 @@
             let data = null;
             try {
               data = JSON.parse(rawText);
-            } catch (e) {
-              // not JSON; leave as text
-            }
+            } catch (e) {}
 
-            if (!res.ok || !data || data.ok === false) {
+            if (!res.ok || !data || data.ok !== true) {
               alert(
-                "Backend error talking to /api/studioPremier\n\n" +
+                "Backend error talking to /api/studioIngest\n\n" +
                   "HTTP status: " +
                   res.status +
                   "\n\n" +
@@ -435,14 +433,14 @@
             }
 
             alert(
-              "Premier saved to yyovvo ✅\n\nStudio ID: " +
-                data.studio_id +
+              "Premier saved to yyovvo ���\n\nStudio ID: " +
+                data.id +
                 "\nStatus: " +
                 data.status
             );
           } catch (err) {
             alert(
-              "Network / CORS error reaching /api/studioPremier:\n\n" +
+              "Network / CORS error reaching /api/studioIngest:\n\n" +
                 (err && err.message ? err.message : String(err))
             );
           } finally {
