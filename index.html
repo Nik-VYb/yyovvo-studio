@@ -424,7 +424,7 @@
 
             if (!res.ok || !data || data.ok === false) {
               alert(
-                "Backend error talking to /api/studio-premier\n\n" +
+                "Backend error talking to /api/studioPremier\n\n" +
                   "HTTP status: " +
                   res.status +
                   "\n\n" +
@@ -442,7 +442,7 @@
             );
           } catch (err) {
             alert(
-              "Network / CORS error reaching /api/studio-premier:\n\n" +
+              "Network / CORS error reaching /api/studioPremier:\n\n" +
                 (err && err.message ? err.message : String(err))
             );
           } finally {
