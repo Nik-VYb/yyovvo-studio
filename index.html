@@ -12,8 +12,8 @@
         margin: 0;
         background: #050509;
         color: #f9fafb;
-        font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
-          "Segoe UI", sans-serif;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont,
+          "SF Pro Text", "Segoe UI", sans-serif;
       }
 
       .full-page {
@@ -268,11 +268,7 @@
         return React.createElement(
           "div",
           { className: "full-page" },
-          React.createElement(
-            "div",
-            { className: "title" },
-            "Add your line"
-          ),
+          React.createElement("div", { className: "title" }, "Add your line"),
           React.createElement(
             "div",
             { className: "subtitle" },
@@ -377,9 +373,9 @@
         const [messageData, setMessageData] = useState(null);
         const [isSubmitting, setIsSubmitting] = useState(false);
 
-        // ✅ Base44 backend URL for ingest
+        // ✅ REAL Base44 backend URL – NOTE: no /api prefix
         const API_URL =
-          "https://moment-cf83ed32.base44.app/api/studioIngest";
+          "https://moment-cf83ed32.base44.app/studioIngest";
 
         const selectedMood =
           SAMPLE_MOODS.find(function (m) {
@@ -424,7 +420,7 @@
 
             if (!res.ok || !data || data.ok === false) {
               alert(
-                "Backend error talking to /api/studioIngest\n\n" +
+                "Backend error talking to /studioIngest\n\n" +
                   "HTTP status: " +
                   res.status +
                   "\n\n" +
@@ -436,13 +432,13 @@
 
             alert(
               "Premier saved to yyovvo ✅\n\nStudio ID: " +
-                data.id +
+                (data.id || data.studio_id || "n/a") +
                 "\nStatus: " +
-                data.status
+                (data.status || "pending")
             );
           } catch (err) {
             alert(
-              "Network / CORS error reaching /api/studioIngest:\n\n" +
+              "Network / CORS error reaching /studioIngest:\n\n" +
                 (err && err.message ? err.message : String(err))
             );
           } finally {
