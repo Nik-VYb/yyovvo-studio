@@ -6,14 +6,14 @@
       name="viewport"
       content="width=device-width, initial-scale=1, maximum-scale=1"
     />
-    <title>yyovvo Studio - TEST 999</title>
+    <title>yyovvo Studio · Premier</title>
     <style>
       body {
         margin: 0;
         background: #050509;
         color: #f9fafb;
-        font-family: system-ui, -apple-system, BlinkMacSystemFont,
-          "SF Pro Text", "Segoe UI", sans-serif;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
+          "Segoe UI", sans-serif;
       }
 
       .full-page {
@@ -208,6 +208,7 @@
   <body>
     <div id="root"></div>
 
+    <!-- React UMD -->
     <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
 
@@ -268,7 +269,11 @@
         return React.createElement(
           "div",
           { className: "full-page" },
-          React.createElement("div", { className: "title" }, "Add your line"),
+          React.createElement(
+            "div",
+            { className: "title" },
+            "Add your line"
+          ),
           React.createElement(
             "div",
             { className: "subtitle" },
@@ -373,9 +378,9 @@
         const [messageData, setMessageData] = useState(null);
         const [isSubmitting, setIsSubmitting] = useState(false);
 
-        // ✅ REAL Base44 backend URL – NOTE: no /api prefix
+        // ✅ Real Studio backend URL (Cloudflare Worker)
         const API_URL =
-          "https://moment-cf83ed32.base44.app/studioIngest";
+          "https://yyovvo-studio-ingest.yyovvouk.workers.dev/";
 
         const selectedMood =
           SAMPLE_MOODS.find(function (m) {
@@ -390,7 +395,7 @@
 
           const payload = {
             mood_id: selectedMood.id,
-            mood_url: null,
+            mood_name: selectedMood.name,
             message_type: "text",
             message_audio_url: null,
             message_video_url: null,
@@ -415,12 +420,12 @@
             try {
               data = JSON.parse(rawText);
             } catch (e) {
-              // not JSON; leave as text
+              // leave as text if not JSON
             }
 
             if (!res.ok || !data || data.ok === false) {
               alert(
-                "Backend error talking to /studioIngest\n\n" +
+                "yyovvo Studio backend error\n\n" +
                   "HTTP status: " +
                   res.status +
                   "\n\n" +
@@ -431,14 +436,15 @@
             }
 
             alert(
-              "Premier saved to yyovvo ✅\n\nStudio ID: " +
-                (data.id || data.studio_id || "n/a") +
+              "Premier saved into yyovvo Studio ✅\n\n" +
+                "ID: " +
+                (data.id || "n/a") +
                 "\nStatus: " +
                 (data.status || "pending")
             );
           } catch (err) {
             alert(
-              "Network / CORS error reaching /studioIngest:\n\n" +
+              "Network / CORS error reaching yyovvo Studio backend:\n\n" +
                 (err && err.message ? err.message : String(err))
             );
           } finally {
