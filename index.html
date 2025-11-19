@@ -377,7 +377,7 @@
         const [messageData, setMessageData] = useState(null);
         const [isSubmitting, setIsSubmitting] = useState(false);
 
-        // ��� NEW Base44 API endpoint (clean, tested)
+        // ✅ Base44 backend URL for ingest
         const API_URL =
           "https://moment-cf83ed32.base44.app/api/studioIngest";
 
@@ -394,11 +394,11 @@
 
           const payload = {
             mood_id: selectedMood.id,
-            mood_name: selectedMood.name,
+            mood_url: null,
             message_type: "text",
-            message_text: messageData.text,
             message_audio_url: null,
             message_video_url: null,
+            message_text: messageData.text,
             duration_s: 16,
             user_agent:
               typeof navigator !== "undefined" ? navigator.userAgent : "",
@@ -418,9 +418,11 @@
             let data = null;
             try {
               data = JSON.parse(rawText);
-            } catch (e) {}
+            } catch (e) {
+              // not JSON; leave as text
+            }
 
-            if (!res.ok || !data || data.ok !== true) {
+            if (!res.ok || !data || data.ok === false) {
               alert(
                 "Backend error talking to /api/studioIngest\n\n" +
                   "HTTP status: " +
@@ -433,7 +435,7 @@
             }
 
             alert(
-              "Premier saved to yyovvo ���\n\nStudio ID: " +
+              "Premier saved to yyovvo ✅\n\nStudio ID: " +
                 data.id +
                 "\nStatus: " +
                 data.status
