@@ -575,20 +575,21 @@
               return;
             }
 
-            // 🔥 Build viewer URL + auto-open
+            // 🔥 Build viewer URL and auto-open (no blocking alert)
             const viewerUrl =
               "https://yyovvo-studio.pages.dev/viewer.html?id=" +
               encodeURIComponent(data.id || data.studio_id || "");
 
-            alert(
-              "Premier saved into yyovvo Studio ✅\n\n" +
-                "Your live link:\n" +
-                viewerUrl +
-                "\n\n(Tap OK to open your Premier.)"
-            );
-
-            if (viewerUrl) {
+            if (viewerUrl && viewerUrl.indexOf("id=") !== -1) {
               window.location.href = viewerUrl;
+            } else {
+              // fallback if something went weird
+              alert(
+                "Premier saved into yyovvo Studio ✅\n\n" +
+                  "But we couldn't build your viewer link automatically.\n\n" +
+                  "Raw response:\n" +
+                  rawText
+              );
             }
           } catch (err) {
             alert(
