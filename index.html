@@ -7,16 +7,18 @@
       content="width=device-width, initial-scale=1, maximum-scale=1"
     />
     <title>yyovvo Studio · Premier</title>
+
     <style>
       :root {
-        --bg-deep: #050509;
-        --bg-panel: rgba(15, 23, 42, 0.98);
+        --bg-deep: #02010a;
+        --bg-soft: #050509;
+        --glass: rgba(15, 23, 42, 0.86);
         --accent-pink: #f973ff;
-        --accent-blue: #38bdf8;
+        --accent-cyan: #22d3ee;
         --accent-gold: #facc15;
-        --muted: #9ca3af;
         --text-main: #f9fafb;
-        --danger: #f97373;
+        --text-soft: #9ca3af;
+        --danger: #f87171;
       }
 
       * {
@@ -25,935 +27,1118 @@
 
       body {
         margin: 0;
-        background: radial-gradient(circle at top, #020617 0, #000 60%);
-        color: var(--text-main);
         font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
           "Segoe UI", sans-serif;
-        -webkit-font-smoothing: antialiased;
+        background: radial-gradient(circle at top, #111827 0, #02010a 60%);
+        color: var(--text-main);
+        overflow-x: hidden;
       }
 
-      .full-page {
+      /* ---------- GLOBAL CINEMA BACKDROP ---------- */
+
+      .cinema-backdrop {
+        position: fixed;
+        inset: 0;
+        background:
+          radial-gradient(circle at 10% -10%, #6d28d9 0, transparent 50%),
+          radial-gradient(circle at 90% 110%, #06b6d4 0, transparent 50%),
+          radial-gradient(circle at -10% 90%, #f97316 0, transparent 40%),
+          radial-gradient(circle at 110% 0%, #ec4899 0, transparent 50%),
+          radial-gradient(circle at center, #020617 0, #02010a 55%);
+        filter: blur(10px);
+        opacity: 0.9;
+        pointer-events: none;
+        z-index: -3;
+        animation: bg-breathe 14s ease-in-out infinite;
+      }
+
+      @keyframes bg-breathe {
+        0% {
+          transform: scale(1) translateY(0);
+          filter: blur(12px);
+        }
+        50% {
+          transform: scale(1.03) translateY(-6px);
+          filter: blur(16px);
+        }
+        100% {
+          transform: scale(1) translateY(0);
+          filter: blur(12px);
+        }
+      }
+
+      .snow-layer {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        z-index: -2;
+        background-image: radial-gradient(
+            circle at 10% 20%,
+            rgba(248, 250, 252, 0.9) 2px,
+            transparent 2px
+          ),
+          radial-gradient(
+            circle at 80% 0%,
+            rgba(248, 250, 252, 0.7) 1.5px,
+            transparent 1.5px
+          ),
+          radial-gradient(
+            circle at 50% 100%,
+            rgba(248, 250, 252, 0.6) 1.8px,
+            transparent 1.8px
+          );
+        background-size: 220px 220px, 260px 260px, 320px 320px;
+        opacity: 0.55;
+        animation: snow-fall 24s linear infinite;
+      }
+
+      @keyframes snow-fall {
+        0% {
+          transform: translateY(-40px);
+        }
+        100% {
+          transform: translateY(40px);
+        }
+      }
+
+      /* ---------- APP LAYOUT ---------- */
+
+      #root {
         min-height: 100vh;
-        width: 100vw;
         display: flex;
-        flex-direction: column;
-        background: radial-gradient(circle at top, #111827 0, #02010a 55%);
+        align-items: stretch;
+        justify-content: center;
+        padding: 12px;
       }
 
-      .shell {
-        max-width: 980px;
-        margin: 0 auto;
-        padding: 16px 16px 32px;
+      .studio-shell {
+        width: 100%;
+        max-width: 960px;
+        margin: auto;
+        border-radius: 32px;
+        padding: 18px 16px 20px;
+        background: radial-gradient(circle at top, #020617f0 0, #02010af2 55%);
+        border: 1px solid rgba(148, 163, 184, 0.45);
+        box-shadow:
+          0 0 0 1px rgba(15, 23, 42, 0.8),
+          0 32px 120px rgba(15, 23, 42, 0.95),
+          0 0 80px rgba(96, 165, 250, 0.25);
+        position: relative;
+        overflow: hidden;
       }
 
       .studio-header {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        gap: 12px;
-        padding-bottom: 4px;
+        gap: 10px;
+        padding-bottom: 10px;
       }
 
-      .studio-title-block {
+      .studio-brand {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .brand-mark {
+        width: 32px;
+        height: 32px;
+        border-radius: 12px;
+        border: 1px solid rgba(248, 250, 252, 0.2);
+        background: conic-gradient(
+          from 200deg,
+          #f973ff,
+          #22d3ee,
+          #facc15,
+          #f97316,
+          #f973ff
+        );
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow:
+          0 0 0 1px rgba(15, 23, 42, 0.85),
+          0 0 26px rgba(250, 204, 21, 0.6);
+      }
+
+      .brand-mark span {
+        font-size: 14px;
+        font-weight: 800;
+        color: #020617;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+      }
+
+      .brand-text {
         display: flex;
         flex-direction: column;
-        gap: 4px;
+        gap: 2px;
       }
 
-      .studio-title {
-        font-size: 22px;
+      .brand-text-main {
+        font-size: 16px;
         font-weight: 600;
-        letter-spacing: 0.12em;
-        text-transform: uppercase;
-        background: linear-gradient(135deg, #f973ff, #38bdf8);
-        -webkit-background-clip: text;
-        color: transparent;
       }
 
-      .studio-subtitle {
-        font-size: 12px;
-        color: var(--muted);
+      .brand-text-sub {
+        font-size: 11px;
+        color: var(--text-soft);
       }
 
       .studio-pill {
-        padding: 6px 12px;
-        border-radius: 999px;
         font-size: 11px;
-        border: 1px solid rgba(148, 163, 184, 0.6);
+        padding: 6px 10px;
+        border-radius: 999px;
+        background: linear-gradient(135deg, #22c55e1f, #22c55e33);
+        color: #bbf7d0;
+        border: 1px solid rgba(34, 197, 94, 0.5);
         display: inline-flex;
         align-items: center;
         gap: 6px;
-        background: radial-gradient(circle at top, #020617, #040016);
+        white-space: nowrap;
       }
 
-      .studio-pill span.dot {
-        width: 7px;
-        height: 7px;
+      .studio-pill-dot {
+        width: 6px;
+        height: 6px;
         border-radius: 999px;
-        background: radial-gradient(circle at center, #22c55e, #14532d);
-        box-shadow: 0 0 8px rgba(34, 197, 94, 0.8);
+        background: #22c55e;
+        box-shadow: 0 0 12px rgba(34, 197, 94, 0.9);
+      }
+
+      .studio-main {
+        display: grid;
+        grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+        gap: 14px;
+        margin-top: 4px;
+      }
+
+      @media (max-width: 830px) {
+        .studio-main {
+          grid-template-columns: minmax(0, 1fr);
+        }
+        .studio-shell {
+          border-radius: 24px;
+        }
+      }
+
+      /* ---------- LEFT PANEL: MODES + MOODS + MESSAGE ---------- */
+
+      .left-panel {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
       }
 
       .section-title {
         font-size: 18px;
         font-weight: 600;
-        margin: 12px 0 4px;
-        text-align: left;
       }
 
       .section-subtitle {
-        font-size: 13px;
-        color: var(--muted);
-        margin-bottom: 12px;
+        font-size: 12px;
+        color: var(--text-soft);
       }
 
-      /* MODE PICKER */
-
-      .mode-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-        gap: 14px;
+      .mode-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
         margin-top: 8px;
       }
 
-      .mode-card {
-        position: relative;
-        border-radius: 22px;
-        padding: 16px 14px 14px;
-        background: radial-gradient(circle at top, #111827, #020617);
-        border: 1px solid rgba(148, 163, 184, 0.5);
+      .mode-pill {
+        flex: 1 1 44%;
+        min-width: 120px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 12px;
+        border-radius: 999px;
+        border: 1px solid rgba(148, 163, 184, 0.6);
+        background: radial-gradient(circle at top, #020617ee, #02010aee);
+        color: var(--text-main);
+        font-size: 13px;
         cursor: pointer;
-        transition: 0.2s ease;
+        position: relative;
         overflow: hidden;
+        transition: 0.18s ease;
       }
 
-      .mode-card::before {
+      .mode-pill::before {
         content: "";
         position: absolute;
-        inset: -40%;
-        background: conic-gradient(
-          from 220deg,
-          rgba(248, 113, 255, 0.25),
-          rgba(56, 189, 248, 0.05),
-          rgba(250, 204, 21, 0.18),
-          rgba(248, 113, 255, 0.25)
+        inset: 0;
+        border-radius: inherit;
+        background: radial-gradient(
+          circle at 0% 0%,
+          rgba(249, 115, 255, 0.2),
+          transparent 55%
         );
         opacity: 0;
         transition: opacity 0.2s ease;
-        pointer-events: none;
       }
 
-      .mode-card:hover::before {
-        opacity: 0.16;
+      .mode-pill-icon {
+        font-size: 16px;
       }
 
-      .mode-card-content {
-        position: relative;
-        z-index: 1;
+      .mode-pill-main {
+        font-weight: 500;
       }
 
-      .mode-badge {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        padding: 4px 10px;
-        border-radius: 999px;
-        background: rgba(15, 23, 42, 0.92);
-        border: 1px solid rgba(148, 163, 184, 0.7);
+      .mode-pill-sub {
         font-size: 11px;
-        color: #e5e7eb;
-        margin-bottom: 6px;
+        color: var(--text-soft);
       }
 
-      .mode-badge span.star {
-        font-size: 14px;
-      }
-
-      .mode-title {
-        font-size: 15px;
-        font-weight: 600;
-        margin-bottom: 4px;
-      }
-
-      .mode-body {
-        font-size: 12px;
-        color: var(--muted);
-        margin-bottom: 10px;
-      }
-
-      .mode-foot {
-        font-size: 11px;
-        color: #e5e7eb;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 6px;
-      }
-
-      .mode-tag {
-        padding: 4px 9px;
-        border-radius: 999px;
-        border: 1px solid rgba(148, 163, 184, 0.7);
-        font-size: 10px;
-        text-transform: uppercase;
-        letter-spacing: 0.12em;
-        color: var(--muted);
-      }
-
-      .mode-card.selected {
+      .mode-pill.selected {
         border-color: var(--accent-pink);
-        box-shadow: 0 0 30px rgba(249, 115, 255, 0.65);
+        box-shadow:
+          0 0 0 1px rgba(15, 23, 42, 0.95),
+          0 0 26px rgba(249, 115, 255, 0.7);
         transform: translateY(-1px);
       }
 
-      /* BUTTONS */
-
-      .primary-button {
-        margin-top: 18px;
-        padding: 14px;
-        border-radius: 999px;
-        font-size: 15px;
-        text-align: center;
-        background: linear-gradient(135deg, #f973ff, #38bdf8);
-        cursor: pointer;
-        transition: 0.18s ease;
-        font-weight: 600;
-        color: #020617;
-        border: none;
+      .mode-pill.selected::before {
+        opacity: 1;
       }
 
-      .primary-button:hover {
-        opacity: 0.92;
+      .mode-pill:hover {
+        box-shadow: 0 0 22px rgba(96, 165, 250, 0.5);
       }
-
-      .primary-button.disabled {
-        opacity: 0.35;
-        cursor: not-allowed;
-        box-shadow: none;
-      }
-
-      .ghost-button {
-        margin-top: 10px;
-        padding: 10px;
-        border-radius: 999px;
-        font-size: 13px;
-        text-align: center;
-        background: transparent;
-        border: 1px solid rgba(107, 114, 128, 0.9);
-        cursor: pointer;
-        color: #e5e7eb;
-      }
-
-      .ghost-button:hover {
-        background: rgba(15, 23, 42, 0.94);
-      }
-
-      /* AI MODE */
-
-      .ai-panel {
-        margin-top: 16px;
-        padding: 16px;
-        border-radius: 20px;
-        background: radial-gradient(circle at top left, #0b1120, #020617 55%);
-        border: 1px solid rgba(148, 163, 184, 0.7);
-      }
-
-      .ai-label {
-        font-size: 13px;
-        margin-bottom: 6px;
-      }
-
-      .ai-sub {
-        font-size: 12px;
-        color: var(--muted);
-        margin-bottom: 10px;
-      }
-
-      .ai-input-wrap {
-        position: relative;
-      }
-
-      .ai-input {
-        width: 100%;
-        border-radius: 16px;
-        border: 1px solid rgba(148, 163, 184, 0.8);
-        background: rgba(15, 23, 42, 0.96);
-        color: var(--text-main);
-        padding: 10px 12px;
-        font-size: 14px;
-        outline: none;
-      }
-
-      .ai-placeholder {
-        position: absolute;
-        left: 12px;
-        top: 50%;
-        transform: translateY(-50%);
-        color: rgba(148, 163, 184, 0.7);
-        font-size: 13px;
-        pointer-events: none;
-        transition: opacity 0.2s ease;
-      }
-
-      .ai-input:not(:placeholder-shown) + .ai-placeholder,
-      .ai-input:focus + .ai-placeholder {
-        opacity: 0;
-      }
-
-      .ai-suggestions {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 6px;
-        margin-top: 10px;
-      }
-
-      .ai-chip {
-        padding: 6px 10px;
-        border-radius: 999px;
-        font-size: 11px;
-        border: 1px solid rgba(148, 163, 184, 0.7);
-        cursor: pointer;
-        background: rgba(15, 23, 42, 0.95);
-        color: #e5e7eb;
-      }
-
-      .ai-chip:hover {
-        border-color: var(--accent-pink);
-      }
-
-      /* UPLOAD MODE */
-
-      .upload-panel {
-        margin-top: 16px;
-        padding: 16px;
-        border-radius: 20px;
-        background: radial-gradient(circle at top right, #020617, #000 60%);
-        border: 1px dashed rgba(148, 163, 184, 0.7);
-      }
-
-      .upload-zone {
-        border-radius: 18px;
-        border: 1px dashed rgba(148, 163, 184, 0.7);
-        background: rgba(15, 23, 42, 0.9);
-        padding: 14px;
-        text-align: center;
-        font-size: 12px;
-        color: var(--muted);
-      }
-
-      .upload-zone strong {
-        color: #e5e7eb;
-      }
-
-      .upload-preview {
-        margin-top: 12px;
-        border-radius: 18px;
-        overflow: hidden;
-        position: relative;
-        border: 1px solid rgba(148, 163, 184, 0.7);
-      }
-
-      .upload-preview img {
-        width: 100%;
-        display: block;
-        animation: kenBurns 10s ease-in-out infinite;
-        transform-origin: center;
-      }
-
-      .upload-overlay {
-        position: absolute;
-        inset: 0;
-        background: radial-gradient(circle at bottom, rgba(15, 23, 42, 0.3), transparent 60%);
-      }
-
-      @keyframes kenBurns {
-        0% {
-          transform: scale(1.02);
-        }
-        50% {
-          transform: scale(1.06) translateY(-1%);
-        }
-        100% {
-          transform: scale(1.02);
-        }
-      }
-
-      /* MOOD GRID (MANUAL MODE) */
 
       .mood-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-        gap: 12px;
-        margin-top: 12px;
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+        gap: 8px;
+        margin-top: 10px;
       }
 
       .mood-card {
         position: relative;
+        height: 110px;
         border-radius: 18px;
-        height: 170px;
-        cursor: pointer;
         overflow: hidden;
-        border: 1px solid rgba(148, 163, 184, 0.6);
-        background: radial-gradient(circle at top, #1f2937, #020617);
-        color: #e5e7eb;
+        border: 1px solid rgba(148, 163, 184, 0.55);
+        background: radial-gradient(circle at top, #111827, #020617);
+        cursor: pointer;
+        padding: 10px 10px 9px;
         display: flex;
         flex-direction: column;
-        justify-content: flex-end;
-        padding: 10px;
-        font-size: 13px;
-        transition: 0.18s ease;
+        justify-content: space-between;
+        transition: transform 0.18s ease, box-shadow 0.18s ease,
+          border-color 0.18s ease;
       }
 
       .mood-card::before {
         content: "";
         position: absolute;
         inset: -40%;
-        opacity: 0;
-        transition: opacity 0.18s ease;
-        pointer-events: none;
+        background:
+          radial-gradient(circle at 10% 20%, rgba(248, 250, 252, 0.12), transparent 55%),
+          radial-gradient(circle at 90% 10%, rgba(248, 250, 252, 0.12), transparent 55%);
+        opacity: 0.9;
+        mix-blend-mode: screen;
+        animation: mood-glow 8s ease-in-out infinite;
       }
 
-      .mood-card:hover::before {
-        opacity: 0.4;
+      @keyframes mood-glow {
+        0% {
+          transform: translate(-8px, -6px) scale(1);
+          opacity: 0.8;
+        }
+        50% {
+          transform: translate(6px, 6px) scale(1.05);
+          opacity: 1;
+        }
+        100% {
+          transform: translate(-8px, -6px) scale(1);
+          opacity: 0.8;
+        }
+      }
+
+      .mood-card-header {
+        position: relative;
+        z-index: 1;
+        font-size: 12px;
+        font-weight: 500;
+      }
+
+      .mood-tag {
+        position: relative;
+        z-index: 1;
+        margin-top: 2px;
+        font-size: 10px;
+        padding: 3px 7px;
+        border-radius: 999px;
+        background: rgba(15, 23, 42, 0.86);
+        border: 1px solid rgba(148, 163, 184, 0.8);
+        color: #e5e7eb;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+      }
+
+      .mood-tag-dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 999px;
+      }
+
+      .mood-footer {
+        position: relative;
+        z-index: 1;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 10px;
+        color: #d1d5db;
+      }
+
+      .mood-loop-indicator {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+      }
+
+      .mood-loop-dot {
+        width: 7px;
+        height: 7px;
+        border-radius: 999px;
+        background: #22c55e;
+        box-shadow: 0 0 12px rgba(34, 197, 94, 0.9);
       }
 
       .mood-card.selected {
         border-color: var(--accent-pink);
-        box-shadow: 0 0 26px rgba(249, 115, 255, 0.7);
-        transform: translateY(-1.5px);
+        box-shadow:
+          0 0 0 1px rgba(15, 23, 42, 0.95),
+          0 0 26px rgba(249, 115, 255, 0.7);
+        transform: translateY(-2px) scale(1.02);
       }
 
-      .mood-name {
-        font-weight: 600;
-        font-size: 13px;
+      .mood-card:hover {
+        box-shadow: 0 0 36px rgba(96, 165, 250, 0.7);
       }
 
-      .mood-tagline {
-        font-size: 11px;
-        color: var(--muted);
+      .message-panel {
+        margin-top: 12px;
+        padding: 10px 12px;
+        border-radius: 20px;
+        background: linear-gradient(
+            135deg,
+            rgba(15, 23, 42, 0.96),
+            rgba(2, 6, 23, 0.96)
+          ),
+          radial-gradient(circle at top, rgba(56, 189, 248, 0.12), transparent);
+        border: 1px solid rgba(148, 163, 184, 0.7);
+        position: relative;
+        overflow: hidden;
       }
 
-      .mood-chip-row {
+      .message-panel::before {
+        content: "";
+        position: absolute;
+        inset: -40%;
+        background:
+          radial-gradient(circle at 0% 0%, rgba(249, 115, 255, 0.18), transparent 60%),
+          radial-gradient(circle at 100% 120%, rgba(56, 189, 248, 0.18), transparent 60%);
+        mix-blend-mode: screen;
+        opacity: 0.7;
+        animation: panel-aura 10s ease-in-out infinite;
+      }
+
+      @keyframes panel-aura {
+        0% {
+          transform: translate(0px, 0px) scale(1);
+        }
+        50% {
+          transform: translate(10px, -5px) scale(1.05);
+        }
+        100% {
+          transform: translate(0px, 0px) scale(1);
+        }
+      }
+
+      .message-inner {
+        position: relative;
+        z-index: 1;
+      }
+
+      .message-title-row {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        margin-top: 4px;
+        gap: 8px;
+        margin-bottom: 4px;
       }
 
-      .mood-chip {
+      .message-title {
+        font-size: 14px;
+        font-weight: 500;
+      }
+
+      .message-mode-chip {
         font-size: 10px;
-        padding: 3px 8px;
+        padding: 4px 9px;
         border-radius: 999px;
-        border: 1px solid rgba(148, 163, 184, 0.8);
-      }
-
-      /* MOOD ANIMATIONS */
-
-      .mood-ember::before {
-        background: radial-gradient(circle at bottom, #7f1d1d, #0b0f19 55%);
-        animation: emberPulse 7s ease-in-out infinite;
-      }
-
-      .mood-snow::before {
-        background: radial-gradient(circle at top, #e5f2ff, #020617 65%);
-        animation: snowDrift 9s linear infinite;
-      }
-
-      .mood-mistletoe::before {
-        background: radial-gradient(circle at top, #16a34a, #020617 60%);
-        animation: neonSweep 6s ease-in-out infinite;
-      }
-
-      .mood-countdown::before {
-        background: conic-gradient(
-          from 180deg,
-          #fbbf24,
-          #38bdf8,
-          #a855f7,
-          #f97316,
-          #fbbf24
-        );
-        animation: orbitGlow 11s linear infinite;
-      }
-
-      .mood-champagne::before {
-        background: radial-gradient(circle at bottom, #facc15, #111827 60%);
-        animation: bubbleRise 10s ease-in-out infinite;
-      }
-
-      .mood-eternal::before {
-        background: radial-gradient(circle at center, #f97316, #020617 70%);
-        animation: slowPulse 12s ease-in-out infinite;
-      }
-
-      @keyframes emberPulse {
-        0% {
-          transform: translateY(0);
-          opacity: 0.8;
-        }
-        50% {
-          transform: translateY(-2%);
-          opacity: 1;
-        }
-        100% {
-          transform: translateY(0);
-          opacity: 0.8;
-        }
-      }
-
-      @keyframes snowDrift {
-        0% {
-          transform: translateY(-4%);
-        }
-        100% {
-          transform: translateY(4%);
-        }
-      }
-
-      @keyframes neonSweep {
-        0% {
-          filter: blur(6px);
-        }
-        50% {
-          filter: blur(12px);
-        }
-        100% {
-          filter: blur(6px);
-        }
-      }
-
-      @keyframes orbitGlow {
-        0% {
-          transform: rotate(0deg) scale(1.02);
-        }
-        100% {
-          transform: rotate(360deg) scale(1.02);
-        }
-      }
-
-      @keyframes bubbleRise {
-        0% {
-          transform: translateY(4%);
-        }
-        50% {
-          transform: translateY(-4%);
-        }
-        100% {
-          transform: translateY(4%);
-        }
-      }
-
-      @keyframes slowPulse {
-        0% {
-          transform: scale(1);
-        }
-        50% {
-          transform: scale(1.04);
-        }
-        100% {
-          transform: scale(1);
-        }
-      }
-
-      /* MESSAGE STEP */
-
-      .message-panel {
-        margin-top: 16px;
-        padding: 16px;
-        border-radius: 20px;
-        background: radial-gradient(circle at top, #0b1120, #020617 65%);
         border: 1px solid rgba(148, 163, 184, 0.9);
-      }
-
-      .message-label {
-        font-size: 13px;
-        margin-bottom: 6px;
+        background: rgba(15, 23, 42, 0.92);
+        color: #e5e7eb;
       }
 
       .message-sub {
-        font-size: 12px;
-        color: var(--muted);
-        margin-bottom: 10px;
+        font-size: 11px;
+        color: var(--text-soft);
+        margin-bottom: 6px;
+      }
+
+      .suggestion-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin-bottom: 6px;
+      }
+
+      .suggestion-pill {
+        font-size: 10px;
+        padding: 4px 8px;
+        border-radius: 999px;
+        border: 1px solid rgba(148, 163, 184, 0.7);
+        background: rgba(15, 23, 42, 0.96);
+        color: #e5e7eb;
+        cursor: pointer;
+        white-space: nowrap;
+        opacity: 0.85;
+      }
+
+      .suggestion-pill:hover {
+        opacity: 1;
+        box-shadow: 0 0 14px rgba(96, 165, 250, 0.6);
+      }
+
+      .message-surface {
+        position: relative;
+        border-radius: 18px;
+        border: 1px solid rgba(148, 163, 184, 0.8);
+        background: radial-gradient(
+            circle at 0% 0%,
+            rgba(15, 23, 42, 0.96),
+            rgba(3, 7, 18, 0.98)
+          ),
+          radial-gradient(
+            circle at 100% 100%,
+            rgba(3, 105, 161, 0.4),
+            rgba(15, 23, 42, 0.96)
+          );
+        overflow: hidden;
+        box-shadow:
+          inset 0 0 0 1px rgba(15, 23, 42, 0.92),
+          0 24px 70px rgba(15, 23, 42, 0.95);
+      }
+
+      .message-surface::before {
+        content: "";
+        position: absolute;
+        inset: -20%;
+        background: radial-gradient(
+          circle at 20% 0%,
+          rgba(248, 250, 252, 0.16),
+          transparent 55%
+        );
+        mix-blend-mode: screen;
+        opacity: 0.9;
+        animation: typing-aura 9s ease-in-out infinite;
+      }
+
+      @keyframes typing-aura {
+        0% {
+          transform: translate(-12px, -4px) scale(1);
+          opacity: 0.9;
+        }
+        50% {
+          transform: translate(10px, 8px) scale(1.03);
+          opacity: 1;
+        }
+        100% {
+          transform: translate(-12px, -4px) scale(1);
+          opacity: 0.9;
+        }
       }
 
       textarea {
         width: 100%;
         height: 120px;
-        border-radius: 16px;
-        padding: 10px 12px;
-        border: 1px solid rgba(148, 163, 184, 0.7);
+        padding: 12px 14px;
+        border: none;
         outline: none;
-        font-size: 14px;
-        background: rgba(15, 23, 42, 0.96);
+        background: transparent;
         color: var(--text-main);
+        font-size: 16px;
+        line-height: 1.4;
         resize: none;
+        position: relative;
+        z-index: 1;
+      }
+
+      textarea::placeholder {
+        color: rgba(148, 163, 184, 0.8);
+      }
+
+      .message-meta-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 6px 10px 8px;
+        font-size: 11px;
+        color: var(--text-soft);
+        position: relative;
+        z-index: 1;
       }
 
       .char-count {
-        font-size: 11px;
-        color: var(--muted);
-        text-align: right;
-        padding: 4px 4px 0 0;
+        font-variant-numeric: tabular-nums;
       }
 
-      /* PREVIEW */
+      .elastic-pulse {
+        animation: elastic-pulse 0.22s ease-out;
+      }
 
-      .preview-shell {
-        margin-top: 20px;
+      @keyframes elastic-pulse {
+        0% {
+          transform: scale(1);
+          box-shadow: 0 0 0 rgba(56, 189, 248, 0.0);
+        }
+        60% {
+          transform: scale(1.015);
+          box-shadow: 0 0 22px rgba(56, 189, 248, 0.6);
+        }
+        100% {
+          transform: scale(1);
+          box-shadow: 0 0 0 rgba(56, 189, 248, 0);
+        }
+      }
+
+      .cta-row {
+        display: flex;
+        gap: 8px;
+        margin-top: 10px;
+      }
+
+      .primary-cta {
+        flex: 1;
+        padding: 11px 14px;
+        border-radius: 999px;
+        border: none;
+        background: linear-gradient(135deg, #f973ff, #22d3ee);
+        color: #020617;
+        font-weight: 600;
+        font-size: 14px;
+        cursor: pointer;
+        box-shadow:
+          0 0 0 1px rgba(15, 23, 42, 0.9),
+          0 16px 50px rgba(59, 130, 246, 0.9);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        transition: 0.16s ease;
+      }
+
+      .primary-cta:hover {
+        transform: translateY(-1px);
+        box-shadow:
+          0 0 0 1px rgba(15, 23, 42, 0.9),
+          0 20px 70px rgba(56, 189, 248, 0.95);
+      }
+
+      .primary-cta:disabled {
+        opacity: 0.35;
+        cursor: not-allowed;
+        box-shadow: none;
+      }
+
+      .secondary-cta {
+        padding: 10px 12px;
+        border-radius: 999px;
+        border: 1px solid rgba(148, 163, 184, 0.75);
+        background: rgba(15, 23, 42, 0.96);
+        color: #e5e7eb;
+        font-size: 12px;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        white-space: nowrap;
+      }
+
+      /* ---------- RIGHT PANEL: PREVIEW ---------- */
+
+      .right-panel {
         border-radius: 24px;
-        padding: 14px;
-        background: radial-gradient(circle at top, #020617, #000 70%);
-        border: 1px solid rgba(148, 163, 184, 0.85);
-        box-shadow: 0 26px 70px rgba(15, 23, 42, 0.95);
-      }
-
-      .preview-top-label {
-        font-size: 11px;
-        text-transform: uppercase;
-        letter-spacing: 0.18em;
-        color: var(--muted);
-        margin-bottom: 8px;
-      }
-
-      .preview-frame {
+        background: radial-gradient(circle at top, #020617, #000);
+        border: 1px solid rgba(148, 163, 184, 0.7);
+        padding: 12px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        box-shadow:
+          0 0 0 1px rgba(15, 23, 42, 0.92),
+          0 26px 100px rgba(15, 23, 42, 0.95);
         position: relative;
-        border-radius: 26px;
-        height: 440px;
         overflow: hidden;
-        background: radial-gradient(circle at top, #1f2937, #020617);
-        border: 1px solid rgba(148, 163, 184, 0.85);
+      }
+
+      .preview-label-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 11px;
+        color: var(--text-soft);
+      }
+
+      .preview-mood-name {
+        font-weight: 500;
+        font-size: 12px;
+        color: #e5e7eb;
+      }
+
+      .preview-timer {
+        font-variant-numeric: tabular-nums;
+      }
+
+      .preview-stage {
+        flex: 1;
+        border-radius: 18px;
+        background: radial-gradient(circle at top, #0b1120, #020617);
+        border: 1px solid rgba(148, 163, 184, 0.6);
+        position: relative;
+        overflow: hidden;
         display: flex;
         align-items: center;
         justify-content: center;
-        padding: 16px;
+        padding: 14px;
       }
 
       .preview-mood-layer {
         position: absolute;
         inset: 0;
-        pointer-events: none;
+        opacity: 0.9;
+        mix-blend-mode: screen;
+        background-size: cover;
+        background-position: center;
+        animation: mood-pan 22s linear infinite;
       }
 
-      .preview-content {
+      @keyframes mood-pan {
+        0% {
+          transform: scale(1.04) translate(0, 0);
+        }
+        50% {
+          transform: scale(1.08) translate(-6px, -4px);
+        }
+        100% {
+          transform: scale(1.04) translate(0, 0);
+        }
+      }
+
+      .preview-overlay {
         position: relative;
         z-index: 2;
         text-align: center;
-        max-width: 80%;
+        padding: 10px;
       }
 
-      .preview-mood-name {
-        font-size: 13px;
-        font-weight: 600;
-        margin-bottom: 6px;
-      }
-
-      .preview-message {
-        font-size: 16px;
+      .preview-line {
+        font-size: 17px;
         line-height: 1.4;
-        text-shadow: 0 0 18px rgba(15, 23, 42, 0.9);
+        text-shadow:
+          0 0 18px rgba(15, 23, 42, 0.9),
+          0 0 42px rgba(15, 23, 42, 1);
       }
 
-      .preview-footer {
-        margin-top: 10px;
-        display: flex;
-        justify-content: center;
-        gap: 6px;
-        font-size: 10px;
-        color: var(--muted);
-      }
-
-      .preview-footer span.dot {
-        width: 4px;
-        height: 4px;
-        border-radius: 999px;
-        background: rgba(148, 163, 184, 0.8);
-        align-self: center;
-      }
-
-      .bottom-buttons {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-        margin-top: 18px;
-      }
-
-      .loading-dots {
+      .preview-line span {
         display: inline-block;
-        margin-left: 6px;
+        opacity: 0;
+        transform: translateY(8px);
       }
 
-      .loading-dots span {
-        display: inline-block;
-        width: 3px;
-        height: 3px;
-        border-radius: 999px;
-        background: #111827;
-        margin: 0 1px;
-        animation: pulse 1s infinite ease-in-out;
-      }
-
-      .loading-dots span:nth-child(2) {
-        animation-delay: 0.2s;
-      }
-
-      .loading-dots span:nth-child(3) {
-        animation-delay: 0.35s;
-      }
-
-      @keyframes pulse {
-        0% {
-          opacity: 0.3;
-        }
-        50% {
-          opacity: 1;
-        }
-        100% {
-          opacity: 0.3;
-        }
-      }
-
-      .error-text {
+      .preview-meta {
         margin-top: 8px;
         font-size: 11px;
+        color: var(--text-soft);
+      }
+
+      .preview-meta-dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 999px;
+        background: #22c55e;
+        display: inline-block;
+        box-shadow: 0 0 12px rgba(34, 197, 94, 0.9);
+        margin-right: 4px;
+      }
+
+      .preview-footer-cta {
+        margin-top: 10px;
+        font-size: 11px;
+        color: #e5e7eb;
+        opacity: 0.8;
+      }
+
+      .preview-footer-cta strong {
+        color: #fbbf24;
+      }
+
+      .preview-inactive-hint {
+        font-size: 12px;
+        color: var(--text-soft);
+        text-align: center;
+        padding: 18px 10px;
+      }
+
+      .status-bar {
+        font-size: 11px;
+        color: #e5e7eb;
+        text-align: left;
+        padding-top: 2px;
+      }
+
+      .status-bar span.error {
         color: var(--danger);
       }
 
-      @media (max-width: 640px) {
-        .shell {
-          padding: 12px 10px 24px;
+      .status-bar span.ok {
+        color: #4ade80;
+      }
+
+      .status-bar span.processing {
+        color: #fbbf24;
+      }
+
+      .status-pulse-dot {
+        display: inline-block;
+        width: 6px;
+        height: 6px;
+        border-radius: 999px;
+        margin-right: 4px;
+        background: #fbbf24;
+        box-shadow: 0 0 12px rgba(251, 191, 36, 0.9);
+        animation: pulse-dot 1.3s ease-in-out infinite;
+      }
+
+      @keyframes pulse-dot {
+        0% {
+          transform: scale(1);
+          opacity: 0.4;
         }
-        .studio-header {
-          flex-direction: column;
-          align-items: flex-start;
+        50% {
+          transform: scale(1.2);
+          opacity: 1;
         }
-        .preview-frame {
-          height: 400px;
+        100% {
+          transform: scale(1);
+          opacity: 0.4;
+        }
+      }
+
+      /* ---------- TOAST ---------- */
+
+      .toast {
+        position: fixed;
+        left: 50%;
+        bottom: 16px;
+        transform: translateX(-50%);
+        padding: 10px 14px;
+        border-radius: 999px;
+        background: rgba(15, 23, 42, 0.96);
+        border: 1px solid rgba(148, 163, 184, 0.8);
+        color: #e5e7eb;
+        font-size: 12px;
+        box-shadow:
+          0 0 0 1px rgba(15, 23, 42, 0.9),
+          0 20px 40px rgba(15, 23, 42, 0.95);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.2s ease, transform 0.2s ease;
+        z-index: 50;
+        max-width: 92vw;
+        text-align: center;
+      }
+
+      .toast.visible {
+        opacity: 1;
+        transform: translateX(-50%) translateY(-4px);
+        pointer-events: auto;
+      }
+
+      /* ---------- RESPONSIVE ---------- */
+
+      @media (max-width: 480px) {
+        .studio-shell {
+          padding: 14px 12px 16px;
+        }
+        .section-title {
+          font-size: 16px;
+        }
+        .mode-pill {
+          flex: 1 1 100%;
+        }
+        textarea {
+          font-size: 15px;
+        }
+        .preview-line {
+          font-size: 16px;
         }
       }
     </style>
   </head>
 
   <body>
+    <div class="cinema-backdrop"></div>
+    <div class="snow-layer"></div>
+
     <div id="root"></div>
+
+    <!-- Background music (instrumental bed) -->
+    <audio id="bg-music" src="hero-instrumental.mp3" loop></audio>
 
     <!-- React UMD -->
     <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
 
     <script type="text/javascript">
-      const { useState, useEffect } = React;
+      const { useState, useEffect, useRef } = React;
 
-      // 🎄 yyovvo Cinematic Moods
-      const MOODS = [
+      // ---- SAMPLE MOODS (Christmas 60%, New Year 30%, Other 10%) ----
+      const SAMPLE_MOODS = [
         {
-          id: "xmas_midnight_ember",
-          name: "Midnight Ember",
-          category: "Christmas",
-          tagline: "Candlelit, intimate, deep winter warmth.",
-          cssClass: "mood-ember",
+          id: "midnight-sleigh",
+          name: "Midnight Sleigh Run",
+          tag: "Christmas • Cinematic",
+          tagColor: "#f97316",
+          bg: "radial-gradient(circle at 0% 0%, #0f172a, #020617)",
         },
         {
-          id: "xmas_snow_halo",
-          name: "Snow Halo",
-          category: "Christmas",
-          tagline: "Soft snow, distant bells, haloed light.",
-          cssClass: "mood-snow",
+          id: "snow-halo",
+          name: "Snow Halo Glow",
+          tag: "Christmas • Soft",
+          tagColor: "#22d3ee",
+          bg: "radial-gradient(circle at 10% 0%, #1e293b, #020617)",
         },
         {
-          id: "xmas_electric_mistletoe",
-          name: "Electric Mistletoe",
-          category: "Christmas",
-          tagline: "Neon green mistletoe, playful and bold.",
-          cssClass: "mood-mistletoe",
+          id: "neon-mistletoe",
+          name: "Neon Mistletoe",
+          tag: "Christmas • Electric",
+          tagColor: "#f973ff",
+          bg: "radial-gradient(circle at 100% 0%, #111827, #020617)",
         },
         {
-          id: "ny_countdown_glow",
-          name: "Countdown Glow",
-          category: "New Year",
-          tagline: "Midnight lights, seconds before everything changes.",
-          cssClass: "mood-countdown",
+          id: "newyear-spark",
+          name: "New Year Sparkstorm",
+          tag: "New Year • Fireworks",
+          tagColor: "#facc15",
+          bg: "radial-gradient(circle at 100% 100%, #0f172a, #020617)",
         },
         {
-          id: "ny_champagne_pulse",
-          name: "Champagne Pulse",
-          category: "New Year",
-          tagline: "Golden bubbles rising into next year.",
-          cssClass: "mood-champagne",
+          id: "countdown-city",
+          name: "City Countdown Lights",
+          tag: "New Year • Skyline",
+          tagColor: "#22d3ee",
+          bg: "radial-gradient(circle at 0% 100%, #020617, #02010a)",
         },
         {
-          id: "ever_eternal_flame",
-          name: "Eternal Flame",
-          category: "Always On",
-          tagline: "One bright flame that never goes out.",
-          cssClass: "mood-eternal",
+          id: "cosmic-wish",
+          name: "Cosmic Wishfield",
+          tag: "Timeless • Cosmic",
+          tagColor: "#a855f7",
+          bg: "radial-gradient(circle at 50% 0%, #1e293b, #020617)",
         },
       ];
 
-      const AI_PLACEHOLDERS = [
-        "Wish someone a magical Christmas…",
-        "Tell someone you’re thinking of them tonight…",
-        "Make them smile when they see this…",
-        "Send a New Year spark they won’t forget…",
-        "Say what you can’t quite say out loud…",
+      const TEXT_SUGGESTIONS = [
+        "Every time you hear this, remember me.",
+        "If Christmas had a heartbeat, it would sound like this.",
+        "Press play whenever you need a little bit of me.",
+        "This is what I’d say if I was standing right in front of you.",
+        "Here’s a little piece of my voice for your wall of moments.",
       ];
 
-      const AI_CHIPS = [
-        "Cute Christmas for my girlfriend",
-        "Something cosy for my mum",
-        "Funny message for my best mate",
-        "New Year hype for the group chat",
-        "Soft, romantic, late-night vibe",
-      ];
+      const API_URL =
+        "https://yyovvo-studio-ingest.yyovvouk.workers.dev/";
 
-      function StudioApp() {
-        const [mode, setMode] = useState(null); // "ai" | "upload" | "mood"
-        const [step, setStep] = useState(0); // 0 = mode select
-        const [selectedMoodId, setSelectedMoodId] = useState(null);
+      function showSoftVibration(pattern) {
+        try {
+          if ("vibrate" in navigator) {
+            navigator.vibrate(pattern || [15, 20, 15]);
+          }
+        } catch (_) {
+          // ignore if not supported
+        }
+      }
 
-        const [aiPrompt, setAiPrompt] = useState("");
-        const [aiPlaceholderIndex, setAiPlaceholderIndex] = useState(0);
+      function Toast({ message }) {
+        const [visible, setVisible] = useState(false);
 
-        const [messageText, setMessageText] = useState("");
-        const [aiSeeded, setAiSeeded] = useState(false);
-
-        const [uploadPreviewUrl, setUploadPreviewUrl] = useState(null);
-        const [uploadFileName, setUploadFileName] = useState("");
-
-        const [isSubmitting, setIsSubmitting] = useState(false);
-        const [error, setError] = useState("");
-
-        // Cloudflare Worker endpoint
-        const API_URL =
-          "https://yyovvo-studio-ingest.yyovvouk.workers.dev/";
-
-        // Rotate AI ghost placeholders
         useEffect(() => {
-          const id = setInterval(() => {
-            setAiPlaceholderIndex((idx) => (idx + 1) % AI_PLACEHOLDERS.length);
-          }, 2800);
-          return () => clearInterval(id);
+          if (!message) return;
+          setVisible(true);
+          const t = setTimeout(() => setVisible(false), 2600);
+          return () => clearTimeout(t);
+        }, [message]);
+
+        return React.createElement(
+          "div",
+          {
+            className: "toast" + (visible && message ? " visible" : ""),
+          },
+          message
+        );
+      }
+
+      function App() {
+        const [selectedMode, setSelectedMode] = useState("write");
+        const [selectedMoodId, setSelectedMoodId] = useState(
+          SAMPLE_MOODS[0]?.id || null
+        );
+        const [messageText, setMessageText] = useState("");
+        const [charCount, setCharCount] = useState(0);
+        const [isSubmitting, setIsSubmitting] = useState(false);
+        const [statusText, setStatusText] = useState("");
+        const [statusType, setStatusType] = useState("idle"); // idle | ok | error | processing
+        const [toastMessage, setToastMessage] = useState("");
+
+        const surfaceRef = useRef(null);
+        const musicRef = useRef(null);
+        const hasStartedMusicRef = useRef(false);
+        const previewTextRef = useRef(null);
+
+        useEffect(() => {
+          musicRef.current = document.getElementById("bg-music");
         }, []);
 
-        // If AI mode and aiPrompt set but messageText not yet seeded, generate suggestion
-        useEffect(() => {
-          if (mode === "ai" && aiPrompt.trim() && !aiSeeded) {
-            const suggestion = buildAIMsgSuggestion(aiPrompt);
-            setMessageText(suggestion);
-            setAiSeeded(true);
-          }
-        }, [mode, aiPrompt, aiSeeded]);
-
-        const currentMood =
-          MOODS.find((m) => m.id === selectedMoodId) || MOODS[0];
-
-        function resetFlow() {
-          setMode(null);
-          setStep(0);
-          setSelectedMoodId(null);
-          setAiPrompt("");
-          setAiSeeded(false);
-          setMessageText("");
-          setUploadPreviewUrl(null);
-          setUploadFileName("");
-          setIsSubmitting(false);
-          setError("");
+        function handleModeChange(mode) {
+          setSelectedMode(mode);
+          setToastMessage(
+            mode === "write"
+              ? "Write it once. Let them replay it forever."
+              : mode === "voice"
+              ? "Voice mode coming next — today you’re crafting the line."
+              : mode === "video"
+              ? "Video mode is next. This Christmas we start with words."
+              : "Let yyovvo draft the line — then you make it yours."
+          );
+          showSoftVibration([10, 10, 10]);
         }
 
-        function handleSelectMode(nextMode) {
-          setMode(nextMode);
-          setStep(nextMode === "ai" ? 1 : 1);
-          setError("");
+        function handleMoodSelect(id) {
+          setSelectedMoodId(id);
+          showSoftVibration([15]);
+        }
 
-          // Default mood selection for AI & Upload
-          if (!selectedMoodId) {
-            if (nextMode === "ai") {
-              setSelectedMoodId("xmas_snow_halo"); // magical default
-            } else if (nextMode === "upload") {
-              setSelectedMoodId("xmas_midnight_ember"); // intimate frame
+        function handleSuggestionClick(text) {
+          setMessageText(text);
+          setCharCount(text.length);
+          surfacePulse();
+        }
+
+        function surfacePulse() {
+          const el = surfaceRef.current;
+          if (!el) return;
+          el.classList.remove("elastic-pulse");
+          void el.offsetWidth;
+          el.classList.add("elastic-pulse");
+          showSoftVibration([10]);
+        }
+
+        function handleTextChange(e) {
+          const value = e.target.value;
+          setMessageText(value);
+          setCharCount(value.length);
+          surfacePulse();
+        }
+
+        function getSelectedMood() {
+          return (
+            SAMPLE_MOODS.find((m) => m.id === selectedMoodId) ||
+            SAMPLE_MOODS[0]
+          );
+        }
+
+        function getMessageModeLabel() {
+          if (selectedMode === "voice") return "Voice Premier (text line first)";
+          if (selectedMode === "video") return "Video Premier (text line first)";
+          if (selectedMode === "ai") return "AI Premier Draft";
+          return "Written Premier";
+        }
+
+        function getMessageTypeForPayload() {
+          // For v1 we store as 'text' always, but we track the chosen mode
+          return "text";
+        }
+
+        function playBackgroundMusic() {
+          if (!musicRef.current) return;
+          if (hasStartedMusicRef.current) return;
+          try {
+            musicRef.current.volume = 0.7;
+            const p = musicRef.current.play();
+            if (p && typeof p.then === "function") {
+              p.then(() => {
+                hasStartedMusicRef.current = true;
+              }).catch(() => {});
+            } else {
+              hasStartedMusicRef.current = true;
             }
-          }
+          } catch (_) {}
         }
 
-        function handleUploadChange(e) {
-          const file = e.target.files && e.target.files[0];
-          if (!file) return;
-          setUploadFileName(file.name);
+        function animatePreviewText() {
+          const container = previewTextRef.current;
+          if (!container) return;
 
-          const reader = new FileReader();
-          reader.onload = function (event) {
-            setUploadPreviewUrl(event.target.result);
-          };
-          reader.readAsDataURL(file);
-        }
-
-        function handleContinueFromAI() {
-          if (!aiPrompt.trim()) {
-            setError("Give yyovvo something to work with first.");
-            return;
-          }
-          if (!messageText.trim()) {
-            const suggestion = buildAIMsgSuggestion(aiPrompt);
-            setMessageText(suggestion);
-          }
-          setStep(2);
-          setError("");
-        }
-
-        function handleContinueFromUpload() {
-          if (!uploadPreviewUrl) {
-            setError("Drop in a photo or clip first.");
-            return;
-          }
-          setStep(2);
-          setError("");
-        }
-
-        function handleContinueFromMood() {
-          if (!selectedMoodId) {
-            setError("Tap a Mood first.");
-            return;
-          }
-          setStep(2);
-          setError("");
-        }
-
-        function handleBackStep() {
-          if (step === 2) {
-            // Return to respective first step for mode
-            setStep(1);
-          } else if (step === 1) {
-            // Back to mode picker
-            setStep(0);
-            setMode(null);
-          } else {
-            resetFlow();
-          }
+          const text = messageText.trim();
+          container.innerHTML = "";
+          const chars = text.split("");
+          chars.forEach((ch, i) => {
+            const span = document.createElement("span");
+            span.textContent = ch === " " ? "\u00A0" : ch;
+            const delay = 60 * i;
+            setTimeout(() => {
+              span.style.opacity = "1";
+              span.style.transform = "translateY(0)";
+            }, delay);
+            container.appendChild(span);
+          });
         }
 
         async function handleRenderPremier() {
-          setError("");
-          if (!currentMood || !messageText.trim()) {
-            setError("Mood and message must both be in place.");
+          if (!selectedMoodId || !messageText.trim()) {
+            setToastMessage("Choose a Mood and add your line first.");
             return;
           }
 
+          setIsSubmitting(true);
+          setStatusType("processing");
+          setStatusText("Forging your Premier into yyovvo Studio…");
+
+          const mood = getSelectedMood();
+
           const payload = {
-            entry_mode: mode || "mood",
-            mood_id: currentMood.id,
-            mood_name: currentMood.name,
-            mood_category: currentMood.category,
-            message_type: "text",
-            message_text: messageText.trim(),
+            mood_id: mood.id,
+            mood_name: mood.name,
+            message_type: getMessageTypeForPayload(),
             message_audio_url: null,
             message_video_url: null,
-            upload_preview: uploadPreviewUrl || null,
+            message_text: messageText.trim(),
             duration_s: 16,
             user_agent:
               typeof navigator !== "undefined" ? navigator.userAgent : "",
             origin: "yyovvo-studio.pages.dev",
+            entry_mode: selectedMode,
           };
-
-          setIsSubmitting(true);
 
           try {
             const res = await fetch(API_URL, {
@@ -967,852 +1152,531 @@
             try {
               data = JSON.parse(rawText);
             } catch (e) {
-              // leave as text if not JSON
+              // not JSON; treat as error
             }
 
             if (!res.ok || !data || data.ok === false) {
-              setError(
-                "yyovvo Studio backend error.\n\nStatus: " +
-                  res.status +
-                  "\n\nBody:\n" +
-                  rawText
+              setStatusType("error");
+              setStatusText(
+                "yyovvo Studio backend error — please try again in a moment."
               );
+              setToastMessage("That Premier hit a snowdrift. Try again.");
               return;
             }
 
             const premierId = data.id || data.studio_id || "";
+            if (!premierId) {
+              setStatusType("error");
+              setStatusText("Premier saved, but no ID returned.");
+              setToastMessage("Saved, but missing ID — try again.");
+              return;
+            }
+
+            setStatusType("ok");
+            setStatusText("Premier saved into yyovvo Studio. Lighting up now…");
+            showSoftVibration([25, 40, 25]);
+
             const viewerUrl =
               "https://yyovvo-studio.pages.dev/viewer.html?id=" +
               encodeURIComponent(premierId);
 
-            alert(
-              "Premier saved into yyovvo Studio ✅\n\n" +
-                "Your live link:\n" +
-                viewerUrl +
-                "\n\n(Tap OK to open your Premier.)"
-            );
+            // Optional: quick toast
+            setToastMessage("Premier ready. Opening your live moment…");
 
-            if (viewerUrl) {
-              window.location.href = viewerUrl;
-            }
+            // Auto-open the live Premier page
+            window.location.href = viewerUrl;
           } catch (err) {
-            setError(
-              "Network / CORS error reaching yyovvo Studio backend:\n\n" +
-                (err && err.message ? err.message : String(err))
+            setStatusType("error");
+            setStatusText(
+              "Network / CORS error reaching yyovvo Studio backend."
             );
+            setToastMessage("Connection slipped on the ice. Try again.");
           } finally {
             setIsSubmitting(false);
           }
         }
 
-        // ---- RENDER ----
+        // Animate preview text when message changes
+        useEffect(() => {
+          if (!messageText.trim()) return;
+          animatePreviewText();
+        }, [messageText]);
 
-        if (step === 0) {
-          return (
+        // Start music on first interaction (tap)
+        useEffect(() => {
+          function handleFirstTap() {
+            playBackgroundMusic();
+            window.removeEventListener("click", handleFirstTap);
+            window.removeEventListener("touchstart", handleFirstTap);
+          }
+          window.addEventListener("click", handleFirstTap, { once: true });
+          window.addEventListener("touchstart", handleFirstTap, { once: true });
+          return () => {
+            window.removeEventListener("click", handleFirstTap);
+            window.removeEventListener("touchstart", handleFirstTap);
+          };
+        }, []);
+
+        const selectedMood = getSelectedMood();
+
+        return React.createElement(
+          React.Fragment,
+          null,
+          React.createElement(
+            "div",
+            { className: "studio-shell" },
             React.createElement(
               "div",
-              { className: "full-page" },
+              { className: "studio-header" },
               React.createElement(
                 "div",
-                { className: "shell" },
+                { className: "studio-brand" },
+                React.createElement("div", { className: "brand-mark" }, [
+                  React.createElement("span", { key: "y" }, "YY"),
+                ]),
                 React.createElement(
                   "div",
-                  { className: "studio-header" },
+                  { className: "brand-text" },
                   React.createElement(
                     "div",
-                    { className: "studio-title-block" },
-                    React.createElement(
-                      "div",
-                      { className: "studio-title" },
-                      "yyovvo Studio"
-                    ),
-                    React.createElement(
-                      "div",
-                      { className: "studio-subtitle" },
-                      "Every great Christmas deserves a trailer. Build yours in three taps."
-                    )
+                    { className: "brand-text-main" },
+                    "yyovvo Studio"
                   ),
                   React.createElement(
                     "div",
-                    { className: "studio-pill" },
-                    React.createElement("span", { className: "dot" }),
-                    React.createElement(
-                      "span",
-                      null,
-                      "Live Studio · Christmas 2025"
-                    )
+                    { className: "brand-text-sub" },
+                    "Every moment gets a Premier."
                   )
-                ),
-                React.createElement(
-                  "div",
-                  { className: "section-title" },
-                  "How do you want to start?"
-                ),
-                React.createElement(
-                  "div",
-                  { className: "section-subtitle" },
-                  "Pick the doorway. Every path still gives you a full-screen yyovvo Premier with music, Mood and message."
-                ),
-                React.createElement(
-                  "div",
-                  { className: "mode-grid" },
-                  React.createElement(
-                    "div",
-                    {
-                      className:
-                        "mode-card" + (mode === "ai" ? " selected" : ""),
-                      onClick: function () {
-                        handleSelectMode("ai");
-                      },
-                    },
-                    React.createElement(
-                      "div",
-                      { className: "mode-card-content" },
-                      React.createElement(
-                        "div",
-                        { className: "mode-badge" },
-                        React.createElement("span", { className: "star" }, "✨"),
-                        "Recommended · Zero thinking"
-                      ),
-                      React.createElement(
-                        "div",
-                        { className: "mode-title" },
-                        "AI Studio"
-                      ),
-                      React.createElement(
-                        "div",
-                        { className: "mode-body" },
-                        "Tell yyovvo who it’s for, we’ll choose the Mood and write the line."
-                      ),
-                      React.createElement(
-                        "div",
-                        { className: "mode-foot" },
-                        React.createElement(
-                          "span",
-                          null,
-                          "Type one sentence. We do the rest."
-                        ),
-                        React.createElement(
-                          "span",
-                          { className: "mode-tag" },
-                          "Magic mode"
-                        )
-                      )
-                    )
-                  ),
-                  React.createElement(
-                    "div",
-                    {
-                      className:
-                        "mode-card" + (mode === "upload" ? " selected" : ""),
-                      onClick: function () {
-                        handleSelectMode("upload");
-                      },
-                    },
-                    React.createElement(
-                      "div",
-                      { className: "mode-card-content" },
-                      React.createElement(
-                        "div",
-                        { className: "mode-badge" },
-                        React.createElement(
-                          "span",
-                          { className: "star" },
-                          "📷"
-                        ),
-                        "Turn a photo into a trailer"
-                      ),
-                      React.createElement(
-                        "div",
-                        { className: "mode-title" },
-                        "Upload"
-                      ),
-                      React.createElement(
-                        "div",
-                        { className: "mode-body" },
-                        "Drop in a Christmas photo or clip. We wrap it in light and snow."
-                      ),
-                      React.createElement(
-                        "div",
-                        { className: "mode-foot" },
-                        React.createElement(
-                          "span",
-                          null,
-                          "Perfect for real moments."
-                        ),
-                        React.createElement(
-                          "span",
-                          { className: "mode-tag" },
-                          "Photo mode"
-                        )
-                      )
-                    )
-                  ),
-                  React.createElement(
-                    "div",
-                    {
-                      className:
-                        "mode-card" + (mode === "mood" ? " selected" : ""),
-                      onClick: function () {
-                        handleSelectMode("mood");
-                      },
-                    },
-                    React.createElement(
-                      "div",
-                      { className: "mode-card-content" },
-                      React.createElement(
-                        "div",
-                        { className: "mode-badge" },
-                        React.createElement(
-                          "span",
-                          { className: "star" },
-                          "🎞"
-                        ),
-                        "Pick from yyovvo’s cinema"
-                      ),
-                      React.createElement(
-                        "div",
-                        { className: "mode-title" },
-                        "yyovvo Moods"
-                      ),
-                      React.createElement(
-                        "div",
-                        { className: "mode-body" },
-                        "Tap a pre-made cinematic Mood, then write your line on top."
-                      ),
-                      React.createElement(
-                        "div",
-                        { className: "mode-foot" },
-                        React.createElement(
-                          "span",
-                          null,
-                          "For creators and aesthetes."
-                        ),
-                        React.createElement(
-                          "span",
-                          { className: "mode-tag" },
-                          "Director mode"
-                        )
-                      )
-                    )
-                  )
-                ),
-                React.createElement(
-                  "button",
-                  {
-                    className:
-                      "primary-button" + (!mode ? " disabled" : ""),
-                    onClick: !mode
-                      ? null
-                      : function () {
-                          // step already set inside handleSelectMode, but ensure
-                          if (mode && step === 0) setStep(1);
-                        },
-                  },
-                  mode
-                    ? "Continue · Step 1 →"
-                    : "Choose a starting doorway to continue"
-                ),
-                React.createElement(
-                  "button",
-                  {
-                    className: "ghost-button",
-                    onClick: resetFlow,
-                  },
-                  "Reset Studio"
                 )
-              )
-            )
-          );
-        }
-
-        // Step 1: depending on mode
-        if (step === 1 && mode === "ai") {
-          return (
-            React.createElement(
-              "div",
-              { className: "full-page" },
+              ),
               React.createElement(
                 "div",
-                { className: "shell" },
+                { className: "studio-pill" },
+                React.createElement("span", {
+                  className: "studio-pill-dot",
+                }),
+                "Live cinema engine · v1.0"
+              )
+            ),
+
+            React.createElement(
+              "div",
+              { className: "studio-main" },
+
+              // LEFT PANEL
+              React.createElement(
+                "div",
+                { className: "left-panel" },
                 React.createElement(
                   "div",
-                  { className: "studio-header" },
+                  null,
                   React.createElement(
                     "div",
-                    { className: "studio-title-block" },
-                    React.createElement(
-                      "div",
-                      { className: "studio-title" },
-                      "AI Studio"
-                    ),
-                    React.createElement(
-                      "div",
-                      { className: "studio-subtitle" },
-                      "Tell yyovvo who it’s for. We’ll choose the Mood and whisper the first line."
-                    )
+                    { className: "section-title" },
+                    "How do you want to speak?"
                   ),
                   React.createElement(
                     "div",
-                    { className: "studio-pill" },
-                    React.createElement("span", { className: "dot" }),
+                    { className: "section-subtitle" },
+                    "Pick your channel. We’ll wrap it in snow and light."
+                  ),
+                  React.createElement(
+                    "div",
+                    { className: "mode-row" },
                     React.createElement(
-                      "span",
-                      null,
-                      "Step 1 · Intention"
+                      "button",
+                      {
+                        type: "button",
+                        className:
+                          "mode-pill" +
+                          (selectedMode === "write" ? " selected" : ""),
+                        onClick: () => handleModeChange("write"),
+                      },
+                      React.createElement(
+                        "div",
+                        { className: "mode-pill-icon" },
+                        "✍️"
+                      ),
+                      React.createElement(
+                        "div",
+                        null,
+                        React.createElement(
+                          "div",
+                          { className: "mode-pill-main" },
+                          "Write"
+                        ),
+                        React.createElement(
+                          "div",
+                          { className: "mode-pill-sub" },
+                          "One line they’ll never forget."
+                        )
+                      )
+                    ),
+                    React.createElement(
+                      "button",
+                      {
+                        type: "button",
+                        className:
+                          "mode-pill" +
+                          (selectedMode === "voice" ? " selected" : ""),
+                        onClick: () => handleModeChange("voice"),
+                      },
+                      React.createElement(
+                        "div",
+                        { className: "mode-pill-icon" },
+                        "🎙"
+                      ),
+                      React.createElement(
+                        "div",
+                        null,
+                        React.createElement(
+                          "div",
+                          { className: "mode-pill-main" },
+                          "Voice"
+                        ),
+                        React.createElement(
+                          "div",
+                          { className: "mode-pill-sub" },
+                          "We start with words. Voice layer next."
+                        )
+                      )
+                    ),
+                    React.createElement(
+                      "button",
+                      {
+                        type: "button",
+                        className:
+                          "mode-pill" +
+                          (selectedMode === "video" ? " selected" : ""),
+                        onClick: () => handleModeChange("video"),
+                      },
+                      React.createElement(
+                        "div",
+                        { className: "mode-pill-icon" },
+                        "📹"
+                      ),
+                      React.createElement(
+                        "div",
+                        null,
+                        React.createElement(
+                          "div",
+                          { className: "mode-pill-main" },
+                          "Video"
+                        ),
+                        React.createElement(
+                          "div",
+                          { className: "mode-pill-sub" },
+                          "Film energy — text first, frames to come."
+                        )
+                      )
+                    ),
+                    React.createElement(
+                      "button",
+                      {
+                        type: "button",
+                        className:
+                          "mode-pill" +
+                          (selectedMode === "ai" ? " selected" : ""),
+                        onClick: () => handleModeChange("ai"),
+                      },
+                      React.createElement(
+                        "div",
+                        { className: "mode-pill-icon" },
+                        "✨"
+                      ),
+                      React.createElement(
+                        "div",
+                        null,
+                        React.createElement(
+                          "div",
+                          { className: "mode-pill-main" },
+                          "AI Draft"
+                        ),
+                        React.createElement(
+                          "div",
+                          { className: "mode-pill-sub" },
+                          "Let yyovvo suggest the first line."
+                        )
+                      )
                     )
                   )
                 ),
+
                 React.createElement(
                   "div",
-                  { className: "ai-panel" },
+                  null,
                   React.createElement(
                     "div",
-                    { className: "ai-label" },
-                    "Who is this for, and how do you want it to feel?"
+                    { className: "section-title", style: { marginTop: 10 } },
+                    "Pick your Mood"
                   ),
                   React.createElement(
                     "div",
-                    { className: "ai-sub" },
-                    "One sentence is enough. We’ll wrap it in snow, light and music."
+                    { className: "section-subtitle" },
+                    "This is the opening shot. Christmas, New Year, or timeless."
                   ),
                   React.createElement(
                     "div",
-                    { className: "ai-input-wrap" },
-                    React.createElement("input", {
-                      className: "ai-input",
-                      value: aiPrompt,
-                      onChange: function (e) {
-                        setAiPrompt(e.target.value);
-                        setAiSeeded(false);
-                      },
-                      placeholder: " ", // real placeholder empty, we use custom ghost
-                    }),
-                    React.createElement(
-                      "div",
-                      { className: "ai-placeholder" },
-                      AI_PLACEHOLDERS[aiPlaceholderIndex]
-                    )
-                  ),
-                  React.createElement(
-                    "div",
-                    { className: "ai-suggestions" },
-                    AI_CHIPS.map(function (chip) {
-                      return React.createElement(
+                    { className: "mood-grid" },
+                    SAMPLE_MOODS.map((m) =>
+                      React.createElement(
                         "div",
                         {
-                          key: chip,
-                          className: "ai-chip",
-                          onClick: function () {
-                            setAiPrompt(chip);
-                            setAiSeeded(false);
-                          },
+                          key: m.id,
+                          className:
+                            "mood-card" +
+                            (selectedMoodId === m.id ? " selected" : ""),
+                          onClick: () => handleMoodSelect(m.id),
+                          style: { background: m.bg },
                         },
-                        chip
-                      );
-                    })
-                  )
-                ),
-                error &&
-                  React.createElement(
-                    "div",
-                    { className: "error-text" },
-                    error
-                  ),
-                React.createElement(
-                  "button",
-                  {
-                    className:
-                      "primary-button" + (!aiPrompt.trim() ? " disabled" : ""),
-                    onClick: aiPrompt.trim() ? handleContinueFromAI : null,
-                  },
-                  "Next · Let yyovvo choose your Mood →"
-                ),
-                React.createElement(
-                  "button",
-                  {
-                    className: "ghost-button",
-                    onClick: handleBackStep,
-                  },
-                  "← Back"
-                )
-              )
-            )
-          );
-        }
-
-        if (step === 1 && mode === "upload") {
-          return (
-            React.createElement(
-              "div",
-              { className: "full-page" },
-              React.createElement(
-                "div",
-                { className: "shell" },
-                React.createElement(
-                  "div",
-                  { className: "studio-header" },
-                  React.createElement(
-                    "div",
-                    { className: "studio-title-block" },
-                    React.createElement(
-                      "div",
-                      { className: "studio-title" },
-                      "Upload a moment"
-                    ),
-                    React.createElement(
-                      "div",
-                      { className: "studio-subtitle" },
-                      "Turn a photo or clip into a cinematic trailer."
-                    )
-                  ),
-                  React.createElement(
-                    "div",
-                    { className: "studio-pill" },
-                    React.createElement("span", { className: "dot" }),
-                    React.createElement(
-                      "span",
-                      null,
-                      "Step 1 · Scene"
-                    )
-                  )
-                ),
-                React.createElement(
-                  "div",
-                  { className: "upload-panel" },
-                  React.createElement(
-                    "div",
-                    { className: "upload-zone" },
-                    React.createElement(
-                      "div",
-                      null,
-                      React.createElement("strong", null, "Drop a Christmas photo or clip"),
-                      " or tap to choose."
-                    ),
-                    React.createElement("input", {
-                      type: "file",
-                      accept: "image/*,video/*",
-                      style: { marginTop: "10px", fontSize: "11px" },
-                      onChange: handleUploadChange,
-                    }),
-                    React.createElement(
-                      "div",
-                      {
-                        style: {
-                          marginTop: "8px",
-                          fontSize: "11px",
-                          color: "var(--muted)",
-                        },
-                      },
-                      "Best results: upright portrait, 3–10s, something that already feels like a memory."
-                    )
-                  ),
-                  uploadPreviewUrl &&
-                    React.createElement(
-                      "div",
-                      { className: "upload-preview" },
-                      React.createElement("img", {
-                        src: uploadPreviewUrl,
-                        alt: "Upload preview",
-                      }),
-                      React.createElement("div", { className: "upload-overlay" })
-                    ),
-                  uploadFileName &&
-                    React.createElement(
-                      "div",
-                      {
-                        style: {
-                          marginTop: "6px",
-                          fontSize: "11px",
-                          color: "#e5e7eb",
-                        },
-                      },
-                      "Loaded: ",
-                      uploadFileName
-                    )
-                ),
-                error &&
-                  React.createElement(
-                    "div",
-                    { className: "error-text" },
-                    error
-                  ),
-                React.createElement(
-                  "button",
-                  {
-                    className:
-                      "primary-button" +
-                      (!uploadPreviewUrl ? " disabled" : ""),
-                    onClick: uploadPreviewUrl ? handleContinueFromUpload : null,
-                  },
-                  "Next · Add your line →"
-                ),
-                React.createElement(
-                  "button",
-                  {
-                    className: "ghost-button",
-                    onClick: handleBackStep,
-                  },
-                  "← Back"
-                )
-              )
-            )
-          );
-        }
-
-        if (step === 1 && mode === "mood") {
-          return (
-            React.createElement(
-              "div",
-              { className: "full-page" },
-              React.createElement(
-                "div",
-                { className: "shell" },
-                React.createElement(
-                  "div",
-                  { className: "studio-header" },
-                  React.createElement(
-                    "div",
-                    { className: "studio-title-block" },
-                    React.createElement(
-                      "div",
-                      { className: "studio-title" },
-                      "Pick your Mood"
-                    ),
-                    React.createElement(
-                      "div",
-                      { className: "studio-subtitle" },
-                      "These are yyovvo’s cinema environments. This is your opening shot."
-                    )
-                  ),
-                  React.createElement(
-                    "div",
-                    { className: "studio-pill" },
-                    React.createElement("span", { className: "dot" }),
-                    React.createElement(
-                      "span",
-                      null,
-                      "Step 1 · Mood"
-                    )
-                  )
-                ),
-                React.createElement(
-                  "div",
-                  { className: "mood-grid" },
-                  MOODS.map(function (m) {
-                    return React.createElement(
-                      "div",
-                      {
-                        key: m.id,
-                        className:
-                          "mood-card " +
-                          (m.cssClass || "") +
-                          (selectedMoodId === m.id ? " selected" : ""),
-                        onClick: function () {
-                          setSelectedMoodId(m.id);
-                        },
-                      },
-                      React.createElement(
-                        "div",
-                        { className: "mood-name" },
-                        m.name
-                      ),
-                      React.createElement(
-                        "div",
-                        { className: "mood-tagline" },
-                        m.tagline
-                      ),
-                      React.createElement(
-                        "div",
-                        { className: "mood-chip-row" },
                         React.createElement(
                           "div",
-                          { className: "mood-chip" },
-                          m.category
+                          { className: "mood-card-header" },
+                          m.name
                         ),
                         React.createElement(
                           "div",
-                          {
-                            style: {
-                              fontSize: "10px",
-                              color: "rgba(243,244,246,0.85)",
-                            },
-                          },
-                          "Loop · 3–6s"
+                          { className: "mood-tag" },
+                          React.createElement("span", {
+                            className: "mood-tag-dot",
+                            style: { background: m.tagColor },
+                          }),
+                          m.tag
+                        ),
+                        React.createElement(
+                          "div",
+                          { className: "mood-footer" },
+                          React.createElement(
+                            "div",
+                            { className: "mood-loop-indicator" },
+                            React.createElement("span", {
+                              className: "mood-loop-dot",
+                            }),
+                            React.createElement(
+                              "span",
+                              null,
+                              "Animated 3–6s loop"
+                            )
+                          ),
+                          React.createElement(
+                            "div",
+                            null,
+                            "Perfect for TikTok walls"
+                          )
                         )
                       )
-                    );
-                  })
-                ),
-                error &&
-                  React.createElement(
-                    "div",
-                    { className: "error-text" },
-                    error
-                  ),
-                React.createElement(
-                  "button",
-                  {
-                    className:
-                      "primary-button" + (!selectedMoodId ? " disabled" : ""),
-                    onClick: selectedMoodId ? handleContinueFromMood : null,
-                  },
-                  "Next · Write your line →"
-                ),
-                React.createElement(
-                  "button",
-                  {
-                    className: "ghost-button",
-                    onClick: handleBackStep,
-                  },
-                  "← Back"
-                )
-              )
-            )
-          );
-        }
-
-        // Step 2: Message + Preview (shared across modes)
-        if (step === 2) {
-          const isUploadMode = mode === "upload";
-          const animClass = currentMood.cssClass || "";
-
-          return (
-            React.createElement(
-              "div",
-              { className: "full-page" },
-              React.createElement(
-                "div",
-                { className: "shell" },
-                React.createElement(
-                  "div",
-                  { className: "studio-header" },
-                  React.createElement(
-                    "div",
-                    { className: "studio-title-block" },
-                    React.createElement(
-                      "div",
-                      { className: "studio-title" },
-                      "Write the line they’ll remember"
-                    ),
-                    React.createElement(
-                      "div",
-                      { className: "studio-subtitle" },
-                      "This sits on top of your Mood, with music under everything."
-                    )
-                  ),
-                  React.createElement(
-                    "div",
-                    { className: "studio-pill" },
-                    React.createElement("span", { className: "dot" }),
-                    React.createElement(
-                      "span",
-                      null,
-                      "Step 2 · Message + Preview"
                     )
                   )
                 ),
+
                 React.createElement(
                   "div",
                   { className: "message-panel" },
                   React.createElement(
                     "div",
-                    { className: "message-label" },
-                    "Type the sentence they’ll replay in their head."
-                  ),
-                  React.createElement(
-                    "div",
-                    { className: "message-sub" },
-                    "Keep it tight. We’ll handle the pacing, the glow and the music."
-                  ),
-                  React.createElement(
-                    "textarea",
-                    {
-                      value: messageText,
-                      maxLength: 280,
-                      onChange: function (e) {
-                        setMessageText(e.target.value);
-                      },
-                      placeholder:
-                        "Tell them what you really wanted to say all year…",
-                    }
-                  ),
-                  React.createElement(
-                    "div",
-                    { className: "char-count" },
-                    messageText.length,
-                    " / 280"
-                  )
-                ),
-                React.createElement(
-                  "div",
-                  { className: "preview-shell" },
-                  React.createElement(
-                    "div",
-                    { className: "preview-top-label" },
-                    "Premier · Live preview"
-                  ),
-                  React.createElement(
-                    "div",
-                    { className: "preview-frame" },
-                    isUploadMode &&
-                      uploadPreviewUrl &&
-                      React.createElement(
-                        "div",
-                        {
-                          className: "preview-mood-layer",
-                          style: {
-                            overflow: "hidden",
-                          },
-                        },
-                        React.createElement("img", {
-                          src: uploadPreviewUrl,
-                          alt: "Upload background",
-                          style: {
-                            width: "100%",
-                            height: "100%",
-                            objectFit: "cover",
-                            animation: "kenBurns 12s ease-in-out infinite",
-                          },
-                        }),
-                        React.createElement("div", {
-                          style: {
-                            position: "absolute",
-                            inset: 0,
-                            background:
-                              "radial-gradient(circle at bottom, rgba(15,23,42,0.65), rgba(15,23,42,0.1) 60%, rgba(15,23,42,0.85))",
-                          },
-                        })
-                      ),
-                    !isUploadMode &&
-                      React.createElement("div", {
-                        className: "preview-mood-layer " + animClass,
-                      }),
+                    { className: "message-inner" },
                     React.createElement(
                       "div",
-                      { className: "preview-content" },
+                      { className: "message-title-row" },
                       React.createElement(
                         "div",
-                        { className: "preview-mood-name" },
-                        currentMood.name
+                        { className: "message-title" },
+                        "Add your line"
                       ),
                       React.createElement(
                         "div",
-                        { className: "preview-message" },
-                        messageText.trim()
-                          ? messageText
-                          : "This is where your line will live, floating in snow and music."
+                        { className: "message-mode-chip" },
+                        getMessageModeLabel()
+                      )
+                    ),
+                    React.createElement(
+                      "div",
+                      { className: "message-sub" },
+                      "Type the sentence they’ll remember every time they think of this Christmas."
+                    ),
+                    React.createElement(
+                      "div",
+                      { className: "suggestion-row" },
+                      TEXT_SUGGESTIONS.map((s, i) =>
+                        React.createElement(
+                          "button",
+                          {
+                            key: "sugg_" + i,
+                            type: "button",
+                            className: "suggestion-pill",
+                            onClick: () => handleSuggestionClick(s),
+                          },
+                          s
+                        )
+                      )
+                    ),
+                    React.createElement(
+                      "div",
+                      { ref: surfaceRef, className: "message-surface" },
+                      React.createElement("textarea", {
+                        placeholder:
+                          "Tap the surface and let it absorb your words…",
+                        value: messageText,
+                        maxLength: 280,
+                        onChange: handleTextChange,
+                      }),
+                      React.createElement(
+                        "div",
+                        { className: "message-meta-row" },
+                        React.createElement(
+                          "div",
+                          { className: "char-count" },
+                          charCount,
+                          " / 280"
+                        ),
+                        React.createElement(
+                          "div",
+                          null,
+                          "Dynamic haptics · Mood-reactive typing"
+                        )
+                      )
+                    ),
+                    React.createElement(
+                      "div",
+                      { className: "cta-row" },
+                      React.createElement(
+                        "button",
+                        {
+                          type: "button",
+                          className: "primary-cta",
+                          disabled: isSubmitting || !messageText.trim(),
+                          onClick: handleRenderPremier,
+                        },
+                        isSubmitting
+                          ? "Rendering your Premier…"
+                          : "Render my Premier →"
+                      ),
+                      React.createElement(
+                        "button",
+                        {
+                          type: "button",
+                          className: "secondary-cta",
+                          onClick: () => {
+                            setMessageText("");
+                            setCharCount(0);
+                            setToastMessage("Cleared. New line, new feeling.");
+                          },
+                        },
+                        "Reset line"
                       )
                     )
-                  ),
-                  React.createElement(
-                    "div",
-                    { className: "preview-footer" },
-                    React.createElement(
-                      "span",
-                      null,
-                      "Full-screen cinematic loop · Instrumental track under everything"
-                    ),
-                    React.createElement("span", { className: "dot" }),
-                    React.createElement(
-                      "span",
-                      null,
-                      "Anonymous by default · Signature optional later"
-                    )
                   )
-                ),
-                error &&
-                  React.createElement(
-                    "div",
-                    { className: "error-text" },
-                    error
-                  ),
+                )
+              ),
+
+              // RIGHT PANEL
+              React.createElement(
+                "div",
+                { className: "right-panel" },
                 React.createElement(
                   "div",
-                  { className: "bottom-buttons" },
+                  { className: "preview-label-row" },
                   React.createElement(
-                    "button",
-                    {
-                      className:
-                        "primary-button" +
-                        (!messageText.trim() || isSubmitting
-                          ? " disabled"
-                          : ""),
-                      onClick:
-                        !messageText.trim() || isSubmitting
-                          ? null
-                          : handleRenderPremier,
-                    },
-                    isSubmitting
-                      ? React.createElement(
-                          React.Fragment,
-                          null,
-                          "Saving your Premier to yyovvo",
-                          React.createElement(
-                            "span",
-                            { className: "loading-dots" },
-                            React.createElement("span", null),
-                            React.createElement("span", null),
-                            React.createElement("span", null)
-                          )
-                        )
-                      : "Render my Premier →"
+                    "div",
+                    null,
+                    React.createElement(
+                      "div",
+                      { className: "preview-mood-name" },
+                      selectedMood.name
+                    ),
+                    React.createElement(
+                      "div",
+                      null,
+                      "Live Premier Preview"
+                    )
                   ),
                   React.createElement(
-                    "button",
-                    {
-                      className: "ghost-button",
-                      onClick: handleBackStep,
-                    },
-                    "← Back"
+                    "div",
+                    { className: "preview-timer" },
+                    "00:13–00:16"
                   )
+                ),
+                React.createElement(
+                  "div",
+                  { className: "preview-stage" },
+                  React.createElement("div", {
+                    className: "preview-mood-layer",
+                    style: { backgroundImage: selectedMood.bg },
+                  }),
+                  messageText.trim()
+                    ? React.createElement(
+                        "div",
+                        { className: "preview-overlay" },
+                        React.createElement("div", {
+                          className: "preview-line",
+                          ref: previewTextRef,
+                        }),
+                        React.createElement(
+                          "div",
+                          { className: "preview-meta" },
+                          React.createElement("span", {
+                            className: "preview-meta-dot",
+                          }),
+                          "Instrumental bed · elastic captions · signature stroke to follow"
+                        ),
+                        React.createElement(
+                          "div",
+                          { className: "preview-footer-cta" },
+                          "This is how your yyovvo will ",
+                          React.createElement("strong", null, "start"),
+                          " breathing on someone’s screen."
+                        )
+                      )
+                    : React.createElement(
+                        "div",
+                        { className: "preview-inactive-hint" },
+                        "Your Premier preview will appear here as you type. Pick a Mood, add your line, and watch the words turn into a living moment."
+                      )
+                ),
+                React.createElement(
+                  "div",
+                  { className: "status-bar" },
+                  statusType === "processing" &&
+                    React.createElement(
+                      React.Fragment,
+                      null,
+                      React.createElement("span", {
+                        className: "status-pulse-dot",
+                      }),
+                      React.createElement(
+                        "span",
+                        { className: "processing" },
+                        statusText || "Preparing your Premier…"
+                      )
+                    ),
+                  statusType === "ok" &&
+                    React.createElement(
+                      "span",
+                      { className: "ok" },
+                      statusText
+                    ),
+                  statusType === "error" &&
+                    React.createElement(
+                      "span",
+                      { className: "error" },
+                      statusText
+                    ),
+                  statusType === "idle" &&
+                    React.createElement(
+                      "span",
+                      null,
+                      "Ready when you are. Tap Render when your line feels right."
+                    )
                 )
               )
             )
-          );
-        }
-
-        // Fallback (should never hit)
-        return React.createElement(
-          "div",
-          { className: "full-page" },
-          React.createElement(
-            "div",
-            { className: "shell" },
-            React.createElement(
-              "div",
-              null,
-              "yyovvo Studio is thinking…"
-            )
-          )
+          ),
+          React.createElement(Toast, { message: toastMessage })
         );
       }
 
-      function buildAIMsgSuggestion(prompt) {
-        const p = prompt.trim();
-        if (!p) return "";
-        const lower = p.toLowerCase();
-        if (lower.includes("girlfriend")) {
-          return "You’re the part of Christmas I never want to miss.";
-        }
-        if (lower.includes("mum") || lower.includes("mom") || lower.includes("mother")) {
-          return "Every Christmas feels safer because you’re in it.";
-        }
-        if (lower.includes("mate") || lower.includes("friend") || lower.includes("best")) {
-          return "Thanks for being the chaos and the calm this year.";
-        }
-        if (lower.includes("new year") || lower.includes("2026") || lower.includes("next year")) {
-          return "Next year hits different with you in it.";
-        }
-        if (lower.includes("crush") || lower.includes("love")) {
-          return "Christmas feels louder every time I think of you.";
-        }
-        // Default soft line
-        return "I just wanted you to feel seen for a few seconds.";
-      }
-
       ReactDOM.createRoot(document.getElementById("root")).render(
-        React.createElement(StudioApp)
+        React.createElement(App)
       );
     </script>
   </body>
