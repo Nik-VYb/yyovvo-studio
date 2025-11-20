@@ -8,16 +8,28 @@
     />
     <title>yyovvo Studio · Premier</title>
     <style>
+      :root {
+        --bg-deep: #050509;
+        --bg-panel: rgba(15, 23, 42, 0.98);
+        --accent-pink: #f973ff;
+        --accent-blue: #38bdf8;
+        --accent-gold: #facc15;
+        --muted: #9ca3af;
+        --text-main: #f9fafb;
+        --danger: #f97373;
+      }
+
       * {
         box-sizing: border-box;
       }
 
       body {
         margin: 0;
-        background: #03030a;
-        color: #f9fafb;
+        background: radial-gradient(circle at top, #020617 0, #000 60%);
+        color: var(--text-main);
         font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
           "Segoe UI", sans-serif;
+        -webkit-font-smoothing: antialiased;
       }
 
       .full-page {
@@ -28,110 +40,176 @@
         background: radial-gradient(circle at top, #111827 0, #02010a 55%);
       }
 
-      .top-bar {
-        padding: 14px 16px 4px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
+      .shell {
+        max-width: 980px;
+        margin: 0 auto;
+        padding: 16px 16px 32px;
       }
 
-      .brand-pill {
-        display: inline-flex;
+      .studio-header {
+        display: flex;
         align-items: center;
-        gap: 8px;
+        justify-content: space-between;
+        gap: 12px;
+        padding-bottom: 4px;
+      }
+
+      .studio-title-block {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+
+      .studio-title {
+        font-size: 22px;
+        font-weight: 600;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        background: linear-gradient(135deg, #f973ff, #38bdf8);
+        -webkit-background-clip: text;
+        color: transparent;
+      }
+
+      .studio-subtitle {
+        font-size: 12px;
+        color: var(--muted);
+      }
+
+      .studio-pill {
         padding: 6px 12px;
         border-radius: 999px;
-        background: rgba(15, 23, 42, 0.9);
-        border: 1px solid rgba(148, 163, 184, 0.5);
-      }
-
-      .brand-dot {
-        width: 18px;
-        height: 18px;
-        border-radius: 999px;
-        background: radial-gradient(circle at 30% 0%, #f973ff, #38bdf8);
-        display: flex;
+        font-size: 11px;
+        border: 1px solid rgba(148, 163, 184, 0.6);
+        display: inline-flex;
         align-items: center;
-        justify-content: center;
-        font-size: 11px;
-        font-weight: 600;
-        color: #020617;
+        gap: 6px;
+        background: radial-gradient(circle at top, #020617, #040016);
       }
 
-      .brand-text {
-        font-size: 11px;
-        letter-spacing: 0.16em;
-        text-transform: uppercase;
-      }
-
-      .season-pill {
-        padding: 6px 10px;
+      .studio-pill span.dot {
+        width: 7px;
+        height: 7px;
         border-radius: 999px;
-        border: 1px solid rgba(148, 163, 184, 0.5);
-        font-size: 11px;
-        color: #9ca3af;
+        background: radial-gradient(circle at center, #22c55e, #14532d);
+        box-shadow: 0 0 8px rgba(34, 197, 94, 0.8);
       }
 
-      .title {
-        font-size: 24px;
+      .section-title {
+        font-size: 18px;
         font-weight: 600;
-        padding: 4px 20px 2px;
-        text-align: center;
+        margin: 12px 0 4px;
+        text-align: left;
       }
 
-      .subtitle {
+      .section-subtitle {
         font-size: 13px;
-        color: #9ca3af;
-        text-align: center;
-        padding: 0 20px 12px;
+        color: var(--muted);
+        margin-bottom: 12px;
       }
 
-      .mood-grid {
+      /* MODE PICKER */
+
+      .mode-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-        gap: 12px;
-        padding: 0 16px 16px;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 14px;
+        margin-top: 8px;
       }
 
-      .mood-card {
-        background: radial-gradient(circle at top, #1f2937, #020617);
-        border-radius: 18px;
-        height: 150px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 14px;
-        cursor: pointer;
+      .mode-card {
+        position: relative;
+        border-radius: 22px;
+        padding: 16px 14px 14px;
+        background: radial-gradient(circle at top, #111827, #020617);
         border: 1px solid rgba(148, 163, 184, 0.5);
-        transition: 0.18s ease;
-        text-align: center;
-        padding: 10px;
+        cursor: pointer;
+        transition: 0.2s ease;
+        overflow: hidden;
       }
 
-      .mood-card span.label {
-        display: block;
+      .mode-card::before {
+        content: "";
+        position: absolute;
+        inset: -40%;
+        background: conic-gradient(
+          from 220deg,
+          rgba(248, 113, 255, 0.25),
+          rgba(56, 189, 248, 0.05),
+          rgba(250, 204, 21, 0.18),
+          rgba(248, 113, 255, 0.25)
+        );
+        opacity: 0;
+        transition: opacity 0.2s ease;
+        pointer-events: none;
+      }
+
+      .mode-card:hover::before {
+        opacity: 0.16;
+      }
+
+      .mode-card-content {
+        position: relative;
+        z-index: 1;
+      }
+
+      .mode-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 4px 10px;
+        border-radius: 999px;
+        background: rgba(15, 23, 42, 0.92);
+        border: 1px solid rgba(148, 163, 184, 0.7);
+        font-size: 11px;
+        color: #e5e7eb;
+        margin-bottom: 6px;
+      }
+
+      .mode-badge span.star {
+        font-size: 14px;
+      }
+
+      .mode-title {
+        font-size: 15px;
         font-weight: 600;
         margin-bottom: 4px;
       }
 
-      .mood-card span.tag {
-        display: block;
+      .mode-body {
+        font-size: 12px;
+        color: var(--muted);
+        margin-bottom: 10px;
+      }
+
+      .mode-foot {
         font-size: 11px;
-        color: #9ca3af;
+        color: #e5e7eb;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 6px;
       }
 
-      .mood-card:hover {
-        box-shadow: 0 0 22px rgba(129, 140, 248, 0.5);
+      .mode-tag {
+        padding: 4px 9px;
+        border-radius: 999px;
+        border: 1px solid rgba(148, 163, 184, 0.7);
+        font-size: 10px;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        color: var(--muted);
       }
 
-      .mood-card.selected {
-        border-color: #f973ff;
-        box-shadow: 0 0 24px rgba(249, 115, 255, 0.7);
-        transform: translateY(-2px);
+      .mode-card.selected {
+        border-color: var(--accent-pink);
+        box-shadow: 0 0 30px rgba(249, 115, 255, 0.65);
+        transform: translateY(-1px);
       }
 
-      .action-button {
-        margin: 0 16px 16px;
+      /* BUTTONS */
+
+      .primary-button {
+        margin-top: 18px;
         padding: 14px;
         border-radius: 999px;
         font-size: 15px;
@@ -141,107 +219,455 @@
         transition: 0.18s ease;
         font-weight: 600;
         color: #020617;
+        border: none;
       }
 
-      .action-button:hover {
+      .primary-button:hover {
         opacity: 0.92;
       }
 
-      .action-button.disabled {
+      .primary-button.disabled {
         opacity: 0.35;
         cursor: not-allowed;
         box-shadow: none;
       }
 
-      .secondary-button {
-        margin: 0 16px 16px;
-        padding: 12px;
+      .ghost-button {
+        margin-top: 10px;
+        padding: 10px;
         border-radius: 999px;
-        font-size: 14px;
+        font-size: 13px;
         text-align: center;
-        background: #111827;
-        border: 1px solid rgba(107, 114, 128, 0.8);
+        background: transparent;
+        border: 1px solid rgba(107, 114, 128, 0.9);
         cursor: pointer;
         color: #e5e7eb;
       }
 
-      .message-box {
-        padding: 12px 16px 0;
+      .ghost-button:hover {
+        background: rgba(15, 23, 42, 0.94);
+      }
+
+      /* AI MODE */
+
+      .ai-panel {
+        margin-top: 16px;
+        padding: 16px;
+        border-radius: 20px;
+        background: radial-gradient(circle at top left, #0b1120, #020617 55%);
+        border: 1px solid rgba(148, 163, 184, 0.7);
+      }
+
+      .ai-label {
+        font-size: 13px;
+        margin-bottom: 6px;
+      }
+
+      .ai-sub {
+        font-size: 12px;
+        color: var(--muted);
+        margin-bottom: 10px;
+      }
+
+      .ai-input-wrap {
+        position: relative;
+      }
+
+      .ai-input {
+        width: 100%;
+        border-radius: 16px;
+        border: 1px solid rgba(148, 163, 184, 0.8);
+        background: rgba(15, 23, 42, 0.96);
+        color: var(--text-main);
+        padding: 10px 12px;
+        font-size: 14px;
+        outline: none;
+      }
+
+      .ai-placeholder {
+        position: absolute;
+        left: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: rgba(148, 163, 184, 0.7);
+        font-size: 13px;
+        pointer-events: none;
+        transition: opacity 0.2s ease;
+      }
+
+      .ai-input:not(:placeholder-shown) + .ai-placeholder,
+      .ai-input:focus + .ai-placeholder {
+        opacity: 0;
+      }
+
+      .ai-suggestions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin-top: 10px;
+      }
+
+      .ai-chip {
+        padding: 6px 10px;
+        border-radius: 999px;
+        font-size: 11px;
+        border: 1px solid rgba(148, 163, 184, 0.7);
+        cursor: pointer;
+        background: rgba(15, 23, 42, 0.95);
+        color: #e5e7eb;
+      }
+
+      .ai-chip:hover {
+        border-color: var(--accent-pink);
+      }
+
+      /* UPLOAD MODE */
+
+      .upload-panel {
+        margin-top: 16px;
+        padding: 16px;
+        border-radius: 20px;
+        background: radial-gradient(circle at top right, #020617, #000 60%);
+        border: 1px dashed rgba(148, 163, 184, 0.7);
+      }
+
+      .upload-zone {
+        border-radius: 18px;
+        border: 1px dashed rgba(148, 163, 184, 0.7);
+        background: rgba(15, 23, 42, 0.9);
+        padding: 14px;
+        text-align: center;
+        font-size: 12px;
+        color: var(--muted);
+      }
+
+      .upload-zone strong {
+        color: #e5e7eb;
+      }
+
+      .upload-preview {
+        margin-top: 12px;
+        border-radius: 18px;
+        overflow: hidden;
+        position: relative;
+        border: 1px solid rgba(148, 163, 184, 0.7);
+      }
+
+      .upload-preview img {
+        width: 100%;
+        display: block;
+        animation: kenBurns 10s ease-in-out infinite;
+        transform-origin: center;
+      }
+
+      .upload-overlay {
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(circle at bottom, rgba(15, 23, 42, 0.3), transparent 60%);
+      }
+
+      @keyframes kenBurns {
+        0% {
+          transform: scale(1.02);
+        }
+        50% {
+          transform: scale(1.06) translateY(-1%);
+        }
+        100% {
+          transform: scale(1.02);
+        }
+      }
+
+      /* MOOD GRID (MANUAL MODE) */
+
+      .mood-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 12px;
+        margin-top: 12px;
+      }
+
+      .mood-card {
+        position: relative;
+        border-radius: 18px;
+        height: 170px;
+        cursor: pointer;
+        overflow: hidden;
+        border: 1px solid rgba(148, 163, 184, 0.6);
+        background: radial-gradient(circle at top, #1f2937, #020617);
+        color: #e5e7eb;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        padding: 10px;
+        font-size: 13px;
+        transition: 0.18s ease;
+      }
+
+      .mood-card::before {
+        content: "";
+        position: absolute;
+        inset: -40%;
+        opacity: 0;
+        transition: opacity 0.18s ease;
+        pointer-events: none;
+      }
+
+      .mood-card:hover::before {
+        opacity: 0.4;
+      }
+
+      .mood-card.selected {
+        border-color: var(--accent-pink);
+        box-shadow: 0 0 26px rgba(249, 115, 255, 0.7);
+        transform: translateY(-1.5px);
+      }
+
+      .mood-name {
+        font-weight: 600;
+        font-size: 13px;
+      }
+
+      .mood-tagline {
+        font-size: 11px;
+        color: var(--muted);
+      }
+
+      .mood-chip-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-top: 4px;
+      }
+
+      .mood-chip {
+        font-size: 10px;
+        padding: 3px 8px;
+        border-radius: 999px;
+        border: 1px solid rgba(148, 163, 184, 0.8);
+      }
+
+      /* MOOD ANIMATIONS */
+
+      .mood-ember::before {
+        background: radial-gradient(circle at bottom, #7f1d1d, #0b0f19 55%);
+        animation: emberPulse 7s ease-in-out infinite;
+      }
+
+      .mood-snow::before {
+        background: radial-gradient(circle at top, #e5f2ff, #020617 65%);
+        animation: snowDrift 9s linear infinite;
+      }
+
+      .mood-mistletoe::before {
+        background: radial-gradient(circle at top, #16a34a, #020617 60%);
+        animation: neonSweep 6s ease-in-out infinite;
+      }
+
+      .mood-countdown::before {
+        background: conic-gradient(
+          from 180deg,
+          #fbbf24,
+          #38bdf8,
+          #a855f7,
+          #f97316,
+          #fbbf24
+        );
+        animation: orbitGlow 11s linear infinite;
+      }
+
+      .mood-champagne::before {
+        background: radial-gradient(circle at bottom, #facc15, #111827 60%);
+        animation: bubbleRise 10s ease-in-out infinite;
+      }
+
+      .mood-eternal::before {
+        background: radial-gradient(circle at center, #f97316, #020617 70%);
+        animation: slowPulse 12s ease-in-out infinite;
+      }
+
+      @keyframes emberPulse {
+        0% {
+          transform: translateY(0);
+          opacity: 0.8;
+        }
+        50% {
+          transform: translateY(-2%);
+          opacity: 1;
+        }
+        100% {
+          transform: translateY(0);
+          opacity: 0.8;
+        }
+      }
+
+      @keyframes snowDrift {
+        0% {
+          transform: translateY(-4%);
+        }
+        100% {
+          transform: translateY(4%);
+        }
+      }
+
+      @keyframes neonSweep {
+        0% {
+          filter: blur(6px);
+        }
+        50% {
+          filter: blur(12px);
+        }
+        100% {
+          filter: blur(6px);
+        }
+      }
+
+      @keyframes orbitGlow {
+        0% {
+          transform: rotate(0deg) scale(1.02);
+        }
+        100% {
+          transform: rotate(360deg) scale(1.02);
+        }
+      }
+
+      @keyframes bubbleRise {
+        0% {
+          transform: translateY(4%);
+        }
+        50% {
+          transform: translateY(-4%);
+        }
+        100% {
+          transform: translateY(4%);
+        }
+      }
+
+      @keyframes slowPulse {
+        0% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.04);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+
+      /* MESSAGE STEP */
+
+      .message-panel {
+        margin-top: 16px;
+        padding: 16px;
+        border-radius: 20px;
+        background: radial-gradient(circle at top, #0b1120, #020617 65%);
+        border: 1px solid rgba(148, 163, 184, 0.9);
+      }
+
+      .message-label {
+        font-size: 13px;
+        margin-bottom: 6px;
+      }
+
+      .message-sub {
+        font-size: 12px;
+        color: var(--muted);
+        margin-bottom: 10px;
       }
 
       textarea {
         width: 100%;
-        height: 140px;
+        height: 120px;
         border-radius: 16px;
         padding: 10px 12px;
         border: 1px solid rgba(148, 163, 184, 0.7);
         outline: none;
         font-size: 14px;
         background: rgba(15, 23, 42, 0.96);
-        color: #f9fafb;
+        color: var(--text-main);
         resize: none;
       }
 
       .char-count {
         font-size: 11px;
-        color: #9ca3af;
+        color: var(--muted);
         text-align: right;
-        padding: 4px 4px 4px 0;
+        padding: 4px 4px 0 0;
       }
 
-      .preview-box {
-        min-height: 100vh;
-        width: 100vw;
+      /* PREVIEW */
+
+      .preview-shell {
+        margin-top: 20px;
+        border-radius: 24px;
+        padding: 14px;
+        background: radial-gradient(circle at top, #020617, #000 70%);
+        border: 1px solid rgba(148, 163, 184, 0.85);
+        box-shadow: 0 26px 70px rgba(15, 23, 42, 0.95);
+      }
+
+      .preview-top-label {
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.18em;
+        color: var(--muted);
+        margin-bottom: 8px;
+      }
+
+      .preview-frame {
+        position: relative;
+        border-radius: 26px;
+        height: 440px;
+        overflow: hidden;
+        background: radial-gradient(circle at top, #1f2937, #020617);
+        border: 1px solid rgba(148, 163, 184, 0.85);
         display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        background: radial-gradient(circle at top, #020617, #000);
+        align-items: center;
+        justify-content: center;
         padding: 16px;
       }
 
-      .preview-mood {
-        flex: 1;
-        border-radius: 24px;
-        background: radial-gradient(circle at top, #1f2937, #020617);
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        align-items: stretch;
-        font-size: 20px;
-        text-align: left;
-        padding: 18px 18px 16px;
-        border: 1px solid rgba(148, 163, 184, 0.6);
-        box-shadow: 0 30px 80px rgba(15, 23, 42, 0.95);
+      .preview-mood-layer {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
       }
 
-      .preview-header {
-        font-size: 11px;
-        letter-spacing: 0.16em;
-        text-transform: uppercase;
-        color: #9ca3af;
-        margin-bottom: 4px;
+      .preview-content {
+        position: relative;
+        z-index: 2;
+        text-align: center;
+        max-width: 80%;
       }
 
       .preview-mood-name {
-        font-size: 20px;
+        font-size: 13px;
         font-weight: 600;
-        background: linear-gradient(135deg, #f973ff, #38bdf8);
-        -webkit-background-clip: text;
-        color: transparent;
-        margin-bottom: 12px;
+        margin-bottom: 6px;
       }
 
-      .preview-mood span.line {
-        display: block;
+      .preview-message {
         font-size: 16px;
-        color: #e5e7eb;
-        margin-top: 6px;
+        line-height: 1.4;
+        text-shadow: 0 0 18px rgba(15, 23, 42, 0.9);
       }
 
-      .preview-footnote {
-        font-size: 11px;
-        color: #9ca3af;
-        margin-top: 16px;
+      .preview-footer {
+        margin-top: 10px;
+        display: flex;
+        justify-content: center;
+        gap: 6px;
+        font-size: 10px;
+        color: var(--muted);
+      }
+
+      .preview-footer span.dot {
+        width: 4px;
+        height: 4px;
+        border-radius: 999px;
+        background: rgba(148, 163, 184, 0.8);
+        align-self: center;
       }
 
       .bottom-buttons {
@@ -285,6 +711,25 @@
           opacity: 0.3;
         }
       }
+
+      .error-text {
+        margin-top: 8px;
+        font-size: 11px;
+        color: var(--danger);
+      }
+
+      @media (max-width: 640px) {
+        .shell {
+          padding: 12px 10px 24px;
+        }
+        .studio-header {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+        .preview-frame {
+          height: 400px;
+        }
+      }
     </style>
   </head>
 
@@ -296,250 +741,212 @@
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
 
     <script type="text/javascript">
-      const { useState } = React;
+      const { useState, useEffect } = React;
 
-      // 60% Christmas, 30% New Year, 10% Other
-      const SAMPLE_MOODS = [
-        // CHRISTMAS CORE
-        { id: "xmas1", name: "Midnight Tree Lights", tag: "Christmas Eve" },
-        { id: "xmas2", name: "Snow Halo", tag: "Soft & sentimental" },
-        { id: "xmas3", name: "Kitchen Chaos", tag: "Family Christmas chaos" },
-        { id: "xmas4", name: "Wrapping Paper Explosion", tag: "Present frenzy" },
-        { id: "xmas5", name: "Candlelit Carol", tag: "Slow, romantic Christmas" },
-        { id: "xmas6", name: "Last-Minute Santa Dash", tag: "Funny, frantic" },
-
-        // NEW YEAR
-        { id: "ny1", name: "Midnight Countdown", tag: "New Year’s Eve" },
-        { id: "ny2", name: "Fireworks on Facetime", tag: "Long-distance NY" },
-        { id: "ny3", name: "New Year, New Us", tag: "Fresh start energy" },
-
-        // OTHER (intentionally small)
-        { id: "mood10", name: "Random Tuesday Heartbeat", tag: "Any-day confession" },
+      // 🎄 yyovvo Cinematic Moods
+      const MOODS = [
+        {
+          id: "xmas_midnight_ember",
+          name: "Midnight Ember",
+          category: "Christmas",
+          tagline: "Candlelit, intimate, deep winter warmth.",
+          cssClass: "mood-ember",
+        },
+        {
+          id: "xmas_snow_halo",
+          name: "Snow Halo",
+          category: "Christmas",
+          tagline: "Soft snow, distant bells, haloed light.",
+          cssClass: "mood-snow",
+        },
+        {
+          id: "xmas_electric_mistletoe",
+          name: "Electric Mistletoe",
+          category: "Christmas",
+          tagline: "Neon green mistletoe, playful and bold.",
+          cssClass: "mood-mistletoe",
+        },
+        {
+          id: "ny_countdown_glow",
+          name: "Countdown Glow",
+          category: "New Year",
+          tagline: "Midnight lights, seconds before everything changes.",
+          cssClass: "mood-countdown",
+        },
+        {
+          id: "ny_champagne_pulse",
+          name: "Champagne Pulse",
+          category: "New Year",
+          tagline: "Golden bubbles rising into next year.",
+          cssClass: "mood-champagne",
+        },
+        {
+          id: "ever_eternal_flame",
+          name: "Eternal Flame",
+          category: "Always On",
+          tagline: "One bright flame that never goes out.",
+          cssClass: "mood-eternal",
+        },
       ];
 
-      function MoodPage({ selectedMoodId, onSelectMood, onNext }) {
-        return React.createElement(
-          "div",
-          { className: "full-page" },
-          React.createElement(
-            "div",
-            { className: "top-bar" },
-            React.createElement(
-              "div",
-              { className: "brand-pill" },
-              React.createElement("div", { className: "brand-dot" }, "yy"),
-              React.createElement("div", { className: "brand-text" }, "yyovvo studio")
-            ),
-            React.createElement("div", { className: "season-pill" }, "Christmas · New Year 2025")
-          ),
-          React.createElement("div", { className: "title" }, "Pick your Mood"),
-          React.createElement(
-            "div",
-            { className: "subtitle" },
-            "This is the opening shot of your mini-movie. Choose the Mood that feels like your Christmas or New Year scene."
-          ),
-          React.createElement(
-            "div",
-            { className: "mood-grid" },
-            SAMPLE_MOODS.map(function (m) {
-              return React.createElement(
-                "div",
-                {
-                  key: m.id,
-                  className:
-                    "mood-card" +
-                    (selectedMoodId === m.id ? " selected" : ""),
-                  onClick: function () {
-                    onSelectMood(m.id);
-                  },
-                },
-                React.createElement(
-                  "span",
-                  { className: "label" },
-                  m.name
-                ),
-                React.createElement(
-                  "span",
-                  { className: "tag" },
-                  m.tag
-                )
-              );
-            })
-          ),
-          React.createElement(
-            "div",
-            {
-              className:
-                "action-button" + (selectedMoodId ? "" : " disabled"),
-              onClick: selectedMoodId ? onNext : null,
-            },
-            "Next · Add your line →"
-          )
-        );
-      }
+      const AI_PLACEHOLDERS = [
+        "Wish someone a magical Christmas…",
+        "Tell someone you’re thinking of them tonight…",
+        "Make them smile when they see this…",
+        "Send a New Year spark they won’t forget…",
+        "Say what you can’t quite say out loud…",
+      ];
 
-      function MessagePage({ onBack, onContinue }) {
-        const [text, setText] = useState("");
+      const AI_CHIPS = [
+        "Cute Christmas for my girlfriend",
+        "Something cosy for my mum",
+        "Funny message for my best mate",
+        "New Year hype for the group chat",
+        "Soft, romantic, late-night vibe",
+      ];
 
-        return React.createElement(
-          "div",
-          { className: "full-page" },
-          React.createElement(
-            "div",
-            { className: "top-bar" },
-            React.createElement(
-              "div",
-              { className: "brand-pill" },
-              React.createElement("div", { className: "brand-dot" }, "yy"),
-              React.createElement("div", { className: "brand-text" }, "yyovvo studio")
-            ),
-            React.createElement("div", { className: "season-pill" }, "One line. All the feels.")
-          ),
-          React.createElement(
-            "div",
-            { className: "title" },
-            "Add your line"
-          ),
-          React.createElement(
-            "div",
-            { className: "subtitle" },
-            "One line. One feeling. We’ll wrap it in snow, light and a 2050-grade Premier."
-          ),
-          React.createElement(
-            "div",
-            { className: "message-box" },
-            React.createElement("textarea", {
-              placeholder:
-                "Type the sentence they’ll remember every time they think of this Christmas or New Year…",
-              value: text,
-              maxLength: 280,
-              onChange: function (e) {
-                setText(e.target.value);
-              },
-            }),
-            React.createElement(
-              "div",
-              { className: "char-count" },
-              text.length,
-              " / 280"
-            )
-          ),
-          React.createElement(
-            "div",
-            {
-              className:
-                "action-button" + (text.trim() ? "" : " disabled"),
-              onClick: text.trim()
-                ? function () {
-                    onContinue({ type: "text", text: text.trim() });
-                  }
-                : null,
-            },
-            "Preview your Premier →"
-          ),
-          React.createElement(
-            "div",
-            {
-              className: "secondary-button",
-              onClick: onBack,
-            },
-            "← Back"
-          )
-        );
-      }
-
-      function PreviewPage({ mood, message, onBack, onRender, isSubmitting }) {
-        return React.createElement(
-          "div",
-          { className: "preview-box" },
-          React.createElement(
-            "div",
-            { className: "preview-mood" },
-            React.createElement(
-              "div",
-              { className: "preview-header" },
-              "yyovvo Premier · Opening frame"
-            ),
-            React.createElement(
-              "div",
-              { className: "preview-mood-name" },
-              mood.name || "Your Mood"
-            ),
-            React.createElement(
-              "span",
-              { className: "line" },
-              message.text || ""
-            ),
-            React.createElement(
-              "div",
-              { className: "preview-footnote" },
-              "This is the first frame of their memory. When you render, yyovvo Studio saves it and gives you a live Premier link you can drop straight into WhatsApp, TikTok, Insta or SMS."
-            )
-          ),
-          React.createElement(
-            "div",
-            { className: "bottom-buttons" },
-            React.createElement(
-              "div",
-              {
-                className: "action-button" + (isSubmitting ? " disabled" : ""),
-                onClick: isSubmitting ? null : onRender,
-              },
-              isSubmitting
-                ? React.createElement(
-                    React.Fragment,
-                    null,
-                    "Saving into yyovvo Studio",
-                    React.createElement(
-                      "span",
-                      { className: "loading-dots" },
-                      React.createElement("span", null),
-                      React.createElement("span", null),
-                      React.createElement("span", null)
-                    )
-                  )
-                : "Render my Premier →"
-            ),
-            React.createElement(
-              "div",
-              {
-                className: "secondary-button",
-                onClick: onBack,
-              },
-              "← Back"
-            )
-          )
-        );
-      }
-
-      function App() {
-        const [step, setStep] = useState(1);
+      function StudioApp() {
+        const [mode, setMode] = useState(null); // "ai" | "upload" | "mood"
+        const [step, setStep] = useState(0); // 0 = mode select
         const [selectedMoodId, setSelectedMoodId] = useState(null);
-        const [messageData, setMessageData] = useState(null);
-        const [isSubmitting, setIsSubmitting] = useState(false);
 
-        // ✅ Real Studio backend URL (Cloudflare Worker)
+        const [aiPrompt, setAiPrompt] = useState("");
+        const [aiPlaceholderIndex, setAiPlaceholderIndex] = useState(0);
+
+        const [messageText, setMessageText] = useState("");
+        const [aiSeeded, setAiSeeded] = useState(false);
+
+        const [uploadPreviewUrl, setUploadPreviewUrl] = useState(null);
+        const [uploadFileName, setUploadFileName] = useState("");
+
+        const [isSubmitting, setIsSubmitting] = useState(false);
+        const [error, setError] = useState("");
+
+        // Cloudflare Worker endpoint
         const API_URL =
           "https://yyovvo-studio-ingest.yyovvouk.workers.dev/";
 
-        const selectedMood =
-          SAMPLE_MOODS.find(function (m) {
-            return m.id === selectedMoodId;
-          }) || SAMPLE_MOODS[0];
+        // Rotate AI ghost placeholders
+        useEffect(() => {
+          const id = setInterval(() => {
+            setAiPlaceholderIndex((idx) => (idx + 1) % AI_PLACEHOLDERS.length);
+          }, 2800);
+          return () => clearInterval(id);
+        }, []);
+
+        // If AI mode and aiPrompt set but messageText not yet seeded, generate suggestion
+        useEffect(() => {
+          if (mode === "ai" && aiPrompt.trim() && !aiSeeded) {
+            const suggestion = buildAIMsgSuggestion(aiPrompt);
+            setMessageText(suggestion);
+            setAiSeeded(true);
+          }
+        }, [mode, aiPrompt, aiSeeded]);
+
+        const currentMood =
+          MOODS.find((m) => m.id === selectedMoodId) || MOODS[0];
+
+        function resetFlow() {
+          setMode(null);
+          setStep(0);
+          setSelectedMoodId(null);
+          setAiPrompt("");
+          setAiSeeded(false);
+          setMessageText("");
+          setUploadPreviewUrl(null);
+          setUploadFileName("");
+          setIsSubmitting(false);
+          setError("");
+        }
+
+        function handleSelectMode(nextMode) {
+          setMode(nextMode);
+          setStep(nextMode === "ai" ? 1 : 1);
+          setError("");
+
+          // Default mood selection for AI & Upload
+          if (!selectedMoodId) {
+            if (nextMode === "ai") {
+              setSelectedMoodId("xmas_snow_halo"); // magical default
+            } else if (nextMode === "upload") {
+              setSelectedMoodId("xmas_midnight_ember"); // intimate frame
+            }
+          }
+        }
+
+        function handleUploadChange(e) {
+          const file = e.target.files && e.target.files[0];
+          if (!file) return;
+          setUploadFileName(file.name);
+
+          const reader = new FileReader();
+          reader.onload = function (event) {
+            setUploadPreviewUrl(event.target.result);
+          };
+          reader.readAsDataURL(file);
+        }
+
+        function handleContinueFromAI() {
+          if (!aiPrompt.trim()) {
+            setError("Give yyovvo something to work with first.");
+            return;
+          }
+          if (!messageText.trim()) {
+            const suggestion = buildAIMsgSuggestion(aiPrompt);
+            setMessageText(suggestion);
+          }
+          setStep(2);
+          setError("");
+        }
+
+        function handleContinueFromUpload() {
+          if (!uploadPreviewUrl) {
+            setError("Drop in a photo or clip first.");
+            return;
+          }
+          setStep(2);
+          setError("");
+        }
+
+        function handleContinueFromMood() {
+          if (!selectedMoodId) {
+            setError("Tap a Mood first.");
+            return;
+          }
+          setStep(2);
+          setError("");
+        }
+
+        function handleBackStep() {
+          if (step === 2) {
+            // Return to respective first step for mode
+            setStep(1);
+          } else if (step === 1) {
+            // Back to mode picker
+            setStep(0);
+            setMode(null);
+          } else {
+            resetFlow();
+          }
+        }
 
         async function handleRenderPremier() {
-          if (!selectedMood || !messageData) {
-            alert("Pick a Mood and add a line first.");
+          setError("");
+          if (!currentMood || !messageText.trim()) {
+            setError("Mood and message must both be in place.");
             return;
           }
 
           const payload = {
-            mood_id: selectedMood.id,
-            mood_name: selectedMood.name,
+            entry_mode: mode || "mood",
+            mood_id: currentMood.id,
+            mood_name: currentMood.name,
+            mood_category: currentMood.category,
             message_type: "text",
+            message_text: messageText.trim(),
             message_audio_url: null,
             message_video_url: null,
-            message_text: messageData.text,
+            upload_preview: uploadPreviewUrl || null,
             duration_s: 16,
             user_agent:
               typeof navigator !== "undefined" ? navigator.userAgent : "",
@@ -564,35 +971,32 @@
             }
 
             if (!res.ok || !data || data.ok === false) {
-              alert(
-                "yyovvo Studio backend error\n\n" +
-                  "HTTP status: " +
+              setError(
+                "yyovvo Studio backend error.\n\nStatus: " +
                   res.status +
-                  "\n\n" +
-                  "Response body:\n" +
+                  "\n\nBody:\n" +
                   rawText
               );
               return;
             }
 
-            // 🔥 Build viewer URL and auto-open (no blocking alert)
+            const premierId = data.id || data.studio_id || "";
             const viewerUrl =
               "https://yyovvo-studio.pages.dev/viewer.html?id=" +
-              encodeURIComponent(data.id || data.studio_id || "");
+              encodeURIComponent(premierId);
 
-            if (viewerUrl && viewerUrl.indexOf("id=") !== -1) {
+            alert(
+              "Premier saved into yyovvo Studio ✅\n\n" +
+                "Your live link:\n" +
+                viewerUrl +
+                "\n\n(Tap OK to open your Premier.)"
+            );
+
+            if (viewerUrl) {
               window.location.href = viewerUrl;
-            } else {
-              // fallback if something went weird
-              alert(
-                "Premier saved into yyovvo Studio ✅\n\n" +
-                  "But we couldn't build your viewer link automatically.\n\n" +
-                  "Raw response:\n" +
-                  rawText
-              );
             }
           } catch (err) {
-            alert(
+            setError(
               "Network / CORS error reaching yyovvo Studio backend:\n\n" +
                 (err && err.message ? err.message : String(err))
             );
@@ -601,42 +1005,814 @@
           }
         }
 
-        if (step === 3) {
-          return React.createElement(PreviewPage, {
-            mood: selectedMood,
-            message: messageData,
-            onBack: function () {
-              setStep(2);
-            },
-            onRender: handleRenderPremier,
-            isSubmitting,
-          });
+        // ---- RENDER ----
+
+        if (step === 0) {
+          return (
+            React.createElement(
+              "div",
+              { className: "full-page" },
+              React.createElement(
+                "div",
+                { className: "shell" },
+                React.createElement(
+                  "div",
+                  { className: "studio-header" },
+                  React.createElement(
+                    "div",
+                    { className: "studio-title-block" },
+                    React.createElement(
+                      "div",
+                      { className: "studio-title" },
+                      "yyovvo Studio"
+                    ),
+                    React.createElement(
+                      "div",
+                      { className: "studio-subtitle" },
+                      "Every great Christmas deserves a trailer. Build yours in three taps."
+                    )
+                  ),
+                  React.createElement(
+                    "div",
+                    { className: "studio-pill" },
+                    React.createElement("span", { className: "dot" }),
+                    React.createElement(
+                      "span",
+                      null,
+                      "Live Studio · Christmas 2025"
+                    )
+                  )
+                ),
+                React.createElement(
+                  "div",
+                  { className: "section-title" },
+                  "How do you want to start?"
+                ),
+                React.createElement(
+                  "div",
+                  { className: "section-subtitle" },
+                  "Pick the doorway. Every path still gives you a full-screen yyovvo Premier with music, Mood and message."
+                ),
+                React.createElement(
+                  "div",
+                  { className: "mode-grid" },
+                  React.createElement(
+                    "div",
+                    {
+                      className:
+                        "mode-card" + (mode === "ai" ? " selected" : ""),
+                      onClick: function () {
+                        handleSelectMode("ai");
+                      },
+                    },
+                    React.createElement(
+                      "div",
+                      { className: "mode-card-content" },
+                      React.createElement(
+                        "div",
+                        { className: "mode-badge" },
+                        React.createElement("span", { className: "star" }, "✨"),
+                        "Recommended · Zero thinking"
+                      ),
+                      React.createElement(
+                        "div",
+                        { className: "mode-title" },
+                        "AI Studio"
+                      ),
+                      React.createElement(
+                        "div",
+                        { className: "mode-body" },
+                        "Tell yyovvo who it’s for, we’ll choose the Mood and write the line."
+                      ),
+                      React.createElement(
+                        "div",
+                        { className: "mode-foot" },
+                        React.createElement(
+                          "span",
+                          null,
+                          "Type one sentence. We do the rest."
+                        ),
+                        React.createElement(
+                          "span",
+                          { className: "mode-tag" },
+                          "Magic mode"
+                        )
+                      )
+                    )
+                  ),
+                  React.createElement(
+                    "div",
+                    {
+                      className:
+                        "mode-card" + (mode === "upload" ? " selected" : ""),
+                      onClick: function () {
+                        handleSelectMode("upload");
+                      },
+                    },
+                    React.createElement(
+                      "div",
+                      { className: "mode-card-content" },
+                      React.createElement(
+                        "div",
+                        { className: "mode-badge" },
+                        React.createElement(
+                          "span",
+                          { className: "star" },
+                          "📷"
+                        ),
+                        "Turn a photo into a trailer"
+                      ),
+                      React.createElement(
+                        "div",
+                        { className: "mode-title" },
+                        "Upload"
+                      ),
+                      React.createElement(
+                        "div",
+                        { className: "mode-body" },
+                        "Drop in a Christmas photo or clip. We wrap it in light and snow."
+                      ),
+                      React.createElement(
+                        "div",
+                        { className: "mode-foot" },
+                        React.createElement(
+                          "span",
+                          null,
+                          "Perfect for real moments."
+                        ),
+                        React.createElement(
+                          "span",
+                          { className: "mode-tag" },
+                          "Photo mode"
+                        )
+                      )
+                    )
+                  ),
+                  React.createElement(
+                    "div",
+                    {
+                      className:
+                        "mode-card" + (mode === "mood" ? " selected" : ""),
+                      onClick: function () {
+                        handleSelectMode("mood");
+                      },
+                    },
+                    React.createElement(
+                      "div",
+                      { className: "mode-card-content" },
+                      React.createElement(
+                        "div",
+                        { className: "mode-badge" },
+                        React.createElement(
+                          "span",
+                          { className: "star" },
+                          "🎞"
+                        ),
+                        "Pick from yyovvo’s cinema"
+                      ),
+                      React.createElement(
+                        "div",
+                        { className: "mode-title" },
+                        "yyovvo Moods"
+                      ),
+                      React.createElement(
+                        "div",
+                        { className: "mode-body" },
+                        "Tap a pre-made cinematic Mood, then write your line on top."
+                      ),
+                      React.createElement(
+                        "div",
+                        { className: "mode-foot" },
+                        React.createElement(
+                          "span",
+                          null,
+                          "For creators and aesthetes."
+                        ),
+                        React.createElement(
+                          "span",
+                          { className: "mode-tag" },
+                          "Director mode"
+                        )
+                      )
+                    )
+                  )
+                ),
+                React.createElement(
+                  "button",
+                  {
+                    className:
+                      "primary-button" + (!mode ? " disabled" : ""),
+                    onClick: !mode
+                      ? null
+                      : function () {
+                          // step already set inside handleSelectMode, but ensure
+                          if (mode && step === 0) setStep(1);
+                        },
+                  },
+                  mode
+                    ? "Continue · Step 1 →"
+                    : "Choose a starting doorway to continue"
+                ),
+                React.createElement(
+                  "button",
+                  {
+                    className: "ghost-button",
+                    onClick: resetFlow,
+                  },
+                  "Reset Studio"
+                )
+              )
+            )
+          );
         }
 
+        // Step 1: depending on mode
+        if (step === 1 && mode === "ai") {
+          return (
+            React.createElement(
+              "div",
+              { className: "full-page" },
+              React.createElement(
+                "div",
+                { className: "shell" },
+                React.createElement(
+                  "div",
+                  { className: "studio-header" },
+                  React.createElement(
+                    "div",
+                    { className: "studio-title-block" },
+                    React.createElement(
+                      "div",
+                      { className: "studio-title" },
+                      "AI Studio"
+                    ),
+                    React.createElement(
+                      "div",
+                      { className: "studio-subtitle" },
+                      "Tell yyovvo who it’s for. We’ll choose the Mood and whisper the first line."
+                    )
+                  ),
+                  React.createElement(
+                    "div",
+                    { className: "studio-pill" },
+                    React.createElement("span", { className: "dot" }),
+                    React.createElement(
+                      "span",
+                      null,
+                      "Step 1 · Intention"
+                    )
+                  )
+                ),
+                React.createElement(
+                  "div",
+                  { className: "ai-panel" },
+                  React.createElement(
+                    "div",
+                    { className: "ai-label" },
+                    "Who is this for, and how do you want it to feel?"
+                  ),
+                  React.createElement(
+                    "div",
+                    { className: "ai-sub" },
+                    "One sentence is enough. We’ll wrap it in snow, light and music."
+                  ),
+                  React.createElement(
+                    "div",
+                    { className: "ai-input-wrap" },
+                    React.createElement("input", {
+                      className: "ai-input",
+                      value: aiPrompt,
+                      onChange: function (e) {
+                        setAiPrompt(e.target.value);
+                        setAiSeeded(false);
+                      },
+                      placeholder: " ", // real placeholder empty, we use custom ghost
+                    }),
+                    React.createElement(
+                      "div",
+                      { className: "ai-placeholder" },
+                      AI_PLACEHOLDERS[aiPlaceholderIndex]
+                    )
+                  ),
+                  React.createElement(
+                    "div",
+                    { className: "ai-suggestions" },
+                    AI_CHIPS.map(function (chip) {
+                      return React.createElement(
+                        "div",
+                        {
+                          key: chip,
+                          className: "ai-chip",
+                          onClick: function () {
+                            setAiPrompt(chip);
+                            setAiSeeded(false);
+                          },
+                        },
+                        chip
+                      );
+                    })
+                  )
+                ),
+                error &&
+                  React.createElement(
+                    "div",
+                    { className: "error-text" },
+                    error
+                  ),
+                React.createElement(
+                  "button",
+                  {
+                    className:
+                      "primary-button" + (!aiPrompt.trim() ? " disabled" : ""),
+                    onClick: aiPrompt.trim() ? handleContinueFromAI : null,
+                  },
+                  "Next · Let yyovvo choose your Mood →"
+                ),
+                React.createElement(
+                  "button",
+                  {
+                    className: "ghost-button",
+                    onClick: handleBackStep,
+                  },
+                  "← Back"
+                )
+              )
+            )
+          );
+        }
+
+        if (step === 1 && mode === "upload") {
+          return (
+            React.createElement(
+              "div",
+              { className: "full-page" },
+              React.createElement(
+                "div",
+                { className: "shell" },
+                React.createElement(
+                  "div",
+                  { className: "studio-header" },
+                  React.createElement(
+                    "div",
+                    { className: "studio-title-block" },
+                    React.createElement(
+                      "div",
+                      { className: "studio-title" },
+                      "Upload a moment"
+                    ),
+                    React.createElement(
+                      "div",
+                      { className: "studio-subtitle" },
+                      "Turn a photo or clip into a cinematic trailer."
+                    )
+                  ),
+                  React.createElement(
+                    "div",
+                    { className: "studio-pill" },
+                    React.createElement("span", { className: "dot" }),
+                    React.createElement(
+                      "span",
+                      null,
+                      "Step 1 · Scene"
+                    )
+                  )
+                ),
+                React.createElement(
+                  "div",
+                  { className: "upload-panel" },
+                  React.createElement(
+                    "div",
+                    { className: "upload-zone" },
+                    React.createElement(
+                      "div",
+                      null,
+                      React.createElement("strong", null, "Drop a Christmas photo or clip"),
+                      " or tap to choose."
+                    ),
+                    React.createElement("input", {
+                      type: "file",
+                      accept: "image/*,video/*",
+                      style: { marginTop: "10px", fontSize: "11px" },
+                      onChange: handleUploadChange,
+                    }),
+                    React.createElement(
+                      "div",
+                      {
+                        style: {
+                          marginTop: "8px",
+                          fontSize: "11px",
+                          color: "var(--muted)",
+                        },
+                      },
+                      "Best results: upright portrait, 3–10s, something that already feels like a memory."
+                    )
+                  ),
+                  uploadPreviewUrl &&
+                    React.createElement(
+                      "div",
+                      { className: "upload-preview" },
+                      React.createElement("img", {
+                        src: uploadPreviewUrl,
+                        alt: "Upload preview",
+                      }),
+                      React.createElement("div", { className: "upload-overlay" })
+                    ),
+                  uploadFileName &&
+                    React.createElement(
+                      "div",
+                      {
+                        style: {
+                          marginTop: "6px",
+                          fontSize: "11px",
+                          color: "#e5e7eb",
+                        },
+                      },
+                      "Loaded: ",
+                      uploadFileName
+                    )
+                ),
+                error &&
+                  React.createElement(
+                    "div",
+                    { className: "error-text" },
+                    error
+                  ),
+                React.createElement(
+                  "button",
+                  {
+                    className:
+                      "primary-button" +
+                      (!uploadPreviewUrl ? " disabled" : ""),
+                    onClick: uploadPreviewUrl ? handleContinueFromUpload : null,
+                  },
+                  "Next · Add your line →"
+                ),
+                React.createElement(
+                  "button",
+                  {
+                    className: "ghost-button",
+                    onClick: handleBackStep,
+                  },
+                  "← Back"
+                )
+              )
+            )
+          );
+        }
+
+        if (step === 1 && mode === "mood") {
+          return (
+            React.createElement(
+              "div",
+              { className: "full-page" },
+              React.createElement(
+                "div",
+                { className: "shell" },
+                React.createElement(
+                  "div",
+                  { className: "studio-header" },
+                  React.createElement(
+                    "div",
+                    { className: "studio-title-block" },
+                    React.createElement(
+                      "div",
+                      { className: "studio-title" },
+                      "Pick your Mood"
+                    ),
+                    React.createElement(
+                      "div",
+                      { className: "studio-subtitle" },
+                      "These are yyovvo’s cinema environments. This is your opening shot."
+                    )
+                  ),
+                  React.createElement(
+                    "div",
+                    { className: "studio-pill" },
+                    React.createElement("span", { className: "dot" }),
+                    React.createElement(
+                      "span",
+                      null,
+                      "Step 1 · Mood"
+                    )
+                  )
+                ),
+                React.createElement(
+                  "div",
+                  { className: "mood-grid" },
+                  MOODS.map(function (m) {
+                    return React.createElement(
+                      "div",
+                      {
+                        key: m.id,
+                        className:
+                          "mood-card " +
+                          (m.cssClass || "") +
+                          (selectedMoodId === m.id ? " selected" : ""),
+                        onClick: function () {
+                          setSelectedMoodId(m.id);
+                        },
+                      },
+                      React.createElement(
+                        "div",
+                        { className: "mood-name" },
+                        m.name
+                      ),
+                      React.createElement(
+                        "div",
+                        { className: "mood-tagline" },
+                        m.tagline
+                      ),
+                      React.createElement(
+                        "div",
+                        { className: "mood-chip-row" },
+                        React.createElement(
+                          "div",
+                          { className: "mood-chip" },
+                          m.category
+                        ),
+                        React.createElement(
+                          "div",
+                          {
+                            style: {
+                              fontSize: "10px",
+                              color: "rgba(243,244,246,0.85)",
+                            },
+                          },
+                          "Loop · 3–6s"
+                        )
+                      )
+                    );
+                  })
+                ),
+                error &&
+                  React.createElement(
+                    "div",
+                    { className: "error-text" },
+                    error
+                  ),
+                React.createElement(
+                  "button",
+                  {
+                    className:
+                      "primary-button" + (!selectedMoodId ? " disabled" : ""),
+                    onClick: selectedMoodId ? handleContinueFromMood : null,
+                  },
+                  "Next · Write your line →"
+                ),
+                React.createElement(
+                  "button",
+                  {
+                    className: "ghost-button",
+                    onClick: handleBackStep,
+                  },
+                  "← Back"
+                )
+              )
+            )
+          );
+        }
+
+        // Step 2: Message + Preview (shared across modes)
         if (step === 2) {
-          return React.createElement(MessagePage, {
-            onBack: function () {
-              setStep(1);
-            },
-            onContinue: function (msg) {
-              setMessageData(msg);
-              setStep(3);
-            },
-          });
+          const isUploadMode = mode === "upload";
+          const animClass = currentMood.cssClass || "";
+
+          return (
+            React.createElement(
+              "div",
+              { className: "full-page" },
+              React.createElement(
+                "div",
+                { className: "shell" },
+                React.createElement(
+                  "div",
+                  { className: "studio-header" },
+                  React.createElement(
+                    "div",
+                    { className: "studio-title-block" },
+                    React.createElement(
+                      "div",
+                      { className: "studio-title" },
+                      "Write the line they’ll remember"
+                    ),
+                    React.createElement(
+                      "div",
+                      { className: "studio-subtitle" },
+                      "This sits on top of your Mood, with music under everything."
+                    )
+                  ),
+                  React.createElement(
+                    "div",
+                    { className: "studio-pill" },
+                    React.createElement("span", { className: "dot" }),
+                    React.createElement(
+                      "span",
+                      null,
+                      "Step 2 · Message + Preview"
+                    )
+                  )
+                ),
+                React.createElement(
+                  "div",
+                  { className: "message-panel" },
+                  React.createElement(
+                    "div",
+                    { className: "message-label" },
+                    "Type the sentence they’ll replay in their head."
+                  ),
+                  React.createElement(
+                    "div",
+                    { className: "message-sub" },
+                    "Keep it tight. We’ll handle the pacing, the glow and the music."
+                  ),
+                  React.createElement(
+                    "textarea",
+                    {
+                      value: messageText,
+                      maxLength: 280,
+                      onChange: function (e) {
+                        setMessageText(e.target.value);
+                      },
+                      placeholder:
+                        "Tell them what you really wanted to say all year…",
+                    }
+                  ),
+                  React.createElement(
+                    "div",
+                    { className: "char-count" },
+                    messageText.length,
+                    " / 280"
+                  )
+                ),
+                React.createElement(
+                  "div",
+                  { className: "preview-shell" },
+                  React.createElement(
+                    "div",
+                    { className: "preview-top-label" },
+                    "Premier · Live preview"
+                  ),
+                  React.createElement(
+                    "div",
+                    { className: "preview-frame" },
+                    isUploadMode &&
+                      uploadPreviewUrl &&
+                      React.createElement(
+                        "div",
+                        {
+                          className: "preview-mood-layer",
+                          style: {
+                            overflow: "hidden",
+                          },
+                        },
+                        React.createElement("img", {
+                          src: uploadPreviewUrl,
+                          alt: "Upload background",
+                          style: {
+                            width: "100%",
+                            height: "100%",
+                            objectFit: "cover",
+                            animation: "kenBurns 12s ease-in-out infinite",
+                          },
+                        }),
+                        React.createElement("div", {
+                          style: {
+                            position: "absolute",
+                            inset: 0,
+                            background:
+                              "radial-gradient(circle at bottom, rgba(15,23,42,0.65), rgba(15,23,42,0.1) 60%, rgba(15,23,42,0.85))",
+                          },
+                        })
+                      ),
+                    !isUploadMode &&
+                      React.createElement("div", {
+                        className: "preview-mood-layer " + animClass,
+                      }),
+                    React.createElement(
+                      "div",
+                      { className: "preview-content" },
+                      React.createElement(
+                        "div",
+                        { className: "preview-mood-name" },
+                        currentMood.name
+                      ),
+                      React.createElement(
+                        "div",
+                        { className: "preview-message" },
+                        messageText.trim()
+                          ? messageText
+                          : "This is where your line will live, floating in snow and music."
+                      )
+                    )
+                  ),
+                  React.createElement(
+                    "div",
+                    { className: "preview-footer" },
+                    React.createElement(
+                      "span",
+                      null,
+                      "Full-screen cinematic loop · Instrumental track under everything"
+                    ),
+                    React.createElement("span", { className: "dot" }),
+                    React.createElement(
+                      "span",
+                      null,
+                      "Anonymous by default · Signature optional later"
+                    )
+                  )
+                ),
+                error &&
+                  React.createElement(
+                    "div",
+                    { className: "error-text" },
+                    error
+                  ),
+                React.createElement(
+                  "div",
+                  { className: "bottom-buttons" },
+                  React.createElement(
+                    "button",
+                    {
+                      className:
+                        "primary-button" +
+                        (!messageText.trim() || isSubmitting
+                          ? " disabled"
+                          : ""),
+                      onClick:
+                        !messageText.trim() || isSubmitting
+                          ? null
+                          : handleRenderPremier,
+                    },
+                    isSubmitting
+                      ? React.createElement(
+                          React.Fragment,
+                          null,
+                          "Saving your Premier to yyovvo",
+                          React.createElement(
+                            "span",
+                            { className: "loading-dots" },
+                            React.createElement("span", null),
+                            React.createElement("span", null),
+                            React.createElement("span", null)
+                          )
+                        )
+                      : "Render my Premier →"
+                  ),
+                  React.createElement(
+                    "button",
+                    {
+                      className: "ghost-button",
+                      onClick: handleBackStep,
+                    },
+                    "← Back"
+                  )
+                )
+              )
+            )
+          );
         }
 
-        return React.createElement(MoodPage, {
-          selectedMoodId,
-          onSelectMood: setSelectedMoodId,
-          onNext: function () {
-            if (!selectedMoodId) return;
-            setStep(2);
-          },
-        });
+        // Fallback (should never hit)
+        return React.createElement(
+          "div",
+          { className: "full-page" },
+          React.createElement(
+            "div",
+            { className: "shell" },
+            React.createElement(
+              "div",
+              null,
+              "yyovvo Studio is thinking…"
+            )
+          )
+        );
+      }
+
+      function buildAIMsgSuggestion(prompt) {
+        const p = prompt.trim();
+        if (!p) return "";
+        const lower = p.toLowerCase();
+        if (lower.includes("girlfriend")) {
+          return "You’re the part of Christmas I never want to miss.";
+        }
+        if (lower.includes("mum") || lower.includes("mom") || lower.includes("mother")) {
+          return "Every Christmas feels safer because you’re in it.";
+        }
+        if (lower.includes("mate") || lower.includes("friend") || lower.includes("best")) {
+          return "Thanks for being the chaos and the calm this year.";
+        }
+        if (lower.includes("new year") || lower.includes("2026") || lower.includes("next year")) {
+          return "Next year hits different with you in it.";
+        }
+        if (lower.includes("crush") || lower.includes("love")) {
+          return "Christmas feels louder every time I think of you.";
+        }
+        // Default soft line
+        return "I just wanted you to feel seen for a few seconds.";
       }
 
       ReactDOM.createRoot(document.getElementById("root")).render(
-        React.createElement(App)
+        React.createElement(StudioApp)
       );
     </script>
   </body>
