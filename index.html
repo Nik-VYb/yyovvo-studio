@@ -8,9 +8,13 @@
     />
     <title>yyovvo Studio · Premier</title>
     <style>
+      * {
+        box-sizing: border-box;
+      }
+
       body {
         margin: 0;
-        background: #050509;
+        background: #03030a;
         color: #f9fafb;
         font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
           "Segoe UI", sans-serif;
@@ -24,10 +28,54 @@
         background: radial-gradient(circle at top, #111827 0, #02010a 55%);
       }
 
-      .title {
-        font-size: 26px;
+      .top-bar {
+        padding: 14px 16px 4px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .brand-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 6px 12px;
+        border-radius: 999px;
+        background: rgba(15, 23, 42, 0.9);
+        border: 1px solid rgba(148, 163, 184, 0.5);
+      }
+
+      .brand-dot {
+        width: 18px;
+        height: 18px;
+        border-radius: 999px;
+        background: radial-gradient(circle at 30% 0%, #f973ff, #38bdf8);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 11px;
         font-weight: 600;
-        padding: 16px 20px 4px;
+        color: #020617;
+      }
+
+      .brand-text {
+        font-size: 11px;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+      }
+
+      .season-pill {
+        padding: 6px 10px;
+        border-radius: 999px;
+        border: 1px solid rgba(148, 163, 184, 0.5);
+        font-size: 11px;
+        color: #9ca3af;
+      }
+
+      .title {
+        font-size: 24px;
+        font-weight: 600;
+        padding: 4px 20px 2px;
         text-align: center;
       }
 
@@ -52,12 +100,24 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 16px;
+        font-size: 14px;
         cursor: pointer;
         border: 1px solid rgba(148, 163, 184, 0.5);
         transition: 0.18s ease;
         text-align: center;
-        padding: 8px;
+        padding: 10px;
+      }
+
+      .mood-card span.label {
+        display: block;
+        font-weight: 600;
+        margin-bottom: 4px;
+      }
+
+      .mood-card span.tag {
+        display: block;
+        font-size: 11px;
+        color: #9ca3af;
       }
 
       .mood-card:hover {
@@ -145,20 +205,43 @@
         background: radial-gradient(circle at top, #1f2937, #020617);
         display: flex;
         flex-direction: column;
-        justify-content: center;
-        align-items: center;
+        justify-content: space-between;
+        align-items: stretch;
         font-size: 20px;
-        text-align: center;
-        padding: 18px;
+        text-align: left;
+        padding: 18px 18px 16px;
         border: 1px solid rgba(148, 163, 184, 0.6);
         box-shadow: 0 30px 80px rgba(15, 23, 42, 0.95);
       }
 
+      .preview-header {
+        font-size: 11px;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: #9ca3af;
+        margin-bottom: 4px;
+      }
+
+      .preview-mood-name {
+        font-size: 20px;
+        font-weight: 600;
+        background: linear-gradient(135deg, #f973ff, #38bdf8);
+        -webkit-background-clip: text;
+        color: transparent;
+        margin-bottom: 12px;
+      }
+
       .preview-mood span.line {
         display: block;
-        font-size: 15px;
+        font-size: 16px;
         color: #e5e7eb;
-        margin-top: 10px;
+        margin-top: 6px;
+      }
+
+      .preview-footnote {
+        font-size: 11px;
+        color: #9ca3af;
+        margin-top: 16px;
       }
 
       .bottom-buttons {
@@ -215,22 +298,45 @@
     <script type="text/javascript">
       const { useState } = React;
 
+      // 60% Christmas, 30% New Year, 10% Other
       const SAMPLE_MOODS = [
-        { id: "mood1", name: "Midnight Ember" },
-        { id: "mood2", name: "Snow Halo" },
-        { id: "mood3", name: "Electric Mistletoe" },
-        { id: "mood4", name: "Neon Sleigh Ride" },
+        // CHRISTMAS CORE
+        { id: "xmas1", name: "Midnight Tree Lights", tag: "Christmas Eve" },
+        { id: "xmas2", name: "Snow Halo", tag: "Soft & sentimental" },
+        { id: "xmas3", name: "Kitchen Chaos", tag: "Family Christmas chaos" },
+        { id: "xmas4", name: "Wrapping Paper Explosion", tag: "Present frenzy" },
+        { id: "xmas5", name: "Candlelit Carol", tag: "Slow, romantic Christmas" },
+        { id: "xmas6", name: "Last-Minute Santa Dash", tag: "Funny, frantic" },
+
+        // NEW YEAR
+        { id: "ny1", name: "Midnight Countdown", tag: "New Year’s Eve" },
+        { id: "ny2", name: "Fireworks on Facetime", tag: "Long-distance NY" },
+        { id: "ny3", name: "New Year, New Us", tag: "Fresh start energy" },
+
+        // OTHER (intentionally small)
+        { id: "mood10", name: "Random Tuesday Heartbeat", tag: "Any-day confession" },
       ];
 
       function MoodPage({ selectedMoodId, onSelectMood, onNext }) {
         return React.createElement(
           "div",
           { className: "full-page" },
+          React.createElement(
+            "div",
+            { className: "top-bar" },
+            React.createElement(
+              "div",
+              { className: "brand-pill" },
+              React.createElement("div", { className: "brand-dot" }, "yy"),
+              React.createElement("div", { className: "brand-text" }, "yyovvo studio")
+            ),
+            React.createElement("div", { className: "season-pill" }, "Christmas · New Year 2025")
+          ),
           React.createElement("div", { className: "title" }, "Pick your Mood"),
           React.createElement(
             "div",
             { className: "subtitle" },
-            "This is the opening shot. Select the vibe that matches how you want them to feel."
+            "This is the opening shot of your mini-movie. Choose the Mood that feels like your Christmas or New Year scene."
           ),
           React.createElement(
             "div",
@@ -247,7 +353,16 @@
                     onSelectMood(m.id);
                   },
                 },
-                m.name
+                React.createElement(
+                  "span",
+                  { className: "label" },
+                  m.name
+                ),
+                React.createElement(
+                  "span",
+                  { className: "tag" },
+                  m.tag
+                )
               );
             })
           ),
@@ -258,7 +373,7 @@
                 "action-button" + (selectedMoodId ? "" : " disabled"),
               onClick: selectedMoodId ? onNext : null,
             },
-            "Next · Add your message →"
+            "Next · Add your line →"
           )
         );
       }
@@ -271,20 +386,31 @@
           { className: "full-page" },
           React.createElement(
             "div",
+            { className: "top-bar" },
+            React.createElement(
+              "div",
+              { className: "brand-pill" },
+              React.createElement("div", { className: "brand-dot" }, "yy"),
+              React.createElement("div", { className: "brand-text" }, "yyovvo studio")
+            ),
+            React.createElement("div", { className: "season-pill" }, "One line. All the feels.")
+          ),
+          React.createElement(
+            "div",
             { className: "title" },
             "Add your line"
           ),
           React.createElement(
             "div",
             { className: "subtitle" },
-            "One line. One feeling. We’ll wrap it in snow and light."
+            "One line. One feeling. We’ll wrap it in snow, light and a 2050-grade Premier."
           ),
           React.createElement(
             "div",
             { className: "message-box" },
             React.createElement("textarea", {
               placeholder:
-                "Type the sentence they’ll remember every time they think of this Christmas…",
+                "Type the sentence they’ll remember every time they think of this Christmas or New Year…",
               value: text,
               maxLength: 280,
               onChange: function (e) {
@@ -329,11 +455,25 @@
           React.createElement(
             "div",
             { className: "preview-mood" },
-            React.createElement("div", null, mood.name || "Your Mood"),
+            React.createElement(
+              "div",
+              { className: "preview-header" },
+              "yyovvo Premier · Opening frame"
+            ),
+            React.createElement(
+              "div",
+              { className: "preview-mood-name" },
+              mood.name || "Your Mood"
+            ),
             React.createElement(
               "span",
               { className: "line" },
               message.text || ""
+            ),
+            React.createElement(
+              "div",
+              { className: "preview-footnote" },
+              "This is the first frame of their memory. When you render, yyovvo Studio saves it and gives you a live Premier link you can drop straight into WhatsApp, TikTok, Insta or SMS."
             )
           ),
           React.createElement(
@@ -349,7 +489,7 @@
                 ? React.createElement(
                     React.Fragment,
                     null,
-                    "Saving to yyovvo",
+                    "Saving into yyovvo Studio",
                     React.createElement(
                       "span",
                       { className: "loading-dots" },
@@ -389,7 +529,7 @@
 
         async function handleRenderPremier() {
           if (!selectedMood || !messageData) {
-            alert("Pick a Mood and add a message first.");
+            alert("Pick a Mood and add a line first.");
             return;
           }
 
@@ -435,13 +575,21 @@
               return;
             }
 
+            // 🔥 Build viewer URL + auto-open
+            const viewerUrl =
+              "https://yyovvo-studio.pages.dev/viewer.html?id=" +
+              encodeURIComponent(data.id || data.studio_id || "");
+
             alert(
               "Premier saved into yyovvo Studio ✅\n\n" +
-                "ID: " +
-                (data.id || "n/a") +
-                "\nStatus: " +
-                (data.status || "pending")
+                "Your live link:\n" +
+                viewerUrl +
+                "\n\n(Tap OK to open your Premier.)"
             );
+
+            if (viewerUrl) {
+              window.location.href = viewerUrl;
+            }
           } catch (err) {
             alert(
               "Network / CORS error reaching yyovvo Studio backend:\n\n" +
