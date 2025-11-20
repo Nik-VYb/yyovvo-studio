@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1"
+    />
+    <title>yyovvo Premier</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
+          "Segoe UI", sans-serif;
+        background: radial-gradient(circle at top, #020617 0, #000 52%, #020617);
+        color: #f9fafb;
+        display: flex;
+        align-items: stretch;
+        justify-content: center;
+      }
+
+      .shell {
+        width: 100%;
+        max-width: 480px;
+        padding: 20px 18px 28px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+
+      .badge {
+        font-size: 11px;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: #9ca3af;
+        margin-bottom: 6px;
+      }
+
+      .brand-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 24px;
+      }
+
+      .logo-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 7px 12px;
+        border-radius: 999px;
+        background: rgba(15, 23, 42, 0.9);
+        border: 1px solid rgba(148, 163, 184, 0.4);
+      }
+
+      .logo-dot {
+        width: 18px;
+        height: 18px;
+        border-radius: 999px;
+        background: radial-gradient(circle at 30% 0%, #f973ff, #38bdf8);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 11px;
+        font-weight: 600;
+        color: #020617;
+      }
+
+      .logo-text {
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+      }
+
+      .pill-right {
+        font-size: 11px;
+        padding: 7px 10px;
+        border-radius: 999px;
+        border: 1px solid rgba(148, 163, 184, 0.4);
+        color: #9ca3af;
+      }
+
+      .card {
+        flex: 1;
+        border-radius: 26px;
+        padding: 22px 20px;
+        background: radial-gradient(circle at top, #111827, #020617 60%, #000);
+        border: 1px solid rgba(148, 163, 184, 0.5);
+        box-shadow: 0 32px 90px rgba(15, 23, 42, 0.95);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        overflow: hidden;
+      }
+
+      .mood-label {
+        font-size: 12px;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: #9ca3af;
+        margin-bottom: 4px;
+      }
+
+      .mood-name {
+        font-size: 22px;
+        font-weight: 600;
+        background: linear-gradient(135deg, #f973ff, #38bdf8);
+        -webkit-background-clip: text;
+        color: transparent;
+        margin-bottom: 18px;
+      }
+
+      .message {
+        font-size: 20px;
+        line-height: 1.3;
+        color: #e5e7eb;
+        margin-bottom: 18px;
+      }
+
+      .hint {
+        font-size: 11px;
+        color: #9ca3af;
+      }
+
+      .footer {
+        margin-top: 22px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .cta {
+        padding: 13px 16px;
+        border-radius: 999px;
+        text-align: center;
+        font-size: 14px;
+        font-weight: 600;
+        background: linear-gradient(135deg, #f973ff, #38bdf8);
+        color: #020617;
+        text-decoration: none;
+      }
+
+      .meta {
+        font-size: 11px;
+        color: #6b7280;
+        text-align: center;
+      }
+
+      .error {
+        font-size: 14px;
+        color: #fecaca;
+        text-align: center;
+        margin-top: 24px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="shell">
+      <div>
+        <div class="badge">Premier playback</div>
+        <div class="brand-row">
+          <div class="logo-pill">
+            <div class="logo-dot">yy</div>
+            <div class="logo-text">yyovvo studio</div>
+          </div>
+          <div class="pill-right" id="pill-status">Loading…</div>
+        </div>
+
+        <div class="card" id="card">
+          <div>
+            <div class="mood-label">Mood</div>
+            <div class="mood-name" id="moodName">—</div>
+            <div class="message" id="messageText">Preparing your Premier…</div>
+          </div>
+          <div class="hint">
+            This is a live yyovvo Premier link. Share it, screen-record it,
+            or just replay it when you miss them.
+          </div>
+        </div>
+      </div>
+
+      <div class="footer">
+        <a
+          href="https://yyovvo.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="cta"
+          id="sendYourOwn"
+        >
+          Send your own yyovvo Premier →
+        </a>
+        <div class="meta">
+          Built in yyovvo Studio · Every great moment gets a Premier.
+        </div>
+        <div class="error" id="error"></div>
+      </div>
+    </div>
+
+    <script>
+      const API_BASE =
+        "https://yyovvo-studio-ingest.yyovvouk.workers.dev";
+
+      function getPremierId() {
+        const params = new URLSearchParams(window.location.search);
+        return params.get("id");
+      }
+
+      async function loadPremier() {
+        const id = getPremierId();
+        const pill = document.getElementById("pill-status");
+        const moodNameEl = document.getElementById("moodName");
+        const msgEl = document.getElementById("messageText");
+        const errEl = document.getElementById("error");
+        const sendLink = document.getElementById("sendYourOwn");
+
+        if (!id) {
+          pill.textContent = "Missing ID";
+          errEl.textContent =
+            "This link is missing a Premier id. Ask the sender to share it again.";
+          msgEl.textContent = "No Premier found.";
+          return;
+        }
+
+        pill.textContent = "Loading…";
+
+        try {
+          const res = await fetch(
+            API_BASE + "/premier/" + encodeURIComponent(id)
+          );
+          const data = await res.json();
+
+          if (!res.ok || !data.ok) {
+            pill.textContent = "Not found";
+            errEl.textContent =
+              (data && data.error) ||
+              "We couldn't find this Premier. It may have expired.";
+            msgEl.textContent = "No Premier found.";
+            return;
+          }
+
+          const premier = data.premier || {};
+          moodNameEl.textContent =
+            premier.mood_name || "Snow Halo";
+          msgEl.textContent =
+            premier.message_text ||
+            "This Premier is live, but it doesn't have a message yet.";
+
+          pill.textContent = "Live Premier";
+
+          // Optional: tweak CTA to route into Studio
+          sendLink.href = "https://yyovvo-studio.pages.dev/";
+        } catch (e) {
+          pill.textContent = "Error";
+          errEl.textContent =
+            "Network error loading this Premier. Try refreshing in a moment.";
+          console.error(e);
+        }
+      }
+
+      loadPremier();
+    </script>
+  </body>
+</html>
